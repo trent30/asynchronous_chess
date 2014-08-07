@@ -1,0 +1,4 @@
+<p>Votre adversaire %s a joué :<br/> %s</p>
+<p>%s</p>
+<p>%s</p>
+<p><a href="%s">Cliquez ici</a> pour visualiser le coup.</p>

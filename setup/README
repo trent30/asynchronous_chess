@@ -1,0 +1,37 @@
+CONFIGURATION
+ 
+$ cp conf/example.conf conf/main.conf
+Modifier tout ce qui est nécessaire dans le fichier conf/main.conf
+Vérifiez que le fichier main.conf (qui contient les identifiants) n'est *pas* accessible via le serveur web ! (il y a un fichier .htaccess par défaut).
+
+
+DÉPENDANCES
+ 
+$ apt-get install python-pygresql libapache2-mod-python
+$ pip install bcrypt
+
+
+INSTALLATION AUTOMATIQUE
+
+Exécuter setup.py en root
+
+
+INSTALLATION MANUELLE (si vous ne voulez pas utliser setup.py)
+
+ * Base de donées
+
+$ su postgres
+$ psql
+CREATE USER chess WITH PASSWORD 'changeit!';
+CREATE DATABASE chess_db;
+\q
+
+$ psql -h 127.0.0.1 -W chess_db chess -f setup/create.sql
+
+
+ * Apache
+ 
+apt-get install libapache2-mod-python
+cp conf/apache.conf /etc/apache2/sites-enabled/
+pensez à modifier ServerName, DocumentRoot et Directory
+

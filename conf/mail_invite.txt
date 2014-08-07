@@ -1,0 +1,2 @@
+<p>%s vous invite à faire une partie !</p>
+<p><a href="%s">Cliquez ici</a> pour accéder à la partie.</p>

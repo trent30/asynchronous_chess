@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="style.css" rel="stylesheet" type="text/css">
+		<script src="main.js"></script>
+		<title>chess</title>
+	</head>
+	<body>
+		<noscript>Vous devez activer javascript pour utiliser ce site.</noscript>
+		<div id='board'>
+			<div class='case'></div>
+		</div>
+		<div id='gui'>
+			<div id='undo_btn' class="btn_gui" title="annuler" onclick="f_undo()"><img src='./img/undo.png'></div>
+			<div id='forward_btn' class="btn_gui" title="avancer" onclick="f_next()"><img src='./img/next.png'></div>
+			<div id='init_btn' class="btn_gui" title="revenir à la position initiale (efface l'historique temporaire)" onclick="f_init()"><img src='./img/init.png'></div>
+			<div id='send_btn' class="btn_gui" title="envoyer" onclick="f_send()"><img src='./img/send.png'></div>
+			<div id='refresh_btn' class="btn_gui" title="recharger la partie depuis le serveur" onclick="f_reload()"><img src='./img/refresh.png'></div>
+			<div id='add_btn' class="btn_gui" title="ajouter une pièce" onclick="f_add()"><img src='./img/add.png'></div>
+			<div id='home_btn' class="btn_gui" title="réinitialiser l'échiquier" onclick="f_home()"><img src='./img/home.png'></div>
+			<div id='del_btn' class="btn_gui" title="supprimer toutes les pièces" onclick="f_del()"><img src='./img/clear.png'></div>
+			<div id='rotate_btn' class="btn_gui" title="retourner l'échiquier" onclick="f_rotate()"><img src='./img/rotate.png'></div>
+			<div id='option_btn' class="btn_gui" title="menu option" onclick="f_option()"><img src='./img/options.png'></div>
+			<div id='log'></div>
+		</div>
+		
+	<div id="about" style='display:none'> 
+		<div id="about2"> 
+		<p>Ce site fournit simplement un échiquier pour jouer à distance et être informer par mail lorsque votre adversaire a joué. L'avantage est d'avoir un historique commun entre les 2 joueurs sans que l'un des échiquiers se « désynchronise » (errare humanun est).</p>
+		
+		<p>Aucune vérification n'est effectuée, vous pouvez faire des coups invalides, tricher, déplacer les pièces de votre adversaire, c'est exactement comme dans la vraie vie.</p>
+		
+		<p>contact : chess+dev@trent.homelinux.org</p>
+		</div>
+	</div>
+		
+	<div id="menu_login" style='display:none'>
+		<div class="form_txt"> login :</div>
+		<div class="field">
+			<input id="l_l" type="text" />
+		</div>
+		<div class="form_txt">mot de passe :</div>
+		<div class="field">
+			<input id="l_p" type="password" />
+		</div>
+		<div>
+			<input class="btn" id="btn_login" value="Se connecter" type="submit" onclick="login()"/>
+		</div>
+		<div id="btn_create">
+			<input class="btn" value="Créer un compte" type="submit" onclick="f_menu('create_account')"/>
+		</div>
+		<div id="btn_forget">
+			<input class="btn" value="Mot de passe oublié ?" type="submit" onclick="f_menu('menu_forget')"/>
+		</div>
+	</div>
+
+   <div id="create_account" style='display:none'>
+         <div class="form_txt"> login :</div>
+         <div class="field">
+            <input id="ca_l" type="text" />
+      </div>
+      <div>
+         <div class="form_txt">mot de passe :</div>
+         <div class="field">
+            <input id="ca_p" type="password" />
+         </div>
+      </div>
+      <div>
+         <div class="form_txt">e-mail :</div>
+         <div class="field">
+            <input id="ca_mail" type="text" />
+         </div>
+      </div>
+      <div><input class="btn" id="btn_login" value="créer" type="submit" onclick="create_account()"/></div>
+   </div>
+   
+	<div id="menu_forget" style='display:none'> 
+		  <div class="form_txt">e-mail :</div> 
+		  <div class="field"> 
+			 <input name="mail" id="mail_forget" type="text" /> 
+		  </div>
+		  <div><input class="btn" id="btn_login" value="Envoyer" type="submit" onclick="forget()"/></div> 
+	</div>
+
+	<div id="send_form_origin" style='display:none'>
+		<div><br/><br/>Vous pouvez ajouter un commentaire :</div>
+		<div><textarea name="commentaire" id="com"></textarea></div>
+		<FORM>
+		<INPUT class="flag" type="radio" name="group" value="A">Abandonner
+		<INPUT class="flag" type="radio" name="group" value="E">Échec !
+		<INPUT class="flag" type="radio" name="group" value="M">Échec et mat !
+		</FORM>
+		<div class="center"><input class="btn" id="btn_login" value="Envoyer" type="submit" onclick="send()"/></div>
+	</div>
+	
+	<div id='wait'><img  style='display:none' src='./img/wait.gif'></div>
+	<div id='stats' style='display:none'>Pas encore disponible</div>
+	
+	</body>
+</html>

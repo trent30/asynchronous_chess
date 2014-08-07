@@ -1,0 +1,97 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import cgi
+import bdd
+import json
+from cookie_check import get_cookie
+
+def input():
+	form = cgi.FieldStorage()
+	data = {}
+	for i in form:
+		try:
+			data[i] = form[i].value
+		except:
+			data[i] = ''
+	return data
+
+if __name__ == "__main__":
+	print "Content-type: text/html\n\n"
+	
+	try:
+		env = os.environ["HTTP_COOKIE"]
+	except:
+		c = None
+	else:
+		c = get_cookie(env)
+		
+	try:
+		s = c["session"].value
+	except:
+		s = None
+	
+	parametres = input()
+	dico_params = {}
+	for i in ['gid', 'com', 'flag']:
+		dico_params[i] = None
+		try:
+			dico_params[i] = cgi.escape(parametres.get(i, None).replace("&", "&amp;"), True)
+		except:
+			pass
+	dico_params['c'] = parametres.get('c', None)
+	
+	if dico_params['gid'] == None:
+		print "Aucune partie n'est sélectionnée."
+		exit(0)
+		
+	b = bdd.bdd()
+	
+	if not b.check_gid_uid(dico_params['gid'], s):
+		print "Vous n'êtes pas autorisé à jouer dans cette partie."
+		exit(0)
+	
+	login = b.session_to_login(s).encode('UTF-8', 'ascci')
+	txt = ''
+	if dico_params['flag'] != None:
+		txt = login + ' annonce '
+		if dico_params['flag'] == 'A':
+			txt += 'son abandon.'
+		if dico_params['flag'] == 'E':
+			txt += 'échec !'
+		if dico_params['flag'] == 'M':
+			txt += 'échec et mat !'
+	
+	if dico_params['c'] == '[]':
+		dico_params['c'] = '[{}]'
+	if txt != '':
+		dico_params['c'] = dico_params['c'].replace('}]', ', "flag" : "') + txt + '"}]'
+		
+	if dico_params['com'] != None:
+		dico_params['c'] = dico_params['c'].replace('}]', ', "com" : "') + dico_params['com'] + '"}]'
+	
+	dico_params['c'] = dico_params['c'].replace('[{,', '[{')
+	
+	import coup2txt
+	coup = coup2txt.main(json.loads(dico_params['c'], 'UTF-8'))
+			
+	b.add_move(dico_params['gid'], dico_params['c'])
+	
+	import mail
+	import ConfigParser
+	
+	config = ConfigParser.RawConfigParser()
+	config.read('conf/main.conf')
+	url = config.get('site', 'url') + '/?gid=' + str(dico_params['gid'])
+	sujet = config.get('smtp', 'subject_notify')
+	if dico_params['com'] != None:
+		dico_params['com'] = "Un commentaire a été ajouté : <br/>" + dico_params['com']
+	else:
+		dico_params['com'] = ''
+	
+	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, dico_params['com'], url)
+	#~ r = mail.send_mail(email, sujet, msg )
+	#~ test local
+	r = 'ok'
+	print r
