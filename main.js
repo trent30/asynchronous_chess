@@ -202,8 +202,14 @@ function init() {
 	var param = location.search.split('=')[0];
 	if (param == '?gid') {
 		game_ID = location.search.split('=')[1];
+		player_color = get_page('/mycolor.py?g=' + game_ID).replace(/\n/g, '');
 		console.log('game', game_ID);
+		console.log('color', player_color);
 		f_reload();
+	}
+	if (player_color == 'black') {
+		draw_board();
+		draw_pieces(position);
 	}
 }
 
