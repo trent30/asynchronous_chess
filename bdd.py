@@ -192,7 +192,3 @@ class bdd():
 		
 if __name__ == "__main__":
 	a = bdd()
-	print a.color('1', '1')
-	print a.color('17', '1')
-	print a.color('18', '1')
-	print type(a.login_to_id('trent2'))
