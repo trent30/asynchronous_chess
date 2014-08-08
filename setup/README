@@ -2,7 +2,6 @@ CONFIGURATION
  
 $ cp conf/example.conf conf/main.conf
 Modifier tout ce qui est nécessaire dans le fichier conf/main.conf
-Vérifiez que le fichier main.conf (qui contient les identifiants) n'est *pas* accessible via le serveur web ! (il y a un fichier .htaccess par défaut).
 
 
 DÉPENDANCES
@@ -35,3 +34,4 @@ apt-get install libapache2-mod-python
 cp conf/apache.conf /etc/apache2/sites-enabled/
 pensez à modifier ServerName, DocumentRoot et Directory
 
+Vérifiez que le fichier <VOTRE_URL>/conf/main.conf (qui contient les identifiants) n'est *pas* accessible via le serveur web ! (il y a un fichier .htaccess par défaut).
