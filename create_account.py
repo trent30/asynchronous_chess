@@ -21,7 +21,7 @@ if __name__ == "__main__":
 	formulaire = cgi.FieldStorage()
 	login = formulaire.getvalue('l')
 	passwd = formulaire.getvalue('p')
-	email = formulaire.getvalue('mail')
+	email = formulaire.getvalue('mail').replace(' ', '+')
 	
 	if login == None or passwd == None or email == None:
 		print_page('Impossible de récupérer les paramètres')
