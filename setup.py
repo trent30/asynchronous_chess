@@ -140,4 +140,5 @@ cmd('rm /tmp/create.sql')
 
 
 print "Installation terminée."
+print "Lancez 'service apache2 reload' pour prendre en compte la modification"
 print "Vérifiez que %s/conf/main.conf n'est pas accessible." % config.get("site", "url")

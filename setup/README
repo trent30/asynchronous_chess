@@ -33,5 +33,6 @@ $ psql -h 127.0.0.1 -W chess_db chess -f setup/create.sql
 apt-get install libapache2-mod-python
 cp conf/apache.conf /etc/apache2/sites-enabled/
 pensez à modifier ServerName, DocumentRoot et Directory
+$ service apache2 reload
 
 Vérifiez que le fichier <VOTRE_URL>/conf/main.conf (qui contient les identifiants) n'est *pas* accessible via le serveur web ! (il y a un fichier .htaccess par défaut).
