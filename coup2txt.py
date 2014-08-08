@@ -27,10 +27,13 @@ def piece2txt(p):
 def main(lst):
 	txt = ''
 	for i in xrange(len(lst)):
-		p1 = lst[i]['p1'].encode('UTF-8', 'ascci')
-		txt += piece2txt(p1) + ' ' + lst[i]['c1'].encode('UTF-8', 'ascci')
-		p2 = lst[i]['p2'].encode('UTF-8', 'ascci')
-		if p2 != '':
-			txt += ' prend ' + piece2txt(p2)
-		txt += ' en ' + lst[i]['c2'].encode('UTF-8', 'ascci') + '<br/>'
+		try:
+			p1 = lst[i]['p1'].encode('UTF-8', 'ascci')
+			txt += piece2txt(p1) + ' ' + lst[i]['c1'].encode('UTF-8', 'ascci')
+			p2 = lst[i]['p2'].encode('UTF-8', 'ascci')
+			if p2 != '':
+				txt += ' prend ' + piece2txt(p2)
+			txt += ' en ' + lst[i]['c2'].encode('UTF-8', 'ascci') + '<br/>'
+		except:
+			txt = "<rien>"
 	return txt

@@ -189,6 +189,10 @@ class bdd():
 			return 'black'
 		else:
 			return 'white'
+			
+	def players_from_game(self, game):
+		return self.con.query("select white, black from games where id='%s'" % game).getresult()
 		
 if __name__ == "__main__":
 	a = bdd()
+	print a.players_from_game('1')

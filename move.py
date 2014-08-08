@@ -41,6 +41,9 @@ if __name__ == "__main__":
 		except:
 			pass
 	dico_params['c'] = parametres.get('c', None)
+	dico_params['com'] = dico_params['com']\
+		.replace('`', "'")\
+		.replace('"', "'")
 	
 	if dico_params['gid'] == None:
 		print "Aucune partie n'est sélectionnée."
@@ -65,6 +68,7 @@ if __name__ == "__main__":
 	
 	if dico_params['c'] == '[]':
 		dico_params['c'] = '[{}]'
+	
 	if txt != '':
 		dico_params['c'] = dico_params['c'].replace('}]', ', "flag" : "') + txt + '"}]'
 		
@@ -75,13 +79,19 @@ if __name__ == "__main__":
 	
 	import coup2txt
 	coup = coup2txt.main(json.loads(dico_params['c'], 'UTF-8'))
-			
-	b.add_move(dico_params['gid'], dico_params['c'])
-	
+		
 	import mail
 	import ConfigParser
 	
-	email = b.login_to_mail(login)
+	# récupère l'email de l'adversaire
+	players = b.players_from_game(dico_params['gid'])[0]
+	adversaire = ''
+	if b.login_to_id(login) == players[1]:
+		adversaire = players[0]
+	else:
+		adversaire = players[1]
+	email = b.login_to_mail(b.uid_to_login(adversaire))
+	
 	config = ConfigParser.RawConfigParser()
 	config.read('conf/main.conf')
 	url = config.get('site', 'url') + '/?gid=' + str(dico_params['gid'])
@@ -93,6 +103,7 @@ if __name__ == "__main__":
 	
 	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, dico_params['com'], url)
 	r = mail.send_mail(email, sujet, msg )
+	b.add_move(dico_params['gid'], dico_params['c'])
 	#~ test local
 	#~ r = 'ok'
 	print r
