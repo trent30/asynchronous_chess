@@ -91,7 +91,7 @@ if __name__ == "__main__":
 		dico_params['com'] = ''
 	
 	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, dico_params['com'], url)
-	#~ r = mail.send_mail(email, sujet, msg )
+	r = mail.send_mail(email, sujet, msg )
 	#~ test local
-	r = 'ok'
+	#~ r = 'ok'
 	print r

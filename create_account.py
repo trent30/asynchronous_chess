@@ -58,9 +58,9 @@ if __name__ == "__main__":
 	url = config.get('site', 'url')
 	sujet = config.get('smtp', 'subject_confirm')
 	msg = open('conf/mail_confirm_account.txt').read() % (url, url, t)
-	#~ r = mail.send_mail(email, sujet, msg )
+	r = mail.send_mail(email, sujet, msg )
 	#~ test local
-	r = 'ok'
+	#~ r = 'ok'
 	
 	if r == 'ok':
 		import bcrypt

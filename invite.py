@@ -54,11 +54,8 @@ if __name__ == "__main__":
 	url = config.get('site', 'url') + '/?gid=' + str(gid)
 	sujet = config.get('smtp', 'subject_invite')
 	msg = open('conf/mail_invite.txt').read() % (login, url)
-	#~ r = mail.send_mail(email, sujet, msg )
+	r = mail.send_mail(email, sujet, msg )
 	#~ test local
-	r = 'ok'
-	print email
-	print sujet
-	print msg
+	#~ r = 'ok'
 	
 	print r

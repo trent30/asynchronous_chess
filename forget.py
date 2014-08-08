@@ -48,9 +48,9 @@ if __name__ == "__main__":
 	login = b.email_to_login(mail)
 	msg = open('conf/mail_forget.txt').read() % \
 		(login, config.get('site', 'url'), t)
-	#~ r = send_mail(mail, "[chess] récupération de mot de passe",  msg)
+	r = send_mail(mail, "[chess] récupération de mot de passe",  msg)
 	#~ test local
-	r = 'ok'
+	#~ r = 'ok'
 	
 	if r == 'ok':
 		b.update_cookie( t, login)
