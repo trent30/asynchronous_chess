@@ -37,7 +37,7 @@ if __name__ == "__main__":
 	for i in ['gid', 'com', 'flag']:
 		dico_params[i] = None
 		try:
-			dico_params[i] = cgi.escape(parametres.get(i, None).replace("&", "&amp;"), True)
+			dico_params[i] = cgi.escape(parametres.get(i, None).replace("&", "&amp;"), quote=True)
 		except:
 			pass
 	dico_params['c'] = parametres.get('c', None)
@@ -81,6 +81,7 @@ if __name__ == "__main__":
 	import mail
 	import ConfigParser
 	
+	email = b.login_to_mail(login)
 	config = ConfigParser.RawConfigParser()
 	config.read('conf/main.conf')
 	url = config.get('site', 'url') + '/?gid=' + str(dico_params['gid'])
