@@ -249,10 +249,10 @@ function clean_log(t) {
 function coup2log(c) {
 	var log = '';
 	if (c.com != null) {
-		log += '<div class="msg" title="' + c.com + '"><img src="img/msg.png"></div>';
+		log += '<div onclick="info(this)" class="msg" title="' + c.com + '"><img src="img/msg.png"></div>';
 	}
 	if (c.flag != null) {
-		log += '<div class="msg" title="' + c.flag + '"><img src="img/info.png"></div>';
+		log += '<div onclick="info(this)" class="msg" title="' + c.flag + '"><img src="img/info.png"></div>';
 	}
 	if (c.c1 != null ) {
 		log += pieceToText(c.p1) + ' ' + c.c1;
@@ -707,6 +707,16 @@ function send() {
 		f_reload();
 	} else {
 		clean_log(ret);
+	}
+}
+
+function info(t) {
+	//~ Affichage des commentaires d'un coup
+	var txt = document.createTextNode(t.title);
+	if (t.textContent.length != 0) {
+		t.removeChild(t.lastChild);
+	} else {
+		t.appendChild(txt);
 	}
 }
 
