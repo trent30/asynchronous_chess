@@ -674,6 +674,7 @@ function select_game(id) {
 	clean_log('');
 	init();
 	f_reload();
+	l.scrollTop = l.scrollHeight;
 }
 
 function send() {
