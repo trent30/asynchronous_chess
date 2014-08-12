@@ -438,12 +438,16 @@ function f_option() {
 	e.innerHTML = t + '</div>';
 }
 
-function f_init() {
+function check_rotate() {
 	var e = document.getElementById('case_10');
 	if ((e.innerHTML == '8' && player_color == 'black')||
 		(e.innerHTML == '1' && player_color == 'white')) {
 		f_rotate();
 	}
+}
+
+function f_init() {
+	check_rotate();
 	historique = [];
 	next = [];
 	for (var i = 0; i < actual_position.length; i++) {
@@ -457,6 +461,7 @@ function f_reload() {
 		alert("aucune partie n'est sélectionnée.");
 		return 2;
 	}
+	check_rotate();
 	var j = get_page('/history.py?g=' + game_ID).replace(/\n/g, '');
 	if (j == 'no data') {
 		alert("Aucune donnée n'a pu être récupérée.");
