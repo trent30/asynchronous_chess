@@ -203,11 +203,14 @@ function init() {
 	next = [];
 	get_login();
 	game_ID = sessionStorage.getItem("gid");
+	if (game_ID == null) {
+		game_ID = '';
+	}
 	var param = location.search.split('=')[0];
 	if (param == '?gid') {
 		game_ID = location.search.split('=')[1];
 	} 
-	if (game_ID != null || game_ID != '') {
+	if (game_ID != '') {
 		player_color = get_page('/mycolor.py?g=' + game_ID).replace(/\n/g, '');
 		console.log('game', game_ID);
 		console.log('color', player_color);
