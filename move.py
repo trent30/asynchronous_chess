@@ -41,6 +41,8 @@ if __name__ == "__main__":
 		except:
 			pass
 	dico_params['c'] = parametres.get('c', None)
+	if dico_params['com'] == None:
+		dico_params['com'] = ''
 	dico_params['com'] = dico_params['com']\
 		.replace('`', "'")\
 		.replace('"', "'")
@@ -72,7 +74,7 @@ if __name__ == "__main__":
 	if txt != '':
 		dico_params['c'] = dico_params['c'].replace('}]', ', "flag" : "') + txt + '"}]'
 		
-	if dico_params['com'] != None:
+	if dico_params['com'] != '':
 		dico_params['com'] = 'commentaire de ' + login + ' : « ' + dico_params['com'] + ' »'
 		dico_params['c'] = dico_params['c'].replace('}]', ', "com" : "') + dico_params['com'] + '"}]'
 	
@@ -97,8 +99,6 @@ if __name__ == "__main__":
 	config.read('conf/main.conf')
 	url = config.get('site', 'url') + '/?gid=' + str(dico_params['gid'])
 	sujet = config.get('smtp', 'subject_notify')
-	if dico_params['com'] == None:
-		dico_params['com'] = ''
 	
 	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, dico_params['com'], url)
 	r = mail.send_mail(email, sujet, msg )
