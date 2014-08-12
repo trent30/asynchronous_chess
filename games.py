@@ -24,7 +24,8 @@ if __name__ == "__main__":
 	b = bdd.bdd()
 	liste_games = b.list_games(s)
 	if len(liste_games) == 0:
-		print "Aucune partie en cours"
+		print "<p>Aucune partie en cours<p/>"
+		print "<p>Si vous devez avoir des parties en cours, déconnectez-vous puis reconnectez-vous.<p/>"
 		exit(0)
 	print "<div id='games' style='text-align: left'>"
 	for i in liste_games:
