@@ -13,7 +13,10 @@ selection = {
 	};
 selectColor = "#FF0000";
 user_ID = '';
-game_ID = '';
+game_ID = sessionStorage.getItem("gid");
+if (game_ID == null) {
+	game_ID = '';
+}
 
 function switch_color(c) {
 	if (c == 'white') {
@@ -199,9 +202,12 @@ function init() {
 	log = '';
 	next = [];
 	get_login();
+	game_ID = sessionStorage.getItem("gid");
 	var param = location.search.split('=')[0];
 	if (param == '?gid') {
 		game_ID = location.search.split('=')[1];
+	} 
+	if (game_ID != null || game_ID != '') {
 		player_color = get_page('/mycolor.py?g=' + game_ID).replace(/\n/g, '');
 		console.log('game', game_ID);
 		console.log('color', player_color);
@@ -676,6 +682,7 @@ function invite(id) {
 function select_game(id) {
 	history.pushState(null, null, "/");
 	game_ID = id;
+	sessionStorage.setItem("gid", id)
 	player_color = get_page('/mycolor.py?g=' + game_ID).replace(/\n/g, '');
 	console.log(player_color);
 	clean_log('');
