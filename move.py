@@ -73,6 +73,7 @@ if __name__ == "__main__":
 		dico_params['c'] = dico_params['c'].replace('}]', ', "flag" : "') + txt + '"}]'
 		
 	if dico_params['com'] != None:
+		dico_params['com'] = 'commentaire de ' + login + ' : « ' + dico_params['com'] + ' »'
 		dico_params['c'] = dico_params['c'].replace('}]', ', "com" : "') + dico_params['com'] + '"}]'
 	
 	dico_params['c'] = dico_params['c'].replace('[{,', '[{')
@@ -96,9 +97,7 @@ if __name__ == "__main__":
 	config.read('conf/main.conf')
 	url = config.get('site', 'url') + '/?gid=' + str(dico_params['gid'])
 	sujet = config.get('smtp', 'subject_notify')
-	if dico_params['com'] != None:
-		dico_params['com'] = "Un commentaire a été ajouté : <br/>" + dico_params['com']
-	else:
+	if dico_params['com'] == None:
 		dico_params['com'] = ''
 	
 	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, dico_params['com'], url)
