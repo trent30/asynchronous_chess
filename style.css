@@ -138,4 +138,5 @@ body {
 .msg {
 	display: inline;
 	margin-right : 10px;
+	font-style: italic;
 }
