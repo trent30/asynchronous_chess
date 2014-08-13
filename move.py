@@ -5,6 +5,7 @@ import os
 import cgi
 import bdd
 import json
+import html
 from cookie_check import get_cookie
 
 def input():
@@ -47,10 +48,7 @@ if __name__ == "__main__":
 	
 	if dico_params['com'] == None:
 		dico_params['com'] = ''
-	dico_params['com'] = dico_params['com']\
-		.replace('`', "'")\
-		.replace('"', "'")\
-		.replace('\\', "")
+	dico_params['com'] = html.encode_html(dico_params['com'])
 	
 	if dico_params['gid'] == None:
 		print "Aucune partie n'est sélectionnée."

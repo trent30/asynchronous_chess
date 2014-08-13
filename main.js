@@ -696,6 +696,9 @@ function select_game(id) {
 
 function send() {
 	var com = document.getElementById('com').value;
+	com = com.replace(/;/, ",");
+	com = com.replace(/\?/, "¿");
+	com = com.replace(/&/, "eperluetteamp");
 	form = document.getElementById('send_form');
 	flag = form.getElementsByClassName('flag');
 	flag_value = '';
