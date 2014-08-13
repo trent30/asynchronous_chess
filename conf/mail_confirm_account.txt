@@ -1,6 +1,6 @@
 <p>Vous recevez ce message car vous venez de créer un compte sur %s 
 </p><p>
-cliquez <a href="%s/confirm.py?q=%s">ici</a> pour confirmer la création de votre compte.
+Cliquez <a href="%s/confirm.py?q=%s">ici</a> pour confirmer la création de votre compte.
 </p><p>
 Si vous ne confirmez pas votre compte sous 24H il sera automatiquement supprimé. 
 Si vous n'êtes pas le destinataire de cet email, n'en tenez pas compte.
