@@ -145,7 +145,7 @@ class bdd():
 			
 	def add_move(self, game_id, coup):
 		self.con.query("INSERT INTO historique (game_id, coup) \
-		VALUES ('%s', '%s')" % (game_id, coup))
+		VALUES ('%s', '%s')" % (game_id, pg.escape_string(coup)))
 			
 	def add_game(self, white, black):
 		self.con.query("INSERT INTO games (white, black, date) \

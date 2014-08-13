@@ -41,11 +41,16 @@ if __name__ == "__main__":
 		except:
 			pass
 	dico_params['c'] = parametres.get('c', None)
+	
+	import coup2txt
+	coup = coup2txt.main(json.loads(dico_params['c'], 'UTF-8'))
+	
 	if dico_params['com'] == None:
 		dico_params['com'] = ''
 	dico_params['com'] = dico_params['com']\
 		.replace('`', "'")\
-		.replace('"', "'")
+		.replace('"', "'")\
+		.replace('\\', "")
 	
 	if dico_params['gid'] == None:
 		print "Aucune partie n'est sélectionnée."
@@ -76,12 +81,9 @@ if __name__ == "__main__":
 		
 	if dico_params['com'] != '':
 		dico_params['com'] = 'commentaire de ' + login + ' : ' + dico_params['com']
-		#~ dico_params['c'] = dico_params['c'].replace('}]', ', "com" : "') + dico_params['com'] + '"}]'
+		dico_params['c'] = dico_params['c'].replace('}]', ', "com" : "') + dico_params['com'] + '"}]'
 	
 	dico_params['c'] = dico_params['c'].replace('[{,', '[{')
-	
-	import coup2txt
-	coup = coup2txt.main(json.loads(dico_params['c'], 'UTF-8'))
 		
 	import mail
 	import ConfigParser
