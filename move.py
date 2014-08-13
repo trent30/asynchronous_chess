@@ -75,7 +75,7 @@ if __name__ == "__main__":
 		dico_params['c'] = dico_params['c'].replace('}]', ', "flag" : "') + txt + '"}]'
 		
 	if dico_params['com'] != '':
-		dico_params['com'] = 'commentaire de ' + login + ' : « ' + dico_params['com'] + ' »'
+		dico_params['com'] = 'commentaire de ' + login + ' : ' + dico_params['com']
 		dico_params['c'] = dico_params['c'].replace('}]', ', "com" : "') + dico_params['com'] + '"}]'
 	
 	dico_params['c'] = dico_params['c'].replace('[{,', '[{')
