@@ -117,10 +117,12 @@ function draw_pieces(p) {
 	for(var i in p) {
 		id = i + '';
 		var e = document.getElementById(id);
-		if (p[id] == '') {
-			e.innerHTML = '';
-		} else {
-			e.innerHTML = '<img class="pieces" src="./pieces/' + p[id] + '.png"</>';
+		if (e != null) {
+			if (p[id] == '') {
+				e.innerHTML = '';
+			} else {
+				e.innerHTML = '<img class="pieces" src="./pieces/' + p[id] + '.png"</>';
+			}
 		}
 	}
 }
@@ -557,8 +559,10 @@ function set_position(historique) {
 	var n = historique.length;
 	for (var i = 0; i < n; i ++) {
 		if (historique[i].p1 != null) {
-			position[historique[i].c1] = '';
-			position[historique[i].c2] = historique[i].p1;
+			if (historique[i].c1 != null) {
+				position[historique[i].c1] = '';
+				position[historique[i].c2] = historique[i].p1;
+			}
 		}
 	}
 	draw_pieces(position);
