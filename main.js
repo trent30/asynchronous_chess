@@ -439,6 +439,7 @@ function f_option() {
 	m = {};
 	e.style.textAlign = "center";
 	if (user_ID == '' || user_ID == null) {
+		t = '<div id="login">(pensez à autoriser les cookies pour pouvoir vous connecter)</div>';
 		m = build_menu(false);
 	} else {
 		t = '<div id="login">Vous êtes connecté en tant que : ' + user_ID + '</div>';
