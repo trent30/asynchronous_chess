@@ -555,7 +555,7 @@ function diff_historique() {
 }
 
 function set_position(historique) {
-	clean_log('');
+	clean_log('INFORMATION : les coups que vous jouez ici sont considérés comme un «&nbsp;brouillon&nbsp;», il faut cliquer sur le bouton «&nbsp;envoyer&nbsp;» pour valider vos modifications.<hr/>');
 	init_position();
 	var n = historique.length;
 	for (var i = 0; i < n; i ++) {
@@ -568,7 +568,7 @@ function set_position(historique) {
 	}
 	draw_pieces(position);
 	next = [];
-	if (n < 1) {
+	if (n < 2) {
 		console.log("L'historique est vide");
 		log = '';
 		return 1;
