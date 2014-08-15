@@ -569,9 +569,11 @@ function set_position(historique) {
 	draw_pieces(position);
 	next = [];
 	if (n < 2) {
-		console.log("L'historique est vide");
-		log = '';
-		return 1;
+		if (historique[0].p1 == null) {
+			console.log("L'historique est vide");
+			log = '';
+			return 1;
+		}
 	}
 	historique2log(historique);
 	add_log('<hr/>');
