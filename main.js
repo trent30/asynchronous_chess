@@ -388,7 +388,7 @@ function f_next() {
 	historique.push(coup);
 	if (coup.c1 != null) {
 		if (coup.c1 !== '') {
-			position[coup.c1] = coup.p2;
+			position[coup.c1] = '';
 		}
 		position[coup.c2] = coup.p1;
 	}
