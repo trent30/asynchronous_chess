@@ -103,7 +103,8 @@ if __name__ == "__main__":
 	config = ConfigParser.RawConfigParser()
 	config.read('conf/main.conf')
 	url = config.get('site', 'url') + '/?gid=' + str(dico_params['gid'])
-	sujet = config.get('smtp', 'subject_notify')
+	sujet = config.get('smtp', 'subject_notify') + ' par ' + login + \
+		' (#' + str(dico_params['gid']) + ')'
 	
 	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, dico_params['com'], url)
 	r = mail.send_mail(email, sujet, msg )
