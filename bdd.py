@@ -36,7 +36,7 @@ class bdd():
 	
 	def session_to_login(self, s):
 		return self.requete_0("select login from users where session='%s' \
-			and date_deleted is null" % s)
+			and session!='None' and date_deleted is null" % s)
 		
 	def login_to_session(self, login):
 		return self.requete_0("select session from users where login='%s'" % login)
@@ -195,4 +195,4 @@ class bdd():
 		
 if __name__ == "__main__":
 	a = bdd()
-	print a.players_from_game('1')
+	print a.session_to_login('-1')

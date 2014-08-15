@@ -30,10 +30,16 @@ if __name__ == "__main__":
 		s = c["session"].value
 	except:
 		s = None
+		print "[{}]"
+		exit(0)
+		
+	b = bdd.bdd()
+	if not b.autorized(s):
+		print "[{}]"
+		exit(0)
 	
 	parametres = input()
 	game = parametres.get("g", -1)
-	b = bdd.bdd()
 	h = b.get_history(game)
 	l = len(h)
 	

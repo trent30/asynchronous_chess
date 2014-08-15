@@ -32,6 +32,11 @@ if __name__ == "__main__":
 		s = None
 		print "Vous n'êtes pas connecté"
 		exit(0)
+		
+	b = bdd.bdd()
+	if not b.autorized(s):
+		print "Votre session a expirée. Veuillez vous reconnecter (pensez à autoriser les cookies si ce n'est pas le cas)."
+		exit(0)
 	
 	parametres = input()
 	uid = parametres.get('id', None)
@@ -39,8 +44,7 @@ if __name__ == "__main__":
 	if uid == None:
 		print "Aucun joueur n'est sélectionnée."
 		exit(0)
-		
-	b = bdd.bdd()
+	
 	login = b.session_to_login(s)
 	white = b.login_to_id(login)
 	gid = b.add_game(white, uid)

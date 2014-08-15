@@ -20,10 +20,10 @@ if __name__ == "__main__":
 		s = c["session"].value
 	except:
 		s = None
+		exit(0)
 
 	b = bdd.bdd()
 	if b.con == None:
-		print ""
 		exit(0)
 	if b.autorized(s):
 		print b.session_to_login(s)

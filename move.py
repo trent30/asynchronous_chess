@@ -32,6 +32,13 @@ if __name__ == "__main__":
 		s = c["session"].value
 	except:
 		s = None
+		print "Vous n'êtes pas connecté."
+		exit(0)
+	
+	b = bdd.bdd()
+	if not b.autorized(s):
+		print "Votre session a expirée. Veuillez vous reconnecter (pensez à autoriser les cookies si ce n'est pas le cas)."
+		exit(0)
 	
 	parametres = input()
 	dico_params = {}
@@ -53,8 +60,6 @@ if __name__ == "__main__":
 	if dico_params['gid'] == None:
 		print "Aucune partie n'est sélectionnée."
 		exit(0)
-		
-	b = bdd.bdd()
 	
 	if not b.check_gid_uid(dico_params['gid'], s):
 		print "Vous n'êtes pas autorisé à jouer dans cette partie."
