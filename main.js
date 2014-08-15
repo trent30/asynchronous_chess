@@ -573,7 +573,7 @@ function set_position(historique) {
 		return 1;
 	}
 	historique2log(historique);
-	add_log('-------------------------------');
+	add_log('<hr/>');
 }
 
 function get_page(name) {
