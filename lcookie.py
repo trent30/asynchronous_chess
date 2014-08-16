@@ -4,15 +4,11 @@
 import random
 import Cookie
 import datetime
-import hashlib
 
 def token():
-	data = str(datetime.datetime.now()) +\
-		str(random.randint(0,4294967296))
-	m = hashlib.sha512()
-	m.update(data)
-	return m.hexdigest()
-
+	return str(datetime.datetime.now()).replace(' ', '_') +\
+		'+' + str(random.randint(0,4294967296))\
+	
 def gen_cookie():
 	expiration = datetime.datetime.now() + datetime.timedelta(days=365)
 	cookie = Cookie.SimpleCookie()
