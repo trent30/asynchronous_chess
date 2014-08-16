@@ -1,3 +1,4 @@
+//~ b5a03be8bdcb7d656c061a6d9d61b7175aa1ebc3
 var player_color = 'black';
 player_color = 'white';
 position = {};
@@ -196,6 +197,10 @@ function init_position() {
 }
 
 function init() {
+	var e = document.getElementById('load')
+	if (e != null) {
+		e.parentNode.removeChild(e);
+	}
 	draw_board();
 	init_position();
 	draw_pieces(position);	
