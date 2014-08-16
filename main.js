@@ -608,7 +608,7 @@ function get_page(name) {
 	if (xhr.readyState == 4 && xhr.status == 200) { 
 		return xhr.responseText;
 	}
-	return "Erreur lors de la récupération de la page " + name;
+	return "Erreur lors de la récupération de la page " + url;
 }
 
 function get_login() {
