@@ -707,7 +707,6 @@ function select_game(id) {
 	console.log(player_color);
 	clean_log('');
 	init();
-	f_reload();
 	l.scrollTop = l.scrollHeight;
 }
 
