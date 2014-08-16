@@ -703,8 +703,6 @@ function select_game(id) {
 	history.pushState(null, null, "/");
 	game_ID = id;
 	sessionStorage.setItem("gid", id)
-	player_color = get_page('/mycolor.py?g=' + game_ID).replace(/\n/g, '');
-	console.log(player_color);
 	clean_log('');
 	init();
 	l.scrollTop = l.scrollHeight;
