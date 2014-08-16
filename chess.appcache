@@ -1,0 +1,33 @@
+CACHE MANIFEST
+#samedi 16 août 2014, 23:01:53 (UTC+0200)
+
+CACHE:
+pieces/Tb.png
+pieces/Fb.png
+pieces/Cn.png
+pieces/Dn.png
+pieces/Fn.png
+pieces/pn.png
+pieces/Rn.png
+pieces/Db.png
+pieces/pb.png
+pieces/Cb.png
+pieces/Rb.png
+pieces/Tn.png
+./img/add.png
+./img/clear.png
+./img/close.png
+./img/home.png
+./img/info.png
+./img/init.png
+./img/msg.png
+./img/next.png
+./img/options.png
+./img/refresh.png
+./img/rotate.png
+./img/send.png
+./img/undo.png
+./img/wait.gif
+
+NETWORK:
+*
