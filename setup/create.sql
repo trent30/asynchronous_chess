@@ -356,7 +356,28 @@ ALTER TABLE ONLY mails
 ALTER TABLE ONLY mails
     ADD CONSTRAINT mails_login_id_fkey FOREIGN KEY (login_id) REFERENCES users(id);
 
+-- Table: error
 
+CREATE TABLE error
+(
+  login text,
+  game_id integer,
+  id serial NOT NULL,
+  date timestamp without time zone,
+  CONSTRAINT error_pkey PRIMARY KEY (id ),
+  CONSTRAINT error_game_id_fkey FOREIGN KEY (game_id)
+      REFERENCES games (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT error_login_fkey FOREIGN KEY (login)
+      REFERENCES users (login) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE error
+  OWNER TO chess;
+  
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --

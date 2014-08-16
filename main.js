@@ -470,6 +470,10 @@ function f_init() {
 	set_position(actual_position);
 }
 
+function bug_report(gid, login) {
+	get_page('/bug.py?g=' + gid + '&l=' + login);
+}
+
 function f_reload() {
 	if (game_ID == '') {
 		alert("aucune partie n'est sélectionnée.");
@@ -484,10 +488,16 @@ function f_reload() {
 	if (j == '') {
 		j = {};
 	}
-	r = JSON.parse(j);
+	try {
+		r = JSON.parse(j);
+	} catch (e) {
+		bug_report(game_ID, user_ID);
+		alert('La récupération de la liste des coups a échoué');
+		return 4;
+	}
 	if (r == 'no data') {
 		alert("aucune donnée n'a pu être récupérée");
-		return 2;
+		return 5;
 	}
 	actual_position = [];
 	for (var i = 0; i < r.length; i++) {
