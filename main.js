@@ -1,4 +1,4 @@
-//~ 245a42eb215682bb0f21c6e0a306b54b03b69265
+//~ 42205ef27bf69b5b266162e8dc3a8e35a2f02c54
 var player_color = 'black';
 player_color = 'white';
 position = {};
@@ -718,9 +718,11 @@ function select_game(id) {
 
 function send() {
 	var com = document.getElementById('com').value;
-	com = com.replace(/;/, ",");
-	com = com.replace(/\?/, "¿");
-	com = com.replace(/&/, "eperluetteamp");
+	com = com.replace(/;/g, ",");
+	com = com.replace(/\?/g, "¿");
+	com = com.replace(/&/g, "eperluetteamp");
+	com = com.replace(/\+/g, "#43plus#43");
+	console.log("com", com);
 	form = document.getElementById('send_form');
 	flag = form.getElementsByClassName('flag');
 	flag_value = '';
