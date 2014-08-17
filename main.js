@@ -1,4 +1,4 @@
-//~ b5a03be8bdcb7d656c061a6d9d61b7175aa1ebc3
+//~ 245a42eb215682bb0f21c6e0a306b54b03b69265
 var player_color = 'black';
 player_color = 'white';
 position = {};
@@ -13,7 +13,10 @@ selection = {
 	piece : ''
 	};
 selectColor = "#FF0000";
-user_ID = '';
+user_ID = localStorage.getItem("login");
+if (user_ID == null) {
+	get_login();
+}
 game_ID = sessionStorage.getItem("gid");
 if (game_ID == null) {
 	game_ID = '';
@@ -208,7 +211,6 @@ function init() {
 	actual_position = [];
 	log = '';
 	next = [];
-	get_login();
 	game_ID = sessionStorage.getItem("gid");
 	if (game_ID == null) {
 		game_ID = '';
@@ -624,8 +626,9 @@ function login() {
 	var vlogin = document.getElementById("l_l");
 	var vpass = document.getElementById("l_p");
 	m = get_page('./login.py?l=' + vlogin.value + '&p=' + vpass.value);
-	get_login();
 	if (m.replace(/\n/g, '') == 'Bonjour') {
+		user_ID = vlogin.value;
+		localStorage.setItem("login", user_ID);
 		f_option();
 	} else {
 		clean_log(m);
