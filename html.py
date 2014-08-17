@@ -5,6 +5,7 @@ def encode_html(t):
 	entites = {
 		"&amp;" : "eperluetteamp",
 		"&#43;" : "#43plus#43",
+		"&#59;" : "#59semicolon#59",
 		"&#33;" : "!",
 		"&quot;" : '"',
 		"&#36;" : "$",
