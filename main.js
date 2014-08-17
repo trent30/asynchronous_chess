@@ -1,4 +1,4 @@
-//~ 42205ef27bf69b5b266162e8dc3a8e35a2f02c54
+//~ de74a7e1f3917e6a9d43de2ba12211625e5c72df
 var player_color = 'black';
 player_color = 'white';
 position = {};
@@ -13,11 +13,21 @@ selection = {
 	piece : ''
 	};
 selectColor = "#FF0000";
-user_ID = localStorage.getItem("login");
+
+try {
+	user_ID = localStorage.getItem("login");
+} catch (e) {
+	get_login();
+}	
 if (user_ID == null) {
 	get_login();
 }
-game_ID = sessionStorage.getItem("gid");
+try {
+	game_ID = sessionStorage.getItem("gid");
+} catch (e) {
+	game_ID = '';
+
+}
 if (game_ID == null) {
 	game_ID = '';
 }
