@@ -200,7 +200,7 @@ function init_position() {
 }
 
 function init() {
-	var e = document.getElementById('load')
+	var e = document.getElementById('load');
 	if (e != null) {
 		e.parentNode.removeChild(e);
 	}
@@ -710,7 +710,7 @@ function invite(id) {
 function select_game(id) {
 	history.pushState(null, null, "/");
 	game_ID = id;
-	sessionStorage.setItem("gid", id)
+	sessionStorage.setItem("gid", id);
 	clean_log('');
 	init();
 	l.scrollTop = l.scrollHeight;
