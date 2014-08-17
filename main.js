@@ -742,7 +742,6 @@ function send() {
 	
 	var ret = get_page(url);
 	if (ret.replace(/\n/g, '') == 'ok') {
-		init();
 		f_reload();
 	} else {
 		clean_log(ret);
