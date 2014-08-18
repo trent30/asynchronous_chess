@@ -1,4 +1,4 @@
-//~ 2f5bb1d7996eb245c4bc95296c33fc03c6916e4a
+//~ 63dc725be8fedae3698f5eea18aa842572d3fdcd
 var player_color = 'black';
 player_color = 'white';
 position = {};
@@ -511,10 +511,6 @@ function f_reload() {
 		bug_report(game_ID, user_ID);
 		alert('La récupération de la liste des coups a échoué');
 		return 4;
-	}
-	if (r == 'no data') {
-		alert("aucune donnée n'a pu être récupérée");
-		return 5;
 	}
 	actual_position = [];
 	for (var i = 0; i < r.length; i++) {
