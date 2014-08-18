@@ -127,6 +127,9 @@ if __name__ == "__main__":
 	logging.debug('sujet : ' + sujet)
 	
 	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, dico_params['com'], url)
+	if coup == '':
+		msg = msg.replace('a joué :', "n'a pas joué")
+	
 	r = mail.send_mail(email, sujet, msg )
 	b.add_move(dico_params['gid'], dico_params['c'])
 	#~ test local
