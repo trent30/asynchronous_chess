@@ -89,10 +89,10 @@
 		<div><br/><br/>Vous pouvez ajouter un commentaire :</div>
 		<div><textarea name="commentaire" id="com"></textarea></div>
 		<FORM>
-		<INPUT class="flag" type="radio" name="group" value="A">Abandonner
-		<INPUT class="flag" type="radio" name="group" value="E">Échec !
-		<INPUT class="flag" type="radio" name="group" value="M">Échec et mat !
-		<INPUT class="flag" type="radio" name="group" value="">aucun
+		<INPUT id="flag_A" class="flag" type="radio" name="group" value="A"><label for="flag_A">Abandonner</label>
+		<INPUT id="flag_E" class="flag" type="radio" name="group" value="E"><label for="flag_E">Échec !</label>
+		<INPUT id="flag_M" class="flag" type="radio" name="group" value="M"><label for="flag_M">Échec et mat !</label>
+		<INPUT id="noflag" class="flag" type="radio" name="group" value=""><label for="noflag">Aucun</label>
 		</FORM>
 		<div class="center"><input class="btn" id="btn_login" value="Envoyer" type="submit" onclick="send()"/></div>
 	</div>
