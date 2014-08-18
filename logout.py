@@ -8,7 +8,7 @@ from cookie_check import get_cookie
 
 	
 if __name__ == "__main__":
-	print "Content-type: text/html\n\n"
+	print "Content-type: text/html"
 	
 	try:
 		env = os.environ["HTTP_COOKIE"]
@@ -29,7 +29,10 @@ if __name__ == "__main__":
 		print "Votre session a expirée. Veuillez vous reconnecter (pensez à autoriser les cookies si ce n'est pas le cas)."
 		exit(0)
 	
-	login = b.session_to_login(s)
-	b.update_cookie(None, login)
-
+	b.delete_cookie(s)
+	
+	import lcookie
+	cookie = lcookie.gen_cookie()
+	print cookie.output()
+	print
 	print "Vous êtes déconnecté."

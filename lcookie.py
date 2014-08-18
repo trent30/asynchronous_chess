@@ -7,7 +7,7 @@ import datetime
 
 def token():
 	return str(datetime.datetime.now()).replace(' ', '_') +\
-		'+' + str(random.randint(0,4294967296))\
+		'+' + str(random.randint(0,4294967296)) + str(random.randint(0,4294967296))
 	
 def gen_cookie():
 	expiration = datetime.datetime.now() + datetime.timedelta(days=365)

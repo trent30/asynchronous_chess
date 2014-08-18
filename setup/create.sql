@@ -378,6 +378,24 @@ WITH (
 ALTER TABLE error
   OWNER TO chess;
   
+-- Table: sessions
+
+CREATE TABLE sessions
+(
+  id serial NOT NULL,
+  user_id integer,
+  session text,
+  CONSTRAINT sessions_pkey PRIMARY KEY (id ),
+  CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE sessions
+  OWNER TO chess;
+
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --

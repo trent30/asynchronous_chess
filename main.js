@@ -653,8 +653,7 @@ function forget() {
 
 function change_password() {
 	var passwd = document.getElementById("change_passwd");
-	var token = document.getElementById("session");
-	var m = get_page('./change_passwd.py?p=' + passwd.value + '&t=' + token.value);
+	var m = get_page('./change_passwd.py?p=' + passwd.value);
 	clean_log(m);
 }
 

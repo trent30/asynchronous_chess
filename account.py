@@ -43,7 +43,6 @@ Votre adresse mail est %s
 Vous pouvez changer votre mot de passe ci-dessous :<br/><br/>
 <div class='field'>
 	<input name="p" id="change_passwd" type="password" />
-	<input name='t' value="%s" id="session" type="hidden" />
 
 	<input class='btn' id="btn_login" value="Modifier" type="submit"  onclick="change_password()"/>
 </div><br/><br/>
@@ -51,5 +50,5 @@ Vous pouvez supprimer votre compte en cliquant sur le bouton ci-dessous :<br/><b
 <div class='field'>
 	<input class='btn' id="btn_login" value="Supprimer" type="submit"  onclick="delete_account()"/>
 </div>
-""" % (login, mail, s)
+""" % (login, mail)
 

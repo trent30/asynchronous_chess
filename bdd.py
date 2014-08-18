@@ -35,18 +35,28 @@ class bdd():
 			return r[0][0]
 	
 	def session_to_login(self, s):
-		return self.requete_0("select login from users where session='%s' \
-			and session!='None' and date_deleted is null" % s)
-		
-	def login_to_session(self, login):
-		return self.requete_0("select session from users where login='%s'" % login)
+		return self.requete_0("select login from users u, sessions s\
+			where s.session='%s' and u.id = s.user_id \
+			and s.session!='None' and u.date_deleted is null" % s)
 
+	def delete_cookie(self, s):
+		self.con.query("DELETE FROM sessions WHERE session like '%s'" % s)
+	
 	def update_cookie(self, cookie, login):
-		self.con.query("UPDATE users SET session='%s' WHERE login='%s'" % (cookie, login))
+		id = self.login_to_id(login)
+		self.con.query("INSERT INTO sessions (user_id, session) VALUES ('%s', '%s')" % (id, cookie))
 		
 	def login_exist(self, login):
-		r = self.con.query(\
-		"select login from users where date_deleted is NULL and login='%s'" % login).getresult()
+		r = self.con.query("select login from users \
+			where date_deleted is NULL and login='%s'" % login).getresult()
+		if len(r) == 0:
+			return False
+		else:
+			return True
+			
+	def login_exist_all(self, login):
+		r = self.con.query("select login from users \
+			where login='%s'" % login).getresult()
 		if len(r) == 0:
 			return False
 		else:
@@ -63,11 +73,14 @@ class bdd():
 			"select confirmed from users where login='%s'" % login))
 	
 	def confirm_account(self, s):
-		self.con.query("UPDATE users SET confirmed=TRUE WHERE session='%s'" % s)
+		id = self.session_to_user_id(s)
+		if id == None:
+			return
+		self.con.query("UPDATE users SET confirmed=TRUE WHERE id='%s'" % id)
 		
 	def check_password(self, login, password):
-		r = self.requete_0(\
-		"select passwd from users where date_deleted is NULL and login='%s'" % login)
+		r = self.requete_0("select passwd from users \
+			where date_deleted is NULL and login='%s'" % login)
 		if r == None:
 			return False
 		else:
@@ -76,8 +89,11 @@ class bdd():
 				return True
 	
 	def update_passwd(self, session, passwd):
-		self.con.query("UPDATE users SET passwd='%s' WHERE session='%s'" % \
-			(passwd, session) )
+		id = self.session_to_user_id(session)
+		if id == None:
+			return
+		self.con.query("UPDATE users SET passwd='%s' WHERE id='%s'" % \
+			(passwd, id) )
 		
 	def autorized(self, session):
 		if session == None:
@@ -89,15 +105,19 @@ class bdd():
 	
 	def insert_domain(self, d):
 		try:
-			self.con.query("INSERT INTO domains(name)VALUES ('%s')" % d)
+			self.con.query("INSERT INTO domains(name) VALUES ('%s')" % d)
 		except:
 			return False
 		else:
 			return True
 			
+	def session_to_user_id(self, s):
+		return self.requete_0("select u.id from users u, sessions s \
+			where u.id = s.user_id and u.date_deleted is NULL and s.session='%s'" % s)
+			
 	def login_to_id(self, login):
-		return self.requete_0( \
-		"select id from users where date_deleted is NULL and login='%s'" % login)
+		return self.requete_0("select id from users \
+			where date_deleted is NULL and login='%s'" % login)
 		
 	def domain_to_id(self, domain):
 		return self.requete_0("select id from domains where name='%s'" % domain)
@@ -112,8 +132,9 @@ class bdd():
 			% (mail, login_id, domain_id, 'now()') )
 	
 	def insert_user(self, login, passwd, token):
-		self.con.query("INSERT INTO users(login, passwd, session, date_create) VALUES ('%s', '%s', '%s', '%s')" \
-			% (login, passwd, token, 'now()') )
+		self.con.query("INSERT INTO users(login, passwd, date_create) VALUES ('%s', '%s', '%s')" \
+			% (login, passwd, 'now()') )
+		self.update_cookie(token, login)
 		
 	def mail_exist(self, mail):
 		if self.requete_0("select * from emails where email='%s'" % mail) == None:
@@ -131,13 +152,16 @@ class bdd():
 		return self.requete_0("SELECT email FROM emails where login='%s'" % login)
 	
 	def delete_account(self, session):
-		login = self.session_to_login(session)
-		while (self.login_to_session(login) != None):
+		login = self.session_to_login(session) + '"'
+		id = self.session_to_user_id(session)
+		if id == None:
+			return
+		while self.login_exist_all(login):
 			login += '"'
-		self.con.query("UPDATE users SET login='%s' WHERE session='%s'" \
-			% (login, session))
-		self.con.query("UPDATE users SET date_deleted='now()' WHERE session='%s'" \
-			% session)
+		self.con.query("UPDATE users SET login='%s' WHERE id='%s'" \
+			% (login, id))
+		self.con.query("UPDATE users SET date_deleted='now()' \
+			WHERE id='%s'" % id)
 			
 	def users_list(self):
 		return self.con.query("SELECT u.ID, u.login FROM users u WHERE \
@@ -154,15 +178,18 @@ class bdd():
 		white='%s' and black='%s'" % (white, black))
 			
 	def list_games(self, s):
+		id = self.session_to_user_id(s)
+		if id == None:
+			return id
 		return self.con.query("""select * from (SELECT g1.id, date 
 			FROM users u, games g1 
-			WHERE g1.black=u.id and u.session='%s'
+			WHERE g1.black=u.id and u.id='%s'
 			UNION
 			SELECT g2.id, date
 			FROM users u, games g2 
-			WHERE g2.white=u.id and u.session='%s') a
+			WHERE g2.white=u.id and u.id='%s') a
 			order by date
-		""" % (s, s) ).getresult()
+		""" % (id, id) ).getresult()
 	
 	def get_players(self, game_id):
 		return self.con.query("SELECT id, white, black, date FROM v_games_players WHERE id='%s'" % game_id).getresult()
@@ -171,11 +198,14 @@ class bdd():
 		return self.con.query("SELECT coup FROM historique WHERE game_id='%s' order by id asc" % game_id).getresult()
 		
 	def	check_gid_uid(self, gid, s):
-		if self.requete_0("select session, game from (\
-			select u.session, gw.id as game from users u, games gw where \
-			u.id = gw.white union select u.session, gb.id as game from \
+		id = self.session_to_user_id(s)
+		if id == None:
+			return False
+		if self.requete_0("select id, game from (\
+			select u.id, gw.id as game from users u, games gw where \
+			u.id = gw.white union select u.id, gb.id as game from \
 			users u, games gb where u.id = gb.black ) g\
-			where g.session = '%s' and g.game = '%s'" % (s, gid) ) == None:
+			where g.id = '%s' and g.game = '%s'" % (id, gid) ) == None:
 			return False
 		else:
 			return True
@@ -200,4 +230,3 @@ class bdd():
 		
 if __name__ == "__main__":
 	a = bdd()
-	print a.session_to_login('-1')
