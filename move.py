@@ -45,7 +45,7 @@ if __name__ == "__main__":
 	except:
 		s = None
 		logging.debug('pas de cookie')
-		print "deco"
+		print "déco"
 		exit(0)
 	
 	b = bdd.bdd()
