@@ -708,9 +708,13 @@ function f_menu(m) {
 }
 
 function invite(id) {
-	var r = get_page('/invite.py?id=' + id);
-	if (r.replace(/\n/g, '') == 'ok') {
-		alert('La partie est créée, un mail a été envoyé à votre adversaire');
+	var r = get_page('/invite.py?id=' + id).replace(/\n/g, '');
+	if (r != 'error') {
+		alert("La partie est créée, un mail a été envoyé à votre adversaire. C'est à vous de commencer !");
+		game_ID = r;
+		console.log(r);
+		player_color = 'white';
+		f_reload();
 	} else {
 		clean_log(r);
 	}

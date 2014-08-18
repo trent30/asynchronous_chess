@@ -62,4 +62,7 @@ if __name__ == "__main__":
 	#~ test local
 	#~ r = 'ok'
 	
-	print r
+	if r == 'ok':
+		print gid
+	else:
+		print 'error'
