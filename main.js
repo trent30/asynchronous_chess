@@ -13,15 +13,7 @@ selection = {
 	piece : ''
 	};
 selectColor = "#FF0000";
-
-try {
-	user_ID = localStorage.getItem("login");
-} catch (e) {
-	get_login();
-}	
-if (user_ID == null) {
-	get_login();
-}
+user_ID='';
 try {
 	game_ID = sessionStorage.getItem("gid");
 } catch (e) {
@@ -461,6 +453,16 @@ function f_option() {
 	t ='';
 	m = {};
 	e.style.textAlign = "center";
+	if (user_ID == null) {
+		try {
+			user_ID = localStorage.getItem("login");
+		} catch (e) {
+			console.log('Impossible de récupérer le login dans localStorage');
+		}
+	}
+	if (user_ID == '' || user_ID == null) {
+		get_login();
+	}
 	if (user_ID == '' || user_ID == null) {
 		t = '<div id="login">(pensez à autoriser les cookies pour pouvoir vous connecter)</div>';
 		m = build_menu(false);
