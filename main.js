@@ -758,9 +758,15 @@ function send() {
 	var ret = get_page(url);
 	if (ret.replace(/\n/g, '') == 'ok') {
 		f_reload();
-	} else {
-		clean_log(ret);
+		return 0;
 	}
+	if (ret.replace(/\n/g, '') == "déco") {
+		f_menu('menu_login');
+		var e = document.getElementById("log");
+		e.style.textAlign = "center";
+		return 0;
+	}
+	clean_log(ret);
 }
 
 function info(t) {

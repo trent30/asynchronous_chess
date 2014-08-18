@@ -45,13 +45,13 @@ if __name__ == "__main__":
 	except:
 		s = None
 		logging.debug('pas de cookie')
-		print "Vous n'êtes pas connecté."
+		print "deco"
 		exit(0)
 	
 	b = bdd.bdd()
 	if not b.autorized(s):
 		logging.debug('pas autorisé')
-		print "Votre session a expirée. Veuillez vous reconnecter (pensez à autoriser les cookies si ce n'est pas le cas)."
+		print "déco"
 		exit(0)
 	
 	parametres = input()
