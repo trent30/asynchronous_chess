@@ -1,4 +1,4 @@
-//~ de74a7e1f3917e6a9d43de2ba12211625e5c72df
+//~ 2f5bb1d7996eb245c4bc95296c33fc03c6916e4a
 var player_color = 'black';
 player_color = 'white';
 position = {};
@@ -732,7 +732,6 @@ function send() {
 	com = com.replace(/\?/g, "¿");
 	com = com.replace(/&/g, "eperluetteamp");
 	com = com.replace(/\+/g, "#43plus#43");
-	console.log("com", com);
 	form = document.getElementById('send_form');
 	flag = form.getElementsByClassName('flag');
 	flag_value = '';
