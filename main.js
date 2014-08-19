@@ -1,4 +1,4 @@
-//~ 2b5893ce6b4d186b89a0321c3849e8351dcea3cc
+//~ 9be85ba7ac216355883e35cc3ec1069ebfc8e96f
 var player_color = 'black';
 player_color = 'white';
 position = {};
@@ -13,7 +13,7 @@ selection = {
 	piece : ''
 	};
 selectColor = "#FF0000";
-user_ID='';
+try_get_local_login()
 try {
 	game_ID = sessionStorage.getItem("gid");
 } catch (e) {
@@ -453,17 +453,23 @@ function build_menu(connected) {
 	return m;
 }
 
+function try_get_local_login() {
+		try {
+			user_ID = localStorage.getItem("login");
+		} catch (e) {
+			user_ID = '';
+			console.log('Impossible de récupérer le login dans localStorage');
+		}
+	}
+
 function f_option() {
 	var e = document.getElementById("log");
 	t ='';
 	m = {};
 	e.style.textAlign = "center";
+	try_get_local_login();
 	if (user_ID == null) {
-		try {
-			user_ID = localStorage.getItem("login");
-		} catch (e) {
-			console.log('Impossible de récupérer le login dans localStorage');
-		}
+		try_get_local_login();
 	}
 	if (user_ID == '' || user_ID == null) {
 		get_login();
