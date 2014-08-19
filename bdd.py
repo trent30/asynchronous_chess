@@ -181,14 +181,19 @@ class bdd():
 		id = self.session_to_user_id(s)
 		if id == None:
 			return id
-		return self.con.query("""select * from (SELECT g1.id, date 
+		return self.con.query("""select t.id, t.date from (
+			SELECT g1.white, g1.black, g1.id, date
 			FROM users u, games g1 
 			WHERE g1.black=u.id and u.id='%s'
 			UNION
-			SELECT g2.id, date
+			SELECT g2.white, g2.black, g2.id, date
 			FROM users u, games g2 
-			WHERE g2.white=u.id and u.id='%s') a
-			order by date
+			WHERE g2.white=u.id and u.id='%s'
+			) t,
+			users uw, users ub
+			where uw.id = t.white and ub.id = t.black and 
+			uw.date_deleted is null and ub.date_deleted is null 
+			order by t.date
 		""" % (id, id) ).getresult()
 	
 	def get_players(self, game_id):
