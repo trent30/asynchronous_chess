@@ -226,6 +226,11 @@ function init() {
 	var param = location.search.split('=')[0];
 	if (param == '?gid') {
 		game_ID = location.search.split('=')[1];
+		try {
+			sessionStorage.setItem("gid", game_ID);
+		} catch (e) {
+			console.log("impossible de stocker game_ID dans localStorage.");
+		}
 	} 
 	if (game_ID != '') {
 		player_color = get_page('/mycolor.py?g=' + game_ID).replace(/\n/g, '');
