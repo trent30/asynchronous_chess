@@ -495,8 +495,8 @@ function f_init() {
 	set_position(actual_position);
 }
 
-function bug_report(gid, login) {
-	get_page('/bug.py?g=' + gid + '&l=' + login);
+function bug_report(gid) {
+	get_page('/bug.py?g=' + gid);
 }
 
 function f_reload() {
@@ -516,7 +516,7 @@ function f_reload() {
 	try {
 		r = JSON.parse(j);
 	} catch (e) {
-		bug_report(game_ID, user_ID);
+		bug_report(game_ID);
 		alert('La récupération de la liste des coups a échoué');
 		return 4;
 	}

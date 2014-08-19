@@ -360,16 +360,16 @@ ALTER TABLE ONLY mails
 
 CREATE TABLE error
 (
-  login text,
   game_id integer,
   id serial NOT NULL,
   date timestamp without time zone,
+  login_id integer,
   CONSTRAINT error_pkey PRIMARY KEY (id ),
   CONSTRAINT error_game_id_fkey FOREIGN KEY (game_id)
       REFERENCES games (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT error_login_fkey FOREIGN KEY (login)
-      REFERENCES users (login) MATCH SIMPLE
+  CONSTRAINT error_login_id_fkey FOREIGN KEY (login_id)
+      REFERENCES users (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (

@@ -223,9 +223,9 @@ class bdd():
 	def players_from_game(self, game):
 		return self.con.query("select white, black from games where id='%s'" % game).getresult()
 		
-	def insert_error(self, game_id, login):
-		self.con.query("INSERT INTO error (game_id, login, date) \
-		VALUES ('%s', '%s', NOW())" % (game_id, login))
+	def insert_error(self, game_id, login_id):
+		self.con.query("INSERT INTO error (game_id, login_id, date) \
+		VALUES ('%s', '%s', NOW())" % (game_id, login_id))
 		
 		
 if __name__ == "__main__":
