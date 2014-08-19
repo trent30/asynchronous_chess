@@ -85,7 +85,6 @@ CREATE TABLE users (
     id integer NOT NULL,
     login text,
     passwd text,
-    session text,
     date_deleted timestamp without time zone,
     date_create timestamp without time zone NOT NULL,
     confirmed boolean DEFAULT false NOT NULL
