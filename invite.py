@@ -63,6 +63,6 @@ if __name__ == "__main__":
 	#~ r = 'ok'
 	
 	if r == 'ok':
-		print gid
+		print 'ok-' + str(gid)
 	else:
-		print 'error'
+		print r

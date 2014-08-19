@@ -717,10 +717,10 @@ function f_menu(m) {
 
 function invite(id) {
 	var r = get_page('/invite.py?id=' + id).replace(/\n/g, '');
-	if (r != 'error') {
+	m = r.split('-')[0];
+	if (m == 'ok') {
 		alert("La partie est créée, un mail a été envoyé à votre adversaire. C'est à vous de commencer !");
-		game_ID = r;
-		console.log(r);
+		game_ID = r.split('-')[1];
 		player_color = 'white';
 		f_reload();
 	} else {
