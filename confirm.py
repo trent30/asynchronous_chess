@@ -8,7 +8,7 @@ from input import check_input
 if __name__ == "__main__":
 	print "Content-type: text/html"
 	formulaire = cgi.FieldStorage()
-	q = formulaire.getvalue('q')
+	q = formulaire.getvalue('q').replace(' ', '+')
 	if q == None:
 		print "\nno data"
 		exit(0)
