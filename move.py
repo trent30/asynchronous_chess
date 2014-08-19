@@ -118,6 +118,9 @@ if __name__ == "__main__":
 	else:
 		adversaire = players[1]
 	email = b.login_to_mail(b.uid_to_login(adversaire))
+	if email == None:
+		print "adversaire inconnu."
+		exit(0)
 	logging.debug('adversaire : ' + b.uid_to_login(adversaire))
 	logging.debug('email adversaire : ' + email)
 	
