@@ -6,6 +6,10 @@ import cgi
 import bdd
 from cookie_check import get_cookie
 
+def deco():
+	print "\ndisconnected"
+	exit(0)
+
 if __name__ == "__main__":
 	print "Content-type: text/html"
 	
@@ -20,18 +24,15 @@ if __name__ == "__main__":
 		s = c["session"].value
 	except:
 		s = None
-		print "\nVous n'êtes pas connecté."
-		exit(0)
+		deco()
 		
 	b = bdd.bdd()
 	if not b.autorized(s):
-		print "\nVotre session a expirée. Veuillez vous reconnecter (pensez à autoriser les cookies si ce n'est pas le cas)."
-		exit(0)
+		deco()
 	
 	b.delete_cookie(s)
 	
 	import lcookie
 	cookie = lcookie.gen_cookie()
 	print cookie.output()
-	print
-	print "Vous êtes déconnecté."
+	deco()

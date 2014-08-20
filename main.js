@@ -1,4 +1,4 @@
-//~ 9be85ba7ac216355883e35cc3ec1069ebfc8e96f
+//~ 686c49a52429d6242db177654e71ca21e8ea14b3
 var player_color = 'black';
 player_color = 'white';
 position = {};
@@ -708,6 +708,13 @@ function delete_account() {
 	}
 }
 
+function menu_login() {
+	f_menu('menu_login');
+	var e = document.getElementById("log");
+	e.style.textAlign = "center";
+	return 0;
+}
+
 function f_menu(m) {
 	/*
 	Si le menu est dans la page HTML on l'affiche,
@@ -715,21 +722,20 @@ function f_menu(m) {
 	 */
 	var e = document.getElementById(m);
 	var l = document.getElementById('log');
+	console.log(m);
+	if (m == 'logout' || m == 'delete_account') {
+		user_ID = '';
+	}
 	if (e !== null) {
 		l.innerHTML = e.innerHTML;
 	} else {
 		clean_log('En attente de la réponse...');
 		var r = get_page(m + '.py');
 		if ( r.replace(/\n/g, '') == 'disconnected') {
-			f_menu('menu_login');
-			var e = document.getElementById("log");
-			e.style.textAlign = "center";
-			return 0;
+			 menu_login();
+		return 0;
 		}
 		clean_log(r);
-	}
-	if (m == 'logout' || m == 'delete_account') {
-		user_ID = '';
 	}
 }
 
@@ -793,9 +799,7 @@ function send() {
 		return 0;
 	}
 	if (ret.replace(/\n/g, '') == "déco") {
-		f_menu('menu_login');
-		var e = document.getElementById("log");
-		e.style.textAlign = "center";
+		menu_login('menu_login');
 		return 0;
 	}
 	clean_log(ret);
