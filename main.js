@@ -719,7 +719,14 @@ function f_menu(m) {
 		l.innerHTML = e.innerHTML;
 	} else {
 		clean_log('En attente de la réponse...');
-		clean_log(get_page(m + '.py'));
+		var r = get_page(m + '.py');
+		if ( r.replace(/\n/g, '') == 'disconnected') {
+			f_menu('menu_login');
+			var e = document.getElementById("log");
+			e.style.textAlign = "center";
+			return 0;
+		}
+		clean_log(r);
 	}
 	if (m == 'logout' || m == 'delete_account') {
 		user_ID = '';

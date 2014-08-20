@@ -20,12 +20,12 @@ if __name__ == "__main__":
 		s = c["session"].value
 	except:
 		s = None
-		print "Vous n'êtes pas connecté."
+		print "disconnected"
 		exit(0)
 		
 	b = bdd.bdd()
 	if not b.autorized(s):
-		print "Votre session a expirée. Veuillez vous reconnecter (pensez à autoriser les cookies si ce n'est pas le cas)."
+		print "disconnected"
 		exit(0)
 	
 	liste_games = b.list_games(s)
