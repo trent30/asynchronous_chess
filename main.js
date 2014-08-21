@@ -725,6 +725,11 @@ function f_menu(m) {
 	console.log(m);
 	if (m == 'logout' || m == 'delete_account') {
 		user_ID = '';
+	   try {
+			   localStorage.setItem("login", '');
+	   } catch (e) {
+			   console.log("impossible de stocker le login vide dans localStorage.");
+	   }
 	}
 	if (e !== null) {
 		l.innerHTML = e.innerHTML;
