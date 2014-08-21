@@ -1,4 +1,4 @@
-//~ 686c49a52429d6242db177654e71ca21e8ea14b3
+//~ de8caec412546a128f21b96fc2c36370fdfd751c
 var player_color = 'black';
 player_color = 'white';
 position = {};
@@ -791,6 +791,11 @@ function send() {
 	}
 	if (flag_value.length != 0) {
 		url += '&flag=' + flag_value;
+		if (flag_value == 'A') {
+			if (!confirm('Attention ! Cette action est définitive, voulez-vous vraiment abandonner et perdre cette partie ?')) {
+				exit(0);
+			}
+		}
 	}
 	/* vérification que tout n'est pas vide */
 	if (diff_historique().length == 0 && com.length == 0 && flag_value.length == 0) {

@@ -196,6 +196,10 @@ class bdd():
 			order by t.date
 		""" % (id, id) ).getresult()
 	
+	def set_win(self, game, id):
+		self.con.query("UPDATE games SET winner='%s' WHERE id='%s'" \
+			% (id, game))
+		
 	def get_players(self, game_id):
 		return self.con.query("SELECT id, white, black, date FROM v_games_players WHERE id='%s'" % game_id).getresult()
 	
