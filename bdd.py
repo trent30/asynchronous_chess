@@ -184,11 +184,11 @@ class bdd():
 		return self.con.query("""select t.id, t.date from (
 			SELECT g1.white, g1.black, g1.id, date
 			FROM users u, games g1 
-			WHERE g1.black=u.id and u.id='%s'
+			WHERE g1.black=u.id and u.id='%s' and g1.winner is null
 			UNION
 			SELECT g2.white, g2.black, g2.id, date
 			FROM users u, games g2 
-			WHERE g2.white=u.id and u.id='%s'
+			WHERE g2.white=u.id and u.id='%s' and g2.winner is null
 			) t,
 			users uw, users ub
 			where uw.id = t.white and ub.id = t.black and 
