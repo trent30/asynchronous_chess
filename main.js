@@ -238,7 +238,7 @@ function init() {
 		console.log('color', player_color);
 		f_reload();
 	} else {
-		add_log("Vous n'êtes actuellement dans aucune partie. Allez dans le menu option en haut à droite pour sélectionner une « partie en cours » ou « liste des joueurs » pour inviter un adversaire.");
+		f_option();
 	}
 	if (player_color == 'black') {
 		draw_board();
