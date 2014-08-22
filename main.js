@@ -737,6 +737,37 @@ function menu_login() {
 	return 0;
 }
 
+function get_stats(id) {
+	var url = '/stats.py';
+	if (id != '') {
+		url += '?i=' + id;
+	}
+	r = get_page(url);
+	if ( r.replace(/\n/g, '') == 'disconnected') {
+		menu_login();
+		return 1;
+	}
+	try {
+		j = JSON.parse(r);
+	} catch(err) {
+		clean_log('impossible de parser le JSON des stats.');
+		return 2;
+	}
+	var tr = {'win' : 'parties gagnées',
+		'lose' : 'parties perdue',
+		'nul' : 'parties nulles',
+		'not_finish' : 'parties en cours',
+		'total' : '<hr/>Total'}
+	clean_log('<br/>');
+	stats = '';
+	for (var i in tr) {
+		stats += '</p>' + tr[i] + ' : ' + j[i] + '</p>';
+	}
+	var l = document.getElementById('log');
+	l.innerHTML = stats;
+	l.style.textAlign='center';
+}
+
 function f_menu(m) {
 	/*
 	Si le menu est dans la page HTML on l'affiche,
@@ -744,14 +775,17 @@ function f_menu(m) {
 	 */
 	var e = document.getElementById(m);
 	var l = document.getElementById('log');
-	console.log(m);
 	if (m == 'logout' || m == 'delete_account') {
 		user_ID = '';
-	   try {
-			   localStorage.setItem("login", '');
-	   } catch (e) {
-			   console.log("impossible de stocker le login vide dans localStorage.");
-	   }
+		try {
+			localStorage.setItem("login", '');
+		} catch (e) {
+			console.log("impossible de stocker le login vide dans localStorage.");
+		}
+	}
+	if (m == 'stats') {
+		get_stats('');
+		return;
 	}
 	if (e !== null) {
 		l.innerHTML = e.innerHTML;
@@ -760,7 +794,7 @@ function f_menu(m) {
 		var r = get_page(m + '.py');
 		if ( r.replace(/\n/g, '') == 'disconnected') {
 			 menu_login();
-		return 0;
+			return 0;
 		}
 		clean_log(r);
 	}
@@ -815,7 +849,7 @@ function send() {
 		url += '&flag=' + flag_value;
 		if (flag_value == 'A') {
 			if (!confirm('Attention ! Cette action est définitive, voulez-vous vraiment abandonner et perdre cette partie ?')) {
-				exit(0);
+				return;
 			}
 		}
 	}

@@ -228,6 +228,20 @@ class bdd():
 		else:
 			return True
 	
+	def stats(self, state, id):
+		white = self.requete_0("select count(*) from games \
+		where winner='%s' and white='%s'" % (state, id) )
+		black = self.requete_0("select count(*) from games \
+		where winner='%s' and black='%s'" % (state, id) )
+		return white + black
+	
+	def count_games(self, id):
+		white = self.requete_0("select count(*) from games \
+		where white='%s'" % id)
+		black = self.requete_0("select count(*) from games \
+		where black='%s'" % id)
+		return white + black
+	
 	def uid_to_login(self, uid):
 		return self.requete_0("select login from users where id='%s'" % uid)
 	
@@ -248,3 +262,4 @@ class bdd():
 
 if __name__ == "__main__":
 	a = bdd()
+	print a.count_games(1)
