@@ -228,7 +228,7 @@ function init() {
 		game_ID = location.search.split('=')[1];
 		try {
 			sessionStorage.setItem("gid", game_ID);
-		} catch (e) {
+		} catch (err) {
 			console.log("impossible de stocker game_ID dans localStorage.");
 		}
 	} 
@@ -757,7 +757,7 @@ function get_stats(id) {
 		'lose' : 'parties perdue',
 		'nul' : 'parties nulles',
 		'not_finish' : 'parties en cours',
-		'total' : '<hr/>Total'}
+		'total' : '<hr/>Total'};
 	clean_log('<br/>');
 	stats = '';
 	for (var i in tr) {
@@ -779,7 +779,7 @@ function f_menu(m) {
 		user_ID = '';
 		try {
 			localStorage.setItem("login", '');
-		} catch (e) {
+		} catch (err) {
 			console.log("impossible de stocker le login vide dans localStorage.");
 		}
 	}
