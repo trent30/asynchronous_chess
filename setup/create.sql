@@ -113,6 +113,7 @@ CREATE TABLE games (
     winner integer,
     date timestamp without time zone NOT NULL,
     id integer NOT NULL
+    token text
 );
 
 

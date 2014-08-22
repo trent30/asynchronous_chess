@@ -10,6 +10,7 @@ from cookie_check import get_cookie
 import logging
 import mail
 import ConfigParser
+import lcookie
 
 config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
@@ -88,6 +89,7 @@ if __name__ == "__main__":
 	login = b.session_to_login(s).encode('UTF-8', 'ascci')
 	logging.debug('login : ' + login)
 	txt = ''
+	token = ''
 	if dico_params['flag'] != None:
 		txt = login + ' annonce '
 		if dico_params['flag'] == 'A':
@@ -96,13 +98,17 @@ if __name__ == "__main__":
 			txt += 'échec !'
 		if dico_params['flag'] == 'M':
 			txt += 'échec et mat !'
+		if dico_params['flag'] == 'P':
+			txt += 'pat.'
 	
 	if dico_params['c'] == '[]':
 		dico_params['c'] = '[{}]'
 	
 	if txt != '':
 		dico_params['c'] = dico_params['c'].replace('}]', ', "flag" : "') + txt + '"}]'
-		
+		if token != '':
+			dico_params['c'] = dico_params['c'].replace('}]', ', "token" : "') + token + '"}]'
+	
 	if dico_params['com'] != '':
 		dico_params['com'] = 'commentaire de ' + login + ' : ' + dico_params['com']
 		dico_params['c'] = dico_params['c'].replace('}]', ', "com" : "') + dico_params['com'] + '"}]'
@@ -139,6 +145,15 @@ if __name__ == "__main__":
 		
 	r = mail.send_mail(email, sujet, msg )
 	b.add_move(dico_params['gid'], dico_params['c'])
+	
+	if dico_params['flag'] == 'M' or dico_params['flag'] == 'P':
+		token = lcookie.token()
+		if dico_params['flag'] == 'M':
+			token = '+' + token
+		b.update_game_token(dico_params['gid'], token)
+	else:
+		b.update_game_token(dico_params['gid'], '')
+		
 	#~ test local
 	#~ r = 'ok'
 	print r

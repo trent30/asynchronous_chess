@@ -13,7 +13,7 @@ selection = {
 	piece : ''
 	};
 selectColor = "#FF0000";
-try_get_local_login()
+try_get_local_login();
 try {
 	game_ID = sessionStorage.getItem("gid");
 } catch (e) {
@@ -279,13 +279,22 @@ function clean_log(t) {
 	l.scrollTop = l.scrollHeight;
 }
 
+function finish(i) {
+	if (confirm("AVERTISSEMENT : cette action est définitive ! Voulez-vous continuer ?")) {
+		var r = get_page('/finish.py?g=' + game_ID + '&token=' + 
+			actual_position[actual_position.length - 1 ].token);
+		console.log('r finish : ', r);
+		f_reload();
+	}
+}
+
 function coup2log(c) {
 	var log = '';
 	if (c.com != null) {
 		log += '<div onclick="info(this)" class="msg" title="' + c.com + '"><img src="img/msg.png"></div>';
 	}
 	if (c.flag != null) {
-		log += '<div onclick="info(this)" class="msg" title="' + c.flag + '"><img src="img/info.png"></div>';
+		log += '<div class="msg"><img src="img/info.png">' + c.flag + '</div>';
 	}
 	if (c.c1 != null ) {
 		log += pieceToText(c.p1) + ' ' + c.c1;
@@ -300,6 +309,19 @@ function coup2log(c) {
 function historique2log(h) {
 	for (var i = 0; i < h.length; i++) {
 		add_log(coup2log(h[i]));
+	}
+	//~ affiche le bouton confirmer uniquement si :
+	//~  * le dernier coup possède un flag
+	//~  * si ce flag est 'pat' ou 'mat'
+	//~  * et si c'est l'adversaire qui a mis le flag
+	if (h.length > 0) {
+		if (h[h.length - 1].flag != null ) {
+			var le_flag = h[h.length - 1].flag.substr(h[h.length - 1].flag.length - 4, 3);
+			var auteur = h[h.length - 1].flag.split(' ')[0];
+			if ((le_flag == 'pat' || le_flag == 'at ') && (h[h.length - 1].flag.split(' ')[0] != user_ID) ) {
+				add_log('<div onclick="finish()" class="btn">CONFIRMER ?</a></div>');
+			}
+		}
 	}
 }
 
