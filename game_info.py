@@ -42,6 +42,10 @@ if __name__ == "__main__":
 	else:
 		uid = b.session_to_user_id(s)
 		r['color'] = b.color(game, uid)
-	r['players'] = b.get_players(game)[0][1] + ' vs ' + b.get_players(game)[0][2]
+	pl = b.get_players(game)
+	if len(pl) != 0:
+		r['players'] = pl[0][1] + ' vs ' + pl[0][2]
+	else:
+		r['players'] = '';
 	
 	print json.dumps(r)
