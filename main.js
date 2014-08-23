@@ -240,7 +240,7 @@ function init() {
 			player_color = j.color;
 			players = j.players;
 		} catch (err) {
-			alert('La récupération des informations de la partie a échouée');
+			console.log('La récupération des informations de la partie a échouée');
 		}
 		console.log('game :', game_ID);
 		console.log('color :', player_color);
