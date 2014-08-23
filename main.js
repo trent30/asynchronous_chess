@@ -17,7 +17,7 @@ selectColor = "#FF0000";
 try_get_local_login();
 try {
 	game_ID = sessionStorage.getItem("gid");
-} catch (e) {
+} catch (err) {
 	game_ID = '';
 
 }
@@ -230,7 +230,7 @@ function init() {
 		try {
 			sessionStorage.setItem("gid", game_ID);
 		} catch (err) {
-			console.log("impossible de stocker game_ID dans localStorage.");
+			console.log("impossible de stocker game_ID dans sessionStorage.");
 		}
 	} 
 	if (game_ID != '') {
@@ -269,7 +269,7 @@ function rezise() {
 function getPieceFromHtml(t) {
 	try {
 		return t.split('/pieces/')[1].split('.png')[0];
-	} catch (e) {
+	} catch (err) {
 		return '';
 	}
 }
@@ -486,7 +486,7 @@ function build_menu(connected) {
 function try_get_local_login() {
 		try {
 			user_ID = localStorage.getItem("login");
-		} catch (e) {
+		} catch (err) {
 			user_ID = '';
 			console.log('Impossible de récupérer le login dans localStorage');
 		}
@@ -556,7 +556,7 @@ function f_reload() {
 	}
 	try {
 		r = JSON.parse(j);
-	} catch (e) {
+	} catch (err) {
 		bug_report(game_ID);
 		alert('La récupération de la liste des coups a échoué');
 		return 4;
@@ -686,7 +686,7 @@ function login() {
 		user_ID = vlogin.value;
 		try {
 			localStorage.setItem("login", user_ID);
-		} catch (e) {
+		} catch (err) {
 			console.log("impossible de stocker le login dans localStorage.");
 		}
 		f_option();
@@ -827,7 +827,7 @@ function select_game(id) {
 	game_ID = id;
 	try {
 		sessionStorage.setItem("gid", id);
-	} catch (e) {
+	} catch (err) {
 		console.log("impossible de stocker game_ID dans localStorage.");
 	}
 	clean_log('');
