@@ -5,6 +5,7 @@ import os
 import cgi
 import bdd
 from cookie_check import get_cookie
+import json
 
 def input():
 	form = cgi.FieldStorage()
@@ -30,11 +31,16 @@ if __name__ == "__main__":
 		s = c["session"].value
 	except:
 		s = None
+		print '[{}]'
 		exit(0)
 	
 	parametres = input()
 	game = parametres.get("g", -1)
 	b = bdd.bdd()
 	
+	r = {}
 	uid = b.login_to_id(b.session_to_login(s))
-	print b.color(game, uid)
+	r['color'] = b.color(game, uid)
+	r['players'] = b.get_players(game)[0][1] + ' vs ' + b.get_players(game)[0][2]
+	
+	print json.dumps(r)

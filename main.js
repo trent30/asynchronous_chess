@@ -1,6 +1,7 @@
 //~ de8caec412546a128f21b96fc2c36370fdfd751c
 var player_color = 'black';
 player_color = 'white';
+players = '';
 position = {};
 actual_position = [];	//~ historique jusqu'au dernier coup "enregistré"
 historique = [];		//~ actual_position + bac à sable 
@@ -233,9 +234,17 @@ function init() {
 		}
 	} 
 	if (game_ID != '') {
-		player_color = get_page('/mycolor.py?g=' + game_ID).replace(/\n/g, '');
-		console.log('game', game_ID);
-		console.log('color', player_color);
+		game_info = get_page('/game_info.py?g=' + game_ID).replace(/\n/g, '');
+		try {
+			var j = JSON.parse(game_info);
+			player_color = j.color;
+			players = j.players;
+		} catch (err) {
+			alert('La récupération des informations de la partie a échouée');
+		}
+		console.log('game :', game_ID);
+		console.log('color :', player_color);
+		console.log('joueurs :', players);
 		f_reload();
 	} else {
 		f_option();
@@ -283,7 +292,6 @@ function finish(i) {
 	if (confirm("AVERTISSEMENT : cette action est définitive ! Voulez-vous continuer ?")) {
 		var r = get_page('/finish.py?g=' + game_ID + '&token=' + 
 			actual_position[actual_position.length - 1 ].token);
-		console.log('r finish : ', r);
 		f_reload();
 	}
 }
@@ -557,9 +565,10 @@ function f_reload() {
 	for (var i = 0; i < r.length; i++) {
 		actual_position.push(r[i]);
 	}
+	window.document.title = 'chess'; // midori ne rafraichi pas le titre sinon
+	window.document.title = 'chess #' + game_ID + ' ' + players;
 	set_position(r);
 	historique = r;
-	window.document.title = 'chess #' + game_ID;
 }
 
 function f_home() {
