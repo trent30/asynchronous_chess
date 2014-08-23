@@ -31,16 +31,17 @@ if __name__ == "__main__":
 		s = c["session"].value
 	except:
 		s = None
-		print '[{}]'
-		exit(0)
 	
 	parametres = input()
 	game = parametres.get("g", -1)
 	b = bdd.bdd()
 	
 	r = {}
-	uid = b.login_to_id(b.session_to_login(s))
-	r['color'] = b.color(game, uid)
+	if s == None:
+		r['color'] = 'white'
+	else:
+		uid = b.session_to_user_id(s)
+		r['color'] = b.color(game, uid)
 	r['players'] = b.get_players(game)[0][1] + ' vs ' + b.get_players(game)[0][2]
 	
 	print json.dumps(r)

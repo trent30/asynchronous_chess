@@ -262,4 +262,3 @@ class bdd():
 
 if __name__ == "__main__":
 	a = bdd()
-	print a.count_games(1)
