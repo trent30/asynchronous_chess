@@ -870,7 +870,25 @@ function send() {
 	
 	var ret = get_page(url);
 	if (ret.replace(/\n/g, '') == 'ok') {
-		f_reload();
+		var diff = diff_historique();
+		flag_tr = {'A' : "Vous avez abandoné",
+					'M' : "échec et mat",
+					'E' : "échec",
+					'P' : "pat"}
+		for (var i in diff) {
+			console.log('test', i, diff[i]);
+			actual_position.push(diff[i]);
+		}
+		if (flag_value != '') {
+			actual_position[ actual_position.length - 1 ].flag = flag_tr[flag_value];
+		}
+		if (com != '') {
+			actual_position[ actual_position.length - 1 ].com = com;
+		}
+		var l = document.getElementById('log');
+		l.innerHTML = '';
+		historique2log(historique);
+		add_log('<hr/>');
 		return 0;
 	}
 	if (ret.replace(/\n/g, '') == "déco") {
