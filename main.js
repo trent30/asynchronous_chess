@@ -291,8 +291,12 @@ function clean_log(t) {
 function finish(i) {
 	if (confirm("AVERTISSEMENT : cette action est définitive ! Voulez-vous continuer ?")) {
 		var r = get_page('/finish.py?g=' + game_ID + '&token=' + 
-			actual_position[actual_position.length - 1 ].token);
-		f_reload();
+			actual_position[actual_position.length - 1 ].token)
+		if ( r.replace(/\n/g, '') == 'ok') {
+			f_reload();
+		} else {
+			clean_log(r);
+		}
 	}
 }
 
