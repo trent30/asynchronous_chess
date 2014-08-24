@@ -85,8 +85,10 @@ if __name__ == "__main__":
 	b.add_move(game, '[{"flag" : "' + msg_end + '"}]')
 	
 	sujet = config.get('smtp', 'subject_finish').replace('Partie', 'Partie #' + str(game))
-	r0 = mail.send_mail(b.login_to_mail(b.uid_to_login(adversaire)), sujet, msg)
 	r1 = mail.send_mail(b.login_to_mail(b.session_to_login(s)), sujet, msg)
+	if 'victorieux' in msg:
+		msg = 'Vous êtes victorieux !'
+	r0 = mail.send_mail(b.login_to_mail(b.uid_to_login(adversaire)), sujet, msg)
 	
 	if r0 == 'ok' and r1 == 'ok':
 		print msg_end
