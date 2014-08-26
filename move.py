@@ -102,12 +102,12 @@ if __name__ == "__main__":
 		if dico_params['flag'] == 'P':
 			txt += 'pat.'
 	
-	if dico_params['c'] == '[]':
-		dico_params['c'] = '[{}]'
-	
 	for i in jcoup:
 		i['j'] = login
 	dico_params['c'] = json.dumps(jcoup)
+	
+	if dico_params['c'] == '[]':
+		dico_params['c'] = '[{}]'
 	
 	if txt != '':
 		dico_params['c'] = dico_params['c'].replace('}]', ', "flag" : "') + txt + '"}]'

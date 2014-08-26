@@ -317,16 +317,16 @@ function coup2log(c) {
 
 function historique2log(h) {
 	var finish = '';
-	var numero = 1;
-	var precedent = h[0].j;
-	var joueur = h[0].j;
+	var numero = 0;
+	var precedent = null;
+	var joueur = '';
 	for (var i = 0; i < h.length; i++) {
 		if (h[i].j != null) {
 			joueur = h[i].j;
 		} else {
 			joueur = '';
 		}
-		if ( joueur != precedent) {
+		if ( joueur != precedent && h[i].c1 != null) {
 			numero = numero + 1;
 			precedent = joueur;
 		}
@@ -336,7 +336,11 @@ function historique2log(h) {
 			finish = '';
 		}
 		if (finish != 'terminée.') {
-			add_log(coup2log(h[i]) + '<div class="num" title="coup joué par ' + joueur + '"> - ' + numero + '</div>');
+			var msg = coup2log(h[i]);
+			if (h[i].c1 != null) {
+				msg += '<div class="num" title="coup joué par ' + joueur + '"> - ' + numero + '</div>';
+			}
+			add_log(msg);
 		}
 		if (h[i].flag != null) {
 			add_log( '<div class="msg"><img src="img/info.png"> ' + h[i].flag + '</div>');
