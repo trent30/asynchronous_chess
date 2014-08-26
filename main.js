@@ -291,7 +291,7 @@ function clean_log(t) {
 function finish(i) {
 	if (confirm("AVERTISSEMENT : cette action est définitive ! Voulez-vous continuer ?")) {
 		var r = get_page('/finish.py?g=' + game_ID + '&token=' + 
-			actual_position[actual_position.length - 1 ].token)
+			actual_position[actual_position.length - 1 ].token);
 		if ( r.replace(/\n/g, '') == 'ok') {
 			f_reload();
 		} else {
@@ -316,12 +316,13 @@ function coup2log(c) {
 }
 
 function historique2log(h) {
-	var numero = 0;
+	var finish = '';
+	var numero = 1;
 	var precedent = h[0].j;
-	var joueur = h[0].j
+	var joueur = h[0].j;
 	for (var i = 0; i < h.length; i++) {
 		if (h[i].j != null) {
-			var joueur = h[i].j
+			joueur = h[i].j;
 		} else {
 			joueur = '';
 		}
@@ -329,7 +330,14 @@ function historique2log(h) {
 			numero = numero + 1;
 			precedent = joueur;
 		}
-		add_log(coup2log(h[i]) + '<div class="num" title="coup joué par ' + joueur + '"> - ' + numero + '</div>');
+		try {
+			finish = h[i].flag.substr(h[i].flag.length - 9, 9);
+		} catch (err) {
+			finish = '';
+		}
+		if (finish != 'terminée.') {
+			add_log(coup2log(h[i]) + '<div class="num" title="coup joué par ' + joueur + '"> - ' + numero + '</div>');
+		}
 		if (h[i].flag != null) {
 			add_log( '<div class="msg"><img src="img/info.png"> ' + h[i].flag + '</div>');
 		}
@@ -890,9 +898,8 @@ function send() {
 		flag_tr = {'A' : "Vous avez abandoné",
 					'M' : "échec et mat",
 					'E' : "échec",
-					'P' : "pat"}
-		for (var i in diff) {
-			console.log('test', i, diff[i]);
+					'P' : "pat"};
+		for (i in diff) {
 			actual_position.push(diff[i]);
 		}
 		if (flag_value != '') {
