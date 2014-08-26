@@ -767,7 +767,7 @@ function get_stats(id) {
 		return 2;
 	}
 	var tr = {'win' : 'parties gagnées',
-		'lose' : 'parties perdue',
+		'lose' : 'parties perdues',
 		'nul' : 'parties nulles',
 		'not_finish' : 'parties en cours',
 		'total' : '<hr/>Total'};
