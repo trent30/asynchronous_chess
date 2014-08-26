@@ -140,3 +140,9 @@ body {
 	margin-right : 10px;
 	font-style: italic;
 }
+
+.num {
+	display: inline;
+	font-style: italic;
+	color: #A69B9B;
+}

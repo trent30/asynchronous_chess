@@ -316,8 +316,20 @@ function coup2log(c) {
 }
 
 function historique2log(h) {
+	var numero = 0;
+	var precedent = h[0].j;
+	var joueur = h[0].j
 	for (var i = 0; i < h.length; i++) {
-		add_log(coup2log(h[i]));
+		if (h[i].j != null) {
+			var joueur = h[i].j
+		} else {
+			joueur = '';
+		}
+		if ( joueur != precedent) {
+			numero = numero + 1;
+			precedent = joueur;
+		}
+		add_log(coup2log(h[i]) + '<div class="num" title="coup joué par ' + joueur + '"> - ' + numero + '</div>');
 		if (h[i].flag != null) {
 			add_log( '<div class="msg"><img src="img/info.png"> ' + h[i].flag + '</div>');
 		}

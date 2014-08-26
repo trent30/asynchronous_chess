@@ -69,7 +69,8 @@ if __name__ == "__main__":
 	logging.debug('coup brute : ' + dico_params['c'])
 	
 	import coup2txt
-	coup = coup2txt.main(json.loads(dico_params['c'], 'UTF-8'))
+	jcoup = json.loads(dico_params['c'], 'UTF-8')
+	coup = coup2txt.main(jcoup)
 	logging.debug('coup : ' + coup)
 	
 	if dico_params['com'] == None:
@@ -103,6 +104,10 @@ if __name__ == "__main__":
 	
 	if dico_params['c'] == '[]':
 		dico_params['c'] = '[{}]'
+	
+	for i in jcoup:
+		i['j'] = login
+	dico_params['c'] = json.dumps(jcoup)
 	
 	if txt != '':
 		dico_params['c'] = dico_params['c'].replace('}]', ', "flag" : "') + txt + '"}]'
