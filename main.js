@@ -305,9 +305,6 @@ function coup2log(c) {
 	if (c.com != null) {
 		log += '<div onclick="info(this)" class="msg" title="' + c.com + '"><img src="img/msg.png"></div>';
 	}
-	if (c.flag != null) {
-		log += '<div class="msg"><img src="img/info.png">' + c.flag + '</div>';
-	}
 	if (c.c1 != null ) {
 		log += pieceToText(c.p1) + ' ' + c.c1;
 		if (c.p2 !== '') {
@@ -321,6 +318,9 @@ function coup2log(c) {
 function historique2log(h) {
 	for (var i = 0; i < h.length; i++) {
 		add_log(coup2log(h[i]));
+		if (h[i].flag != null) {
+			add_log( '<div class="msg"><img src="img/info.png"> ' + h[i].flag + '</div>');
+		}
 	}
 	//~ affiche le bouton confirmer uniquement si :
 	//~  * le dernier coup possède un flag
