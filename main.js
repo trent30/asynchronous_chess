@@ -1,5 +1,4 @@
 //~ de8caec412546a128f21b96fc2c36370fdfd751c
-var player_color = 'black';
 player_color = 'white';
 players = '';
 position = {};
@@ -15,14 +14,38 @@ selection = {
 	};
 selectColor = "#FF0000";
 try_get_local_login();
-try {
-	game_ID = sessionStorage.getItem("gid");
-} catch (err) {
-	game_ID = '';
+game_ID = try_get_session('gid');
 
+function try_get_local(v) {
+	try {
+		return localStorage.getItem(v);
+	} catch (err) {
+		return '';
+	}
 }
-if (game_ID == null) {
-	game_ID = '';
+
+function try_set_local(k, v) {
+	try {
+		localStorage.setItem(k, v);
+	} catch (err) {
+		console.log('Impossible de stocker ' + v);
+	}
+}
+
+function try_get_session(v) {
+	try {
+		return sessionStorage.getItem(v);
+	} catch (err) {
+		return '';
+	}
+}
+
+function try_set_session(k, v) {
+	try {
+		sessionStorage.setItem(k, v);
+	} catch (err) {
+		console.log('Impossible de stocker ' + v);
+	}
 }
 
 function switch_color(c) {
@@ -215,11 +238,7 @@ function init() {
 	log = '';
 	next = [];
 	if (game_ID == '') {
-		try {
-			game_ID = sessionStorage.getItem("gid");
-		} catch (erreur) {
-			console.log("Impossible de récupérer game_ID dans sessionStorage");
-		}
+		game_ID = try_get_session("gid");
 	}
 	if (game_ID == null) {
 		game_ID = '';
@@ -227,11 +246,7 @@ function init() {
 	var param = location.search.split('=')[0];
 	if (param == '?gid') {
 		game_ID = location.search.split('=')[1];
-		try {
-			sessionStorage.setItem("gid", game_ID);
-		} catch (err) {
-			console.log("impossible de stocker game_ID dans sessionStorage.");
-		}
+		try_set_session("gid", game_ID);
 	} 
 	if (game_ID != '') {
 		game_info = get_page('/game_info.py?g=' + game_ID).replace(/\n/g, '');
@@ -512,13 +527,8 @@ function build_menu(connected) {
 }
 
 function try_get_local_login() {
-		try {
-			user_ID = localStorage.getItem("login");
-		} catch (err) {
-			user_ID = '';
-			console.log('Impossible de récupérer le login dans localStorage');
-		}
-	}
+	user_ID = try_get_local("login");
+}
 
 function f_option() {
 	var e = document.getElementById("log");
@@ -712,11 +722,7 @@ function login() {
 	m = get_page('./login.py?l=' + vlogin.value + '&p=' + vpass.value);
 	if (m.replace(/\n/g, '') == 'Bonjour') {
 		user_ID = vlogin.value;
-		try {
-			localStorage.setItem("login", user_ID);
-		} catch (err) {
-			console.log("impossible de stocker le login dans localStorage.");
-		}
+		try_set_local("login", user_ID);
 		f_option();
 	} else {
 		clean_log(m);
@@ -814,11 +820,7 @@ function f_menu(m) {
 	var l = document.getElementById('log');
 	if (m == 'logout' || m == 'delete_account') {
 		user_ID = '';
-		try {
-			localStorage.setItem("login", '');
-		} catch (err) {
-			console.log("impossible de stocker le login vide dans localStorage.");
-		}
+		try_set_local("login", '');
 	}
 	if (m == 'stats') {
 		get_stats('');
@@ -853,11 +855,7 @@ function invite(id) {
 function select_game(id) {
 	history.pushState(null, null, "/");
 	game_ID = id;
-	try {
-		sessionStorage.setItem("gid", id);
-	} catch (err) {
-		console.log("impossible de stocker game_ID dans localStorage.");
-	}
+	try_set_session("gid", id);
 	clean_log('');
 	init();
 	l.scrollTop = l.scrollHeight;
