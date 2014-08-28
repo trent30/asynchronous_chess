@@ -146,3 +146,8 @@ body {
 	font-style: italic;
 	color: #A69B9B;
 }
+
+.color_input {
+	text-align : right;
+	padding-right : 20%;
+}
