@@ -137,6 +137,7 @@ cmd('rm  %s' % PGPASSFILE)
 os.seteuid(0)
 cmd('cd')
 cmd('rm /tmp/create.sql')
+cmd('a2enmod expires')
 
 
 print "Installation terminée."

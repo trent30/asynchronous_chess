@@ -1,37 +1,9 @@
 CACHE MANIFEST
-<<<<<<< HEAD
-#lundi 18 août 2014, 17:34:46 (UTC+0200)
-=======
-#mercredi 27 août 2014, 21:50:04 (UTC+0200)
->>>>>>> 25f0d19... Ajout du menu 'préférences'
+#jeudi 28 août 2014, 17:10:33 (UTC+0200)
 
 CACHE:
-pieces/Tb.png
-pieces/Fb.png
-pieces/Cn.png
-pieces/Dn.png
-pieces/Fn.png
-pieces/pn.png
-pieces/Rn.png
-pieces/Db.png
-pieces/pb.png
-pieces/Cb.png
-pieces/Rb.png
-pieces/Tn.png
-./img/add.png
-./img/clear.png
-./img/close.png
-./img/home.png
-./img/info.png
-./img/init.png
-./img/msg.png
-./img/next.png
-./img/options.png
-./img/refresh.png
-./img/rotate.png
-./img/send.png
-./img/undo.png
-./img/help.png
+main.js
+style.css
 
 NETWORK:
 /
