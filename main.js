@@ -161,7 +161,7 @@ function draw_color_case() {
 	
 function draw_pieces(p) {
 	var tp = try_get_local("pieces");
-	if (tp == '' || tp == null || tp == 'classic') {
+	if (tp == '' || tp == null || tp == 'classic' || tp == 'null') {
 		tp = '';
 	}
 	for(var i in p) {
