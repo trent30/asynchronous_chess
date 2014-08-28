@@ -1,9 +1,45 @@
 CACHE MANIFEST
-#jeudi 28 août 2014, 17:10:33 (UTC+0200)
+#jeudi 28 août 2014, 17:10:34 (UTC+0200)
 
 CACHE:
-main.js
-style.css
+./pieces/Tb.png
+./pieces/Fb.png
+./pieces/Cn.png
+./pieces/Dn.png
+./pieces/Fn.png
+./pieces/pn.png
+./pieces/Rn.png
+./pieces/Db.png
+./pieces/pb.png
+./pieces/Cb.png
+./pieces/Rb.png
+./pieces/Tn.png
+./pieces/plastic/Tb.png
+./pieces/plastic/Fb.png
+./pieces/plastic/Cn.png
+./pieces/plastic/Dn.png
+./pieces/plastic/Fn.png
+./pieces/plastic/pn.png
+./pieces/plastic/Rn.png
+./pieces/plastic/Db.png
+./pieces/plastic/pb.png
+./pieces/plastic/Cb.png
+./pieces/plastic/Rb.png
+./pieces/plastic/Tn.png
+./img/clear.png
+./img/rotate.png
+./img/options.png
+./img/msg.png
+./img/home.png
+./img/undo.png
+./img/close.png
+./img/add.png
+./img/refresh.png
+./img/info.png
+./img/next.png
+./img/help.png
+./img/send.png
+./img/init.png
 
 NETWORK:
 /
