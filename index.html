@@ -101,16 +101,18 @@
 
 	<div id="preferences" style='display:none'><br/>
 		<div class="color_input">
-		     couleur des cases noires : <input name="prefs_ccn" id="prefs_ccn" type="text" />
+		     couleur des cases noires : <input class="width_text_input" name="prefs_ccn" id="prefs_ccn" type="text"/>
 		</div>
 		<div class="color_input">
-		couleur des cases blanches : <input name="prefs_ccb" id="prefs_ccb" type="text" /><br/>
+		couleur des cases blanches : <input class="width_text_input" name="prefs_ccb" id="prefs_ccb" type="text"/><br/>
 		</div><hr/>
+		<div class="color_input">
+		diminuer la taille de l'échiquier : <input class="width_text_input" name="prefs_size" id="prefs_size" type="text" /></div><hr/>
 		<div>type de pièces : <SELECT id="prefs_pieces" name="pieces" size="1">
 		<option>classic
 		<option>plastic
 		</SELECT><div>
-		<hr/>
+		</div><hr/>
 		<div><input class="btn" id="btn_test_prefs" value="tester" type="submit" onclick="test_prefs()"/></div>
 		<div><input class="btn" id="btn_save_prefs" value="sauver" type="submit" onclick="save_prefs()"/></div>
 	</div>

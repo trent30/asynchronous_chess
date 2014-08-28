@@ -2,7 +2,7 @@
 player_color = 'white';
 players = '';
 position = {};
-prefs = ['ccn', 'ccb', 'pieces'];
+prefs = ['ccn', 'ccb', 'pieces', 'size'];
 actual_position = [];	//~ historique jusqu'au dernier coup "enregistré"
 historique = [];		//~ actual_position + bac à sable 
 next = [];
@@ -69,7 +69,7 @@ function nextligne(l, inverse) {
 }
 
 function draw_board() {
-	rezise();
+	resize();
 	e = document.getElementById('board');
 	t = '';
 	cases_lettres = [];
@@ -290,11 +290,16 @@ function init() {
 	}
 }
 
-function rezise() {
+function resize() {
 	var w = window.innerWidth - 35;
 	h = window.innerHeight - 20;
 	min = Math.min(h, w);
 	e = document.getElementById('board');
+	marge = try_get_local('size');
+	if (marge == null || marge == 'null') {
+		marge = 0;
+	}
+	min = min - marge;
 	e.style.width = min;
 	e.style.height = min;
 	e = document.getElementById('gui');
@@ -877,6 +882,7 @@ function aff_prefs_color_case(variable, defaut, element) {
 function aff_prefs() {
 	aff_prefs_color_case("ccb", "#E6E6FA", 'prefs_ccb');
 	aff_prefs_color_case("ccn", "#443838", 'prefs_ccn');
+	aff_prefs_color_case("size", "0", 'prefs_size');
 	var tp = try_get_local("pieces");
 	if (tp != '' && tp != null) {
 		document.getElementById("prefs_pieces").value = tp;	
@@ -884,16 +890,21 @@ function aff_prefs() {
 }
 
 function test_prefs() {
-	var old = {}
+	var old = {};
 	for (var i in prefs) { // on sauvegarde les valeurs actuelles
 		old[prefs[i]] = try_get_local(prefs[i]);
-		try_set_local(prefs[i] , document.getElementById("prefs_" + prefs[i]).value);
+		if (old[prefs[i]] != null) {
+			try_set_local(prefs[i] , document.getElementById("prefs_" + prefs[i]).value);
+		}
 	}
 	// on applique les valeurs de tests
 	draw_pieces(position);
 	draw_color_case();
-	for (var i in prefs) { // on restaure les valeurs de départ
-		try_set_local(prefs[i], old[prefs[i]]);
+	resize();
+	for (i in prefs) { // on restaure les valeurs de départ
+		if (old[prefs[i]] != null) {
+			try_set_local(prefs[i], old[prefs[i]]);
+		}
 	}
 }
 
@@ -903,6 +914,7 @@ function save_prefs() {
 	}
 	draw_pieces(position);
 	draw_color_case();
+	resize();
 	f_option();
 }
 
@@ -1001,4 +1013,4 @@ function info(t) {
 }
 
 window.onload = init ; 
-window.onresize = rezise ;
+window.onresize = resize ;

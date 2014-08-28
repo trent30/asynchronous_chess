@@ -151,3 +151,8 @@ body {
 	text-align : right;
 	padding-right : 20%;
 }
+
+.width_text_input {
+	width : 100px;
+}
+
