@@ -2,6 +2,7 @@
 player_color = 'white';
 players = '';
 position = {};
+prefs = ['ccn', 'ccb', 'pieces'];
 actual_position = [];	//~ historique jusqu'au dernier coup "enregistré"
 historique = [];		//~ actual_position + bac à sable 
 next = [];
@@ -141,9 +142,28 @@ function draw_board() {
 		t = t + elt;
 	}
 	e.innerHTML = t;
+	draw_color_case();
 }
 
+function draw_color_case() {
+	var cc = ['ccb', 'ccn'];
+	var ec = ['white', 'black'];
+	for (var j = 0; j < 2; j++ ) {
+		var case_color = try_get_local(cc[j]);
+		if (case_color != '' ||case_color != null) {
+			e = document.getElementsByClassName(ec[j]);
+			for ( i = 0; i < e.length ; i++) { 
+				e[i].style.backgroundColor = case_color;
+			}
+		}
+	}
+}
+	
 function draw_pieces(p) {
+	var tp = try_get_local("pieces");
+	if (tp == '' || tp == null || tp == 'classic') {
+		tp = '';
+	}
 	for(var i in p) {
 		id = i + '';
 		var e = document.getElementById(id);
@@ -151,7 +171,7 @@ function draw_pieces(p) {
 			if (p[id] == '') {
 				e.innerHTML = '';
 			} else {
-				e.innerHTML = '<img class="pieces" src="./pieces/' + p[id] + '.png"</>';
+				e.innerHTML = '<img class="pieces" src="./pieces/' + tp + '/' + p[id] + '.png"</>';
 			}
 		}
 	}
@@ -232,7 +252,7 @@ function init() {
 	}
 	draw_board();
 	init_position();
-	draw_pieces(position);	
+	draw_pieces(position);
 	historique = [];
 	actual_position = [];
 	log = '';
@@ -515,6 +535,7 @@ function f_add() {
 function build_menu(connected) {
 	var m = {'se déconnecter' : 'logout',
 		'mon compte' : 'account',
+		'préférences' : 'preferences',
 		'parties en cours' : 'games',
 		'statistiques' : 'stats',
 		'liste des joueurs' : 'players',
@@ -837,6 +858,52 @@ function f_menu(m) {
 		}
 		clean_log(r);
 	}
+	if (m == 'preferences') {
+		aff_prefs();
+	}
+}
+
+function aff_prefs_color_case(variable, defaut, element) {
+	var ccb = try_get_local(variable);
+	var color = "";
+	if (ccb == '' || ccb == null) {
+		color = defaut;
+	} else {
+		color = ccb;
+	}
+	document.getElementById(element).value = color;
+}
+
+function aff_prefs() {
+	aff_prefs_color_case("ccb", "#E6E6FA", 'prefs_ccb');
+	aff_prefs_color_case("ccn", "#443838", 'prefs_ccn');
+	var tp = try_get_local("pieces");
+	if (tp != '' && tp != null) {
+		document.getElementById("prefs_pieces").value = tp;	
+	}
+}
+
+function test_prefs() {
+	var old = {}
+	for (var i in prefs) { // on sauvegarde les valeurs actuelles
+		old[prefs[i]] = try_get_local(prefs[i]);
+		try_set_local(prefs[i] , document.getElementById("prefs_" + prefs[i]).value);
+	}
+	// on applique les valeurs de tests
+	draw_pieces(position);
+	draw_color_case();
+	for (var i in prefs) { // on restaure les valeurs de départ
+		try_set_local(prefs[i], old[prefs[i]]);
+	}
+}
+
+function save_prefs() {
+	for (var i in prefs) {
+		try_set_local(prefs[i] , document.getElementById("prefs_" + prefs[i]).value);
+	}
+	draw_pieces(position);
+	draw_color_case();
+	f_option();
 }
 
 function invite(id) {
