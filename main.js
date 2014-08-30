@@ -896,10 +896,10 @@ function aff_prefs() {
 function test_prefs() {
 	var old = {};
 	for (var i in prefs) { // on sauvegarde les valeurs actuelles
-		try_set_local(prefs[i] , document.getElementById("prefs_" + prefs[i]).value);
 		old[prefs[i]] = try_get_local(prefs[i]);
+		try_set_local(prefs[i] , document.getElementById("prefs_" + prefs[i]).value);
 	}
-	// on applique les valeurs de tests
+	// on applique les valeurs de test
 	draw_pieces(position);
 	draw_color_case();
 	resize();
