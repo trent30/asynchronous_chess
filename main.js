@@ -161,8 +161,12 @@ function draw_color_case() {
 	
 function draw_pieces(p) {
 	var tp = try_get_local("pieces");
-	if (tp == '' || tp == null || tp == 'classic' || tp == 'null') {
+	if (tp == null || tp == '' || tp == 'classic' || tp == 'null') {
 		tp = '';
+	}
+	var cdn = try_get_local("cdn");
+	if (cdn == null || cdn.substr(0, 4) != 'http') {
+		cdn = '';
 	}
 	for(var i in p) {
 		id = i + '';
@@ -171,7 +175,7 @@ function draw_pieces(p) {
 			if (p[id] == '') {
 				e.innerHTML = '';
 			} else {
-				e.innerHTML = '<img class="pieces" src="./pieces/' + tp + '/' + p[id] + '.png"</>';
+				e.innerHTML = '<img class="pieces" src="' + cdn + './pieces/' + tp + '/' + p[id] + '.png"</>';
 			}
 		}
 	}
