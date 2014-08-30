@@ -312,7 +312,7 @@ function resize() {
 
 function getPieceFromHtml(t) {
 	try {
-		return t.split('/pieces/')[1].split('.png')[0];
+		return t.split('/pieces/')[1].split('/')[1].split('.png')[0];
 	} catch (err) {
 		return '';
 	}
