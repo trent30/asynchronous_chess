@@ -875,7 +875,7 @@ function f_menu(m) {
 function aff_prefs_color_case(variable, defaut, element) {
 	var ccb = try_get_local(variable);
 	var color = "";
-	if (ccb == '' || ccb == null) {
+	if (ccb == null || ccb == '' || ccb == 'null') {
 		color = defaut;
 	} else {
 		color = ccb;
@@ -888,7 +888,7 @@ function aff_prefs() {
 	aff_prefs_color_case("ccn", "#443838", 'prefs_ccn');
 	aff_prefs_color_case("size", "0", 'prefs_size');
 	var tp = try_get_local("pieces");
-	if (tp != '' && tp != null) {
+	if (tp != '' && tp != null && tp != 'null') {
 		document.getElementById("prefs_pieces").value = tp;	
 	}
 }
