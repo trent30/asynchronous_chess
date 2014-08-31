@@ -884,13 +884,21 @@ function f_menu_return(r) {
 function account_return(r) {
 	var e = document.getElementById('account').innerHTML;
 	var l = document.getElementById('log');
-	var j = JSON.parse(r);
-	e = 'Bonjour ' + j.login + '<br/><br/>Votre adresse mail est ' + j.mail + e;
+	try {
+		var j = JSON.parse(r);
+		e = 'Bonjour ' + j.login + '<br/><br/>Votre adresse mail est ' + j.mail + e;
+	} catch (err) {
+		e = r;
+	}
 	l.innerHTML = e;
 	l.style.textAlign = 'left';
 }
 
 function games_return(r) {
+	if (r == "disconnected") {
+		menu_login();
+		return;
+	}
 	var l = document.getElementById('log');
 	var j = JSON.parse(r);
 	var e = '';
