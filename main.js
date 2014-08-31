@@ -754,7 +754,6 @@ function get_page(name, fonction) {
 	}
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
-			console.log(fonction + "('" + xhr.responseText.replace(/\n/g, '') + "')");
 			eval(fonction + "('" + xhr.responseText.replace(/\n/g, '') + "')");
 		}
 	};
@@ -1108,6 +1107,15 @@ function info(t) {
 		t.appendChild(txt);
 	}
 }
-
-window.onload = init ; 
+function on_load() {
+	var cdn = try_get_local('cdn');
+	if (cdn != null) {
+		e = document.getElementById('gui').getElementsByTagName('img');
+		for (var i = 0; i < e.length; i++) {
+			e[i].src = cdn + 'img/' + e[i].src.split('img/')[1];
+		}
+	}
+	init();
+}
+window.onload = on_load ; 
 window.onresize = resize ;
