@@ -988,6 +988,9 @@ function send() {
 		for (i in diff) {
 			actual_position.push(diff[i]);
 		}
+		if (diff.length == 0) {
+			actual_position.push({});
+		}
 		if (flag_value != '') {
 			actual_position[ actual_position.length - 1 ].flag = flag_tr[flag_value];
 		}
@@ -996,7 +999,7 @@ function send() {
 		}
 		var l = document.getElementById('log');
 		l.innerHTML = '';
-		historique2log(historique);
+		historique2log(actual_position);
 		add_log('<hr/>');
 		return 0;
 	}
