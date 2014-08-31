@@ -1072,7 +1072,7 @@ function send_return(r) {
 }
 
 function send() {
-	var com = document.getElementById('com').value;
+	com = document.getElementById('com').value;
 	com = com.replace(/;/g, "#59semicolon#59");
 	com = com.replace(/\?/g, "¿");
 	com = com.replace(/&/g, "eperluetteamp");
