@@ -1,8 +1,22 @@
 CACHE MANIFEST
 #jeudi 28 août 2014, 17:10:37 (UTC+0200)
-#
+
 CACHE:
 style.css
+./img/clear.png
+./img/rotate.png
+./img/options.png
+./img/msg.png
+./img/home.png
+./img/undo.png
+./img/close.png
+./img/add.png
+./img/refresh.png
+./img/info.png
+./img/next.png
+./img/help.png
+./img/send.png
+./img/init.png
 
 NETWORK:
 /
