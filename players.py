@@ -3,11 +3,16 @@
 
 import cgi
 import bdd
+import json
 	
 if __name__ == "__main__":
 	print "Content-type: text/html\n"
 	b = bdd.bdd()
-	print '<div id="player_list" style="text-align:left"><br/>Cliquez sur le nom du joueur pour lui proposer une partie.<br/><br/>'
+	r = []
 	for i in b.users_list():
-		print "<div class='player' id=%s onclick='invite(%s)'>%s</div>" % (i[0], i[0], i[1])
-	print '</div>'
+		dico = {}
+		dico['id'] = i[0]
+		dico['nom'] = i[1]
+		r.append(dico)
+	
+	print json.dumps(r)

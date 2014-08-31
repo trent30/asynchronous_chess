@@ -249,6 +249,20 @@ function init_position() {
 	position.h8 = 'Tn';
 }
 
+function init_return(v) {
+	try {
+		var j = JSON.parse(v);
+		player_color = j.color;
+		players = j.players;
+	} catch (err) {
+		console.log('La récupération des informations de la partie a échouée');
+	}
+	console.log('game :', game_ID);
+	console.log('color :', player_color);
+	console.log('joueurs :', players);
+	f_reload();
+}
+
 function init() {
 	var e = document.getElementById('load');
 	if (e != null) {
@@ -273,18 +287,7 @@ function init() {
 		try_set_session("gid", game_ID);
 	} 
 	if (game_ID != '') {
-		game_info = get_page('/game_info.py?g=' + game_ID).replace(/\n/g, '');
-		try {
-			var j = JSON.parse(game_info);
-			player_color = j.color;
-			players = j.players;
-		} catch (err) {
-			console.log('La récupération des informations de la partie a échouée');
-		}
-		console.log('game :', game_ID);
-		console.log('color :', player_color);
-		console.log('joueurs :', players);
-		f_reload();
+		get_page('/game_info.py?g=' + game_ID, 'init_return');
 	} else {
 		f_option();
 	}
@@ -332,15 +335,17 @@ function clean_log(t) {
 	l.scrollTop = l.scrollHeight;
 }
 
+function finish_return(r) {
+	if ( r == 'ok') {
+		f_reload();
+	} else {
+		clean_log(r);
+	}
+}
+
 function finish(i) {
 	if (confirm("AVERTISSEMENT : cette action est définitive ! Voulez-vous continuer ?")) {
-		var r = get_page('/finish.py?g=' + game_ID + '&token=' + 
-			actual_position[actual_position.length - 1 ].token);
-		if ( r.replace(/\n/g, '') == 'ok') {
-			f_reload();
-		} else {
-			clean_log(r);
-		}
+		get_page('/finish.py?g=' + game_ID + '&token=' + actual_position[actual_position.length - 1 ].token, 'finish_return');
 	}
 }
 
@@ -607,17 +612,15 @@ function f_init() {
 	set_position(actual_position);
 }
 
-function bug_report(gid) {
-	get_page('/bug.py?g=' + gid);
+function nothing(x) {
+	return;
 }
 
-function f_reload() {
-	if (game_ID == '') {
-		alert("aucune partie n'est sélectionnée.");
-		return 2;
-	}
-	check_rotate();
-	var j = get_page('/history.py?g=' + game_ID).replace(/\n/g, '');
+function bug_report(gid) {
+	get_page('/bug.py?g=' + gid, 'nothing');
+}
+
+function f_reload_return(j) {
 	if (j == 'no data') {
 		alert("Aucune donnée n'a pu être récupérée.");
 		return 3;
@@ -640,6 +643,15 @@ function f_reload() {
 	window.document.title = 'chess #' + game_ID + ' ' + players;
 	set_position(r);
 	historique = r;
+}
+
+function f_reload() {
+	if (game_ID == '') {
+		alert("aucune partie n'est sélectionnée.");
+		return 2;
+	}
+	check_rotate();
+	get_page('/history.py?g=' + game_ID, 'f_reload_return');
 }
 
 function f_home() {
@@ -723,12 +735,13 @@ function set_position(historique) {
 	add_log('<hr/>');
 }
 
-function get_page(name) {
+function get_page(name, fonction) {
+	clean_log('En attente de la réponse...');
 	var xhr = new XMLHttpRequest();
 	url = name.split('?')[0];
 	params = name.split('?')[1];
 	try {
-		xhr.open('POST', url, false); // false = synchrone
+		xhr.open('POST', url, true); // true = asynchrone
 	}
 	catch (error) {
 		console.log(error);
@@ -739,22 +752,25 @@ function get_page(name) {
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhr.send(params);
 	}
-	if (xhr.readyState == 4 && xhr.status == 200) { 
-		return xhr.responseText;
-	}
-	return "Erreur lors de la récupération de la page " + url;
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(fonction + "('" + xhr.responseText.replace(/\n/g, '') + "')");
+			eval(fonction + "('" + xhr.responseText.replace(/\n/g, '') + "')");
+		}
+	};
+}
+
+function get_login_return(r) {
+	user_ID = r;
 }
 
 function get_login() {
-	user_ID = get_page('/mylogin.py').replace(/\n/g, '');
+	get_page('/mylogin.py', 'get_login_return');
 }
 
-function login() {
-	var vlogin = document.getElementById("l_l");
-	var vpass = document.getElementById("l_p");
-	m = get_page('./login.py?l=' + vlogin.value + '&p=' + vpass.value);
-	if (m.replace(/\n/g, '') == 'Bonjour') {
-		user_ID = vlogin.value;
+function login_return(r) {
+	if (r == 'Bonjour') {
+		user_ID = vlogin;
 		try_set_local("login", user_ID);
 		f_option();
 	} else {
@@ -762,16 +778,32 @@ function login() {
 	}
 }
 
+function login() {
+	vlogin = document.getElementById("l_l").value;
+	vpass = document.getElementById("l_p").value;
+	get_page('./login.py?l=' + vlogin + '&p=' + vpass, 'login_return');
+}
+
+function aff_return(r) {
+	clean_log(r);
+}
+
 function forget() {
 	var mail = document.getElementById("mail_forget");
-	var m = get_page('./forget.py?mail=' + mail.value);
-	clean_log(m);
+	get_page('./forget.py?mail=' + mail.value, 'aff_return');
 }
 
 function change_password() {
 	var passwd = document.getElementById("change_passwd");
-	var m = get_page('./change_passwd.py?p=' + passwd.value);
-	clean_log(m);
+	get_page('./change_passwd.py?p=' + passwd.value, 'aff_return');
+}
+
+function create_account_return(r) {
+	if (r == 'ok' ) {
+		clean_log("<p>Votre compte vient d'être créé, vous allez recevoir un email de confirmation contenant un lien pour activer votre compte.</p><p>Il est possible que le mail soit considéré comme du spam : pensez à vérifier votre dossier spam.</p>");
+	} else {
+		clean_log(r);
+	}
 }
 
 function create_account(){
@@ -789,12 +821,7 @@ function create_account(){
 		error = 'La longueur du mot de passe doit faire au moins 8 caractères';
 	}
 	if (!error) {
-		m = get_page('/create_account.py?l=' + vlogin.value + '&p=' + vpass.value + '&mail=' + vmail.value).replace(/\n/g, '');
-		if (m == 'ok' ) {
-			clean_log("<p>Votre compte vient d'être créé, vous allez recevoir un email de confirmation contenant un lien pour activer votre compte.</p><p>Il est possible que le mail soit considéré comme du spam : pensez à vérifier votre dossier spam.</p>");
-		} else {
-			clean_log(m);
-		}
+		get_page('/create_account.py?l=' + vlogin.value + '&p=' + vpass.value + '&mail=' + vmail.value, 'create_account_return');
 	} else {
 		alert(error);
 	}
@@ -813,13 +840,8 @@ function menu_login() {
 	return 0;
 }
 
-function get_stats(id) {
-	var url = '/stats.py';
-	if (id != '') {
-		url += '?i=' + id;
-	}
-	r = get_page(url);
-	if ( r.replace(/\n/g, '') == 'disconnected') {
+function get_stats_return(r) {
+	if ( r == 'disconnected') {
 		menu_login();
 		return 1;
 	}
@@ -844,6 +866,62 @@ function get_stats(id) {
 	l.style.textAlign='center';
 }
 
+function get_stats(id) {
+	var url = '/stats.py';
+	if (id != '') {
+		url += '?i=' + id;
+	}
+	get_page(url, 'get_stats_return');
+}
+
+function f_menu_return(r) {
+	if (r == 'disconnected') {
+		menu_login();
+		return 0;
+	}
+	clean_log(r);
+}
+
+function account_return(r) {
+	var e = document.getElementById('account').innerHTML;
+	var l = document.getElementById('log');
+	var j = JSON.parse(r);
+	e = 'Bonjour ' + j.login + '<br/><br/>Votre adresse mail est ' + j.mail + e;
+	l.innerHTML = e;
+	l.style.textAlign = 'left';
+}
+
+function games_return(r) {
+	var l = document.getElementById('log');
+	var j = JSON.parse(r);
+	var e = '';
+	if (j.length == 0) {
+		e += "<p>Aucune partie en cours<p/>";
+		e += "<p>Si vous devez avoir des parties en cours, déconnectez-vous puis reconnectez-vous.<p/>";
+	} else {
+		for (var i in j) {
+			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].white + " vs " + j[i].black + "<div class='info'>Commencé le " + j[i].date + "</div></div>";
+		}
+	}
+	l.innerHTML = e;
+	l.style.textAlign = 'left';
+}
+
+function players_return(r) {
+	var l = document.getElementById('log');
+	var j = JSON.parse(r);
+	var e = '<br/>Cliquez sur le nom du joueur pour lui proposer une partie.<br/><br/>';
+	if (j.length == 0) {
+		e += "<p>Aucun joueur<p/>";
+	} else {
+		for (var i in j) {
+			e += "<div class='player' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>" + j[i].nom + "</div>";
+		}
+	}
+	l.innerHTML = e;
+	l.style.textAlign = 'left';
+}
+
 function f_menu(m) {
 	/*
 	Si le menu est dans la page HTML on l'affiche,
@@ -859,16 +937,22 @@ function f_menu(m) {
 		get_stats('');
 		return;
 	}
+	if (m == 'account') {
+		get_page(m + '.py', 'account_return');
+		return;
+	}
+	if (m == 'games') {
+		get_page(m + '.py', 'games_return');
+		return;
+	}
+	if (m == 'players') {
+		get_page(m + '.py', 'players_return');
+		return;
+	}
 	if (e !== null) {
 		l.innerHTML = e.innerHTML;
 	} else {
-		clean_log('En attente de la réponse...');
-		var r = get_page(m + '.py');
-		if ( r.replace(/\n/g, '') == 'disconnected') {
-			 menu_login();
-			return 0;
-		}
-		clean_log(r);
+		get_page(m + '.py', 'f_menu_return');
 	}
 	if (m == 'preferences') {
 		aff_prefs();
@@ -923,8 +1007,7 @@ function save_prefs() {
 	f_option();
 }
 
-function invite(id) {
-	var r = get_page('/invite.py?id=' + id).replace(/\n/g, '');
+function invite_return(r) {
 	m = r.split('-')[0];
 	if (m == 'ok') {
 		alert("La partie est créée, un mail a été envoyé à votre adversaire. C'est à vous de commencer !");
@@ -936,6 +1019,10 @@ function invite(id) {
 	}
 }
 
+function invite(id) {
+	get_page('/invite.py?id=' + id, 'invite_return');
+}
+
 function select_game(id) {
 	history.pushState(null, null, "/");
 	game_ID = id;
@@ -943,6 +1030,38 @@ function select_game(id) {
 	clean_log('');
 	init();
 	l.scrollTop = l.scrollHeight;
+}
+
+function send_return(r) {
+	if (r == 'ok') {
+		var diff = diff_historique();
+		flag_tr = {'A' : "Vous avez abandoné",
+					'M' : "échec et mat",
+					'E' : "échec",
+					'P' : "pat"};
+		for (var i in diff) {
+			actual_position.push(diff[i]);
+		}
+		if (diff.length == 0) {
+			actual_position.push({});
+		}
+		if (flag_value != '') {
+			actual_position[ actual_position.length - 1 ].flag = flag_tr[flag_value];
+		}
+		if (com != '') {
+			actual_position[ actual_position.length - 1 ].com = com;
+		}
+		var l = document.getElementById('log');
+		l.innerHTML = '';
+		historique2log(actual_position);
+		add_log('<hr/>');
+		return 0;
+	}
+	if (r == "déco") {
+		menu_login('menu_login');
+		return 0;
+	}
+	clean_log(r);
 }
 
 function send() {
@@ -977,37 +1096,7 @@ function send() {
 		alert("Vous n'avez rien à envoyer.");
 		return 2;
 	}
-	
-	var ret = get_page(url);
-	if (ret.replace(/\n/g, '') == 'ok') {
-		var diff = diff_historique();
-		flag_tr = {'A' : "Vous avez abandoné",
-					'M' : "échec et mat",
-					'E' : "échec",
-					'P' : "pat"};
-		for (i in diff) {
-			actual_position.push(diff[i]);
-		}
-		if (diff.length == 0) {
-			actual_position.push({});
-		}
-		if (flag_value != '') {
-			actual_position[ actual_position.length - 1 ].flag = flag_tr[flag_value];
-		}
-		if (com != '') {
-			actual_position[ actual_position.length - 1 ].com = com;
-		}
-		var l = document.getElementById('log');
-		l.innerHTML = '';
-		historique2log(actual_position);
-		add_log('<hr/>');
-		return 0;
-	}
-	if (ret.replace(/\n/g, '') == "déco") {
-		menu_login('menu_login');
-		return 0;
-	}
-	clean_log(ret);
+	get_page(url, 'send_return');
 }
 
 function info(t) {
