@@ -375,9 +375,6 @@ function historique2log(h) {
 		} else {
 			joueur = '';
 		}
-		if (joueur == '' && i == h.length - 1) {
-			joueur = user_ID;
-		}
 		if ( joueur != precedent && h[i].c1 != null) {
 			numero = numero + 1;
 			precedent = joueur;
@@ -1055,6 +1052,7 @@ function send_return(r) {
 					'E' : "échec",
 					'P' : "pat"};
 		for (var i in diff) {
+			diff[i].j = user_ID;
 			actual_position.push(diff[i]);
 		}
 		if (diff.length == 0) {
