@@ -893,6 +893,8 @@ function account_return(r) {
 	try {
 		var j = JSON.parse(r);
 		e = 'Bonjour ' + j.login + '<br/><br/>Votre adresse mail est ' + j.mail + e;
+		user_ID = j.login;
+		try_set_local('user_ID', j.login);
 	} catch (err) {
 		e = r;
 	}
