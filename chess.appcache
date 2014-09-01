@@ -3,6 +3,7 @@ CACHE MANIFEST
 #
 CACHE:
 style.css
+#main.js
 ./img/clear.png
 ./img/rotate.png
 ./img/options.png
@@ -19,8 +20,5 @@ style.css
 ./img/init.png
 
 NETWORK:
-/
-/index.html
 *
-/?gid=*
 
