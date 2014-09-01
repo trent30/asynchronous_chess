@@ -396,6 +396,20 @@ WITH (
 ALTER TABLE sessions
   OWNER TO chess;
 
+-- View: v_list_games
+
+CREATE OR REPLACE VIEW v_list_games AS 
+ SELECT uw.login AS l_white, ub.login AS l_black, t.white, t.black, t.id, t.winner, t.date
+   FROM (         SELECT g1.white, g1.black, g1.id, g1.winner, g1.date
+                   FROM games g1
+        UNION 
+                 SELECT g2.black AS white, g2.white AS black, g2.id, g2.winner, g2.date
+                   FROM games g2) t, users uw, users ub
+  WHERE uw.id = t.white AND ub.id = t.black;
+
+ALTER TABLE v_list_games
+  OWNER TO chess;
+
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --

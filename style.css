@@ -156,3 +156,12 @@ body {
 	width : 100px;
 }
 
+.stats {
+	text-align: center;
+}
+
+.stats:hover {
+	text-decoration : underline;
+	font-style: italic;
+}
+

@@ -196,6 +196,36 @@ class bdd():
 			order by t.date
 		""" % (id, id) ).getresult()
 	
+	def list_games_stats_win(self, id):
+		return self.con.query("""SELECT t.l_white, t.l_black, t.id, t.date
+		FROM v_list_games t
+		WHERE t.winner=%s and t.white=%s
+		order by date""" % (id, id)).getresult()
+		
+	def list_games_stats_lose(self, id):
+		return self.con.query("""SELECT t.l_white, t.l_black, t.id, t.date
+		FROM v_list_games t
+		WHERE t.winner!=%s and t.white=%s and t.winner!=0
+		order by date""" % (id, id)).getresult()
+		
+	def list_games_stats_nul(self, id):
+		return self.con.query("""SELECT t.l_white, t.l_black, t.id, t.date
+		FROM v_list_games t
+		WHERE t.white=%s and t.winner=0
+		order by date""" % id).getresult()
+		
+	def list_games_stats_not_finish(self, id):
+		return self.con.query("""SELECT t.l_white, t.l_black, t.id, t.date
+		FROM v_list_games t
+		WHERE t.white=%s and t.winner is null
+		order by date""" % id).getresult()
+		
+	def list_games_stats_total(self, id):
+		return self.con.query("""SELECT t.l_white, t.l_black, t.id, t.date
+		FROM v_list_games t
+		WHERE t.white=%s
+		order by date""" % id).getresult()
+		
 	def set_win(self, game, id):
 		self.con.query("UPDATE games SET winner='%s' WHERE id='%s'" \
 			% (id, game))

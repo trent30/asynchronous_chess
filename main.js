@@ -839,6 +839,10 @@ function menu_login() {
 	return 0;
 }
 
+function list_games(detail) {
+	get_page('stats.py?p=' + detail, 'games_return');
+}
+
 function get_stats_return(r) {
 	if ( r == 'disconnected') {
 		menu_login();
@@ -854,15 +858,17 @@ function get_stats_return(r) {
 		'lose' : 'parties perdues',
 		'nul' : 'parties nulles',
 		'not_finish' : 'parties en cours',
-		'total' : '<hr/>Total'};
-	clean_log('<br/>');
-	stats = '';
+		'total' : 'Total'};
+	clean_log('');
+	stats = "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p><hr/>";
 	for (var i in tr) {
-		stats += '</p>' + tr[i] + ' : ' + j[i] + '</p>';
+		if (i == 'total') {
+			stats += '<hr/>';
+		}
+		stats += '<p class="stats" onclick=list_games("' + i + '")>' + tr[i] + ' : ' + j[i] + '</p>';
 	}
 	var l = document.getElementById('log');
 	l.innerHTML = stats;
-	l.style.textAlign='center';
 }
 
 function get_stats(id) {
