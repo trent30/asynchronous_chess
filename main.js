@@ -907,7 +907,7 @@ function games_return(r) {
 		e += "<p>Si vous devez avoir des parties en cours, déconnectez-vous puis reconnectez-vous.<p/>";
 	} else {
 		for (var i in j) {
-			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].white + " vs " + j[i].black + "<div class='info'>Commencé le " + j[i].date + "</div></div>";
+			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].joueurs + "<div class='info'>Commencé le " + j[i].date + "</div></div>";
 		}
 	}
 	l.innerHTML = e;

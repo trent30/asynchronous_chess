@@ -35,8 +35,7 @@ if __name__ == "__main__":
 		l = b.get_players(i[0])
 		dico = {}
 		dico['id'] = l[0][0]
-		dico['white'] = l[0][1]
-		dico['black'] = l[0][2]
+		dico['joueurs'] = l[0][1] + ' vs ' + l[0][2]
 		dico['date'] = l[0][3].split('.')[0]
 		r.append(dico)
 	
