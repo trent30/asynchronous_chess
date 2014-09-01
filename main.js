@@ -773,7 +773,7 @@ function login_return(r) {
 		try_set_local("login", user_ID);
 		f_option();
 	} else {
-		clean_log(m);
+		clean_log(r);
 	}
 }
 
