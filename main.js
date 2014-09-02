@@ -16,6 +16,11 @@ selection = {
 selectColor = "#FF0000";
 try_get_local_login();
 game_ID = try_get_session('gid');
+tr = {'win' : 'parties gagnées',
+	'lose' : 'parties perdues',
+	'nul' : 'parties nulles',
+	'not_finish' : 'parties en cours',
+	'total' : 'Total'};
 
 function try_get_local(v) {
 	try {
@@ -737,7 +742,7 @@ function set_position(historique) {
 	add_log('<hr/>');
 }
 
-function get_page(name, fonction) {
+function get_page(name, fonction, add) {
 	clean_log('En attente de la réponse...');
 	var xhr = new XMLHttpRequest();
 	url = name.split('?')[0];
@@ -756,7 +761,7 @@ function get_page(name, fonction) {
 	}
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
-			window[fonction](xhr.responseText.replace(/\n/g, ''));
+			window[fonction](xhr.responseText.replace(/\n/g, ''), add);
 		}
 	};
 }
@@ -841,8 +846,8 @@ function menu_login() {
 	return 0;
 }
 
-function list_games(detail) {
-	get_page('stats.py?p=' + detail, 'games_return');
+function list_games(detail, title) {
+	get_page('stats.py?p=' + detail, 'games_return', tr[detail]);
 }
 
 function get_stats_return(r) {
@@ -856,11 +861,6 @@ function get_stats_return(r) {
 		clean_log('impossible de parser le JSON des stats.');
 		return 2;
 	}
-	var tr = {'win' : 'parties gagnées',
-		'lose' : 'parties perdues',
-		'nul' : 'parties nulles',
-		'not_finish' : 'parties en cours',
-		'total' : 'Total'};
 	clean_log('');
 	stats = "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p><hr/>";
 	for (var i in tr) {
@@ -904,7 +904,7 @@ function account_return(r) {
 	l.style.textAlign = 'left';
 }
 
-function games_return(r) {
+function games_return(r, title) {
 	if (r == "disconnected") {
 		menu_login();
 		return;
@@ -916,8 +916,13 @@ function games_return(r) {
 		e += "<p>Aucune partie disponible.<p/>";
 		e += "<p>Si vous devez avoir des parties en cours, déconnectez-vous puis reconnectez-vous.<p/>";
 	} else {
+		e = '<h3>' + title + '</h3>';
 		for (var i in j) {
-			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].joueurs + "<div class='info'>Commencé le " + j[i].date + "</div></div>";
+			var trait = '';
+			if (j[i].trait != null && j[i].trait != user_ID) {
+				trait = ' (*)';
+			}
+			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].joueurs + trait + "<div class='info'>Commencé le " + j[i].date + "</div></div>";
 		}
 	}
 	l.innerHTML = e;
@@ -959,7 +964,7 @@ function f_menu(m) {
 		return;
 	}
 	if (m == 'games') {
-		get_page(m + '.py', 'games_return');
+		get_page(m + '.py', 'games_return', 'parties en cours');
 		return;
 	}
 	if (m == 'players') {

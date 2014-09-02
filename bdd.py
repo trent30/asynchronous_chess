@@ -292,3 +292,4 @@ class bdd():
 
 if __name__ == "__main__":
 	a = bdd()
+	print a.get_history(55)
