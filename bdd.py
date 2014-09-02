@@ -163,9 +163,9 @@ class bdd():
 		self.con.query("UPDATE users SET date_deleted='now()' \
 			WHERE id='%s'" % id)
 	
-	def users_list(self):
-		return self.con.query("SELECT u.ID, u.login FROM users u WHERE \
-			u.date_deleted is NULL AND u.confirmed=TRUE").getresult()
+	def users_list(self, uid):
+		return self.con.query("SELECT u.id, u.login FROM users u WHERE \
+			u.date_deleted is NULL AND u.confirmed=TRUE and u.id!='%s'" % uid).getresult()
 	
 	def add_move(self, game_id, coup):
 		self.con.query("INSERT INTO historique (game_id, coup) \
