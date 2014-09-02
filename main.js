@@ -908,7 +908,7 @@ function games_return(r) {
 	var j = JSON.parse(r);
 	var e = '';
 	if (j.length == 0) {
-		e += "<p>Aucune partie en cours<p/>";
+		e += "<p>Aucune partie disponible.<p/>";
 		e += "<p>Si vous devez avoir des parties en cours, déconnectez-vous puis reconnectez-vous.<p/>";
 	} else {
 		for (var i in j) {
