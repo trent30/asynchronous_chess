@@ -297,19 +297,24 @@ function init() {
 	}
 }
 
-function resize() {
+function min_size() {
 	var w = window.innerWidth - 35;
-	h = window.innerHeight - 20;
-	min = Math.min(h, w);
+	var h = window.innerHeight - 20;
+	return Math.min(h, w);
+}
+
+function resize() {
+	min = min_size();
 	e = document.getElementById('board');
 	marge = try_get_local('size');
 	if (marge == null || marge == 'null') {
 		marge = 0;
 	}
-	min = min - marge;
+	min = min + parseInt(marge);
 	e.style.width = min;
 	e.style.height = min;
 	e = document.getElementById('gui');
+	var w = window.innerWidth - 35;
 	e.style.width = w - min - 10;
 }
 
@@ -990,6 +995,9 @@ function aff_prefs() {
 	if (tp != '' && tp != null && tp != 'null') {
 		document.getElementById("prefs_pieces").value = tp;	
 	}
+	var range = document.getElementById('range');
+	range.min = min_size() * -1;
+	console.log(min_size());
 }
 
 function test_prefs() {
@@ -1121,6 +1129,7 @@ function info(t) {
 		t.appendChild(txt);
 	}
 }
+
 function on_load() {
 	var cdn = try_get_local('cdn');
 	if (cdn != null) {
@@ -1131,5 +1140,11 @@ function on_load() {
 	}
 	init();
 }
+
+function UpdateSizeBoardValue(s) {
+	t = document.getElementById('prefs_size');
+	t.value = s;
+}
+
 window.onload = on_load ; 
 window.onresize = resize ;

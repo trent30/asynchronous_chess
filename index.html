@@ -106,8 +106,10 @@
 		<div class="color_input">
 		couleur des cases blanches : <input class="width_text_input" name="prefs_ccb" id="prefs_ccb" type="text"/><br/>
 		</div><hr/>
-		<div class="color_input">
-		diminuer la taille de l'échiquier : <input class="width_text_input" name="prefs_size" id="prefs_size" type="text" /></div><hr/>
+		<div class="color_input">taille de l'échiquier : 
+		<input id="range" type="range" min="-2048" max="100" value="0" width="100%" onchange="UpdateSizeBoardValue(this.value)"/>
+		<input class="width_text_input" name="prefs_size" id="prefs_size" type="text" />
+		</div><hr/>
 		<div>type de pièces : <SELECT id="prefs_pieces" name="pieces" size="1">
 		<option>classic
 		<option>Usual
