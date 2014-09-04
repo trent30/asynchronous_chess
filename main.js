@@ -922,7 +922,7 @@ function games_return(r, title) {
 			if (j[i].trait != null && j[i].trait != user_ID) {
 				trait = ' (*)';
 			}
-			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].joueurs + trait + "<div class='info'>Commencé le " + j[i].date + "</div></div>";
+			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].joueurs + trait + "<div class='info'>Commencée le " + j[i].date + "</div></div>";
 		}
 	}
 	l.innerHTML = e;
