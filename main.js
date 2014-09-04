@@ -361,9 +361,6 @@ function finish(i) {
 
 function coup2log(c) {
 	var log = '';
-	if (c.com != null) {
-		log += '<div onclick="info(this)" class="msg" title="' + c.com + '"><img src="img/msg.png"></div>';
-	}
 	if (c.c1 != null ) {
 		log += pieceToText(c.p1) + ' ' + c.c1;
 		if (c.p2 !== '') {
@@ -394,8 +391,12 @@ function historique2log(h) {
 		} catch (err) {
 			finish = '';
 		}
+		var msg = '';
+		if (h[i].com != null) {
+			msg += '<div onclick="info(this)" class="msg" title="' + h[i].com + '"><img src="img/msg.png"></div>';
+		}
 		if (finish != 'terminée.') {
-			var msg = coup2log(h[i]);
+			msg += coup2log(h[i]);
 			if (h[i].c1 != null) {
 				msg += '<div class="num" title="coup joué par ' + joueur + '"> - ' + numero + '</div>';
 			}
