@@ -1,4 +1,4 @@
-//~ de8caec412546a128f21b96fc2c36370fdfd751c
+//~ b88628b684a47288c08cf59a7c0c512979589508
 player_color = 'white';
 players = '';
 position = {};
