@@ -926,6 +926,9 @@ function games_return(r, title) {
 			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].joueurs + trait + "<div class='info'>Commencée le " + j[i].date + "</div></div>";
 		}
 	}
+	if (title == 'parties en cours') {
+		e += "<div style='font-size: smaller;'><br/><br/>(*) : cette marque indique que c'est à vous de jouer.</div>";
+	}
 	l.innerHTML = e;
 	l.style.textAlign = 'left';
 }
