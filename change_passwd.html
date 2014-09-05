@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="style.css" rel="stylesheet" type="text/css">
+		<script src="main.js"></script>
+		<title>chess</title>
+	</head>
+	<body>
+<div id="center">
+	<div id="login_l">
+		<form name="f" action="/change_passwd.py" method="post">
+			<div>
+				<div class='field'>
+					Modifiez votre mot de passe : <input name="p" id="l" type="password" />
+					<input name='t' value="%s" id="t" type="hidden" />
+				</div>
+			</div>
+			<div id="break"></div>
+			<div class="center"><input class='btn' id="btn_login" value="Modifier" type="submit" /></div>
+		</form>
+	</div>
+</div>
+</body></html>

@@ -11,7 +11,17 @@ from cookie_check import get_cookie
 def print_page(m):
 	print m
 	exit(0)
-	
+
+def input():
+	form = cgi.FieldStorage()
+	data = {}
+	for i in form:
+		try:
+			data[i] = form[i].value
+		except:
+			data[i] = ''
+	return data
+
 if __name__ == "__main__":
 	print "Content-type: text/html\n"
 	try:
@@ -25,19 +35,21 @@ if __name__ == "__main__":
 		s = c["session"].value
 	except:
 		s = None
-		print "Vous n'êtes pas connecté."
-		exit(0)
 		
 	b = bdd.bdd()
-	if not b.autorized(s):
-		print "Votre session a expirée. Veuillez vous reconnecter (pensez à autoriser les cookies si ce n'est pas le cas)."
+	parametres = input()
+	t = parametres.get("t", None)
+	passwd = parametres.get('p', None)
+	if t != None and passwd == None:
+		print open('change_passwd.html').read() % t
 		exit(0)
 		
-	formulaire = cgi.FieldStorage()
-	passwd = formulaire.getvalue('p')
+	if not b.autorized(s) and t == None:
+		print "Votre session a expirée. Veuillez vous reconnecter (pensez à autoriser les cookies si ce n'est pas le cas)."
+		exit(0)
 	
 	if passwd == None:
-		print_page('Impossible de récupérer lemot de passe')
+		print_page('Impossible de récupérer le mot de passe')
 		
 	if len(passwd) < 8:
 		print_page('La longueur du mot de passe doit faire au moins 8 caractères')
