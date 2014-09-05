@@ -1,8 +1,9 @@
 CACHE MANIFEST
-#jeudi 28 août 2014, 17:10:37 (UTC+0200)
-#
+#vendredi 5 septembre 2014, 16:12:49 (UTC+0200)
+
 CACHE:
-#style.css
+style.css
+main.js
 ./img/clear.png
 ./img/rotate.png
 ./img/options.png
@@ -19,8 +20,5 @@ CACHE:
 ./img/init.png
 
 NETWORK:
-/
-/index.html
 *
-/?gid=*
 
