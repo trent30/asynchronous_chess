@@ -6,6 +6,7 @@
 
 import pg
 import ConfigParser
+import json
 
 class bdd():
 	
@@ -34,6 +35,25 @@ class bdd():
 		else:
 			return r[0][0]
 	
+	def encadre(self, a):
+		if a[0] != '{':
+			a = '{' + a
+		if a[ -1 : ] != '}':
+			a += '}'
+		return a
+	
+	def get_dernier_joueur(self, l):
+		joueur = -1
+		while joueur == -1:
+			if len(l) == 0:
+				return None
+			t = l.pop()
+			t = t[0][1:][:-1].replace('}, {','},{')
+			for i in t.split( '},{'):
+				j = json.loads(self.encadre(i))
+				joueur = j.get('j', -1)
+		return joueur
+
 	def session_to_login(self, s):
 		return self.requete_0("select login from users u, sessions s\
 			where s.session='%s' and u.id = s.user_id \
@@ -292,4 +312,3 @@ class bdd():
 
 if __name__ == "__main__":
 	a = bdd()
-	print a.get_history(55)
