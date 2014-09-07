@@ -1157,5 +1157,11 @@ function UpdateSizeBoardValue(s) {
 	t.value = s;
 }
 
+function checkEnter(e) {
+	if (e.keyCode == 13) {
+		login();
+	}
+}
+
 window.onload = on_load ; 
 window.onresize = resize ;
