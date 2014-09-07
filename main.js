@@ -111,6 +111,7 @@ function draw_board() {
 			} else {
 				valeur = String.fromCharCode(9 - c + 96);
 			}
+			valeur = '<p>' + valeur + '</p>';
 		}
 		if (cases_chiffres.indexOf(i) > -1) {
 			classe += ' coord';
@@ -121,6 +122,7 @@ function draw_board() {
 			} else {
 				valeur = 9 - (l / 10);
 			}
+			valeur = '<p>' + valeur + '</p>';
 		}
 		if ( (i > 10) && (i < 89) && (i % 10 !== 0) && ((i + 1) % 10 !== 0)) {
 			id = String.fromCharCode(colonne + 96) + ligne;
