@@ -116,10 +116,17 @@ body {
 	text-align: left;
 }
 
+.ta_left{
+	text-align: left;
+}
+
+.ta_right{
+	text-align: right;
+}
+
 .center{
 	text-align: center;
 }
-
 
 #com{
 	width: 100%;
@@ -165,3 +172,6 @@ body {
 	font-style: italic;
 }
 
+.order {
+	display: inline;
+}

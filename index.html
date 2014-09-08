@@ -137,10 +137,18 @@
 		<option>Book
 		<option>Diagram
 		<option>Staunton
-		</SELECT><div>
-		</div><hr/>
-		<div><input class="btn" id="btn_test_prefs" value="tester" type="submit" onclick="test_prefs()"/></div>
-		<div><input class="btn" id="btn_save_prefs" value="sauver" type="submit" onclick="save_prefs()"/></div>
+		</SELECT>
+		</div><div><hr/></div>
+		<div class="ta_left">Ordre d'affichage dans l'historique des coups</div>
+		<div class="ta_left" style="font-size: small;">(cliquez sur l'élément que vous voulez descendre, et cocher la case si vous voulez l'afficher dans l'historique)</div>
+		<div class="ta_left" id="order_list">
+		<INPUT id="order_cb_1" type="checkbox" value="com"/><div class="ta_left order" id="order_1" onclick="f_order_click('order_1')">commentaire</div><div></div>
+		<INPUT id="order_cb_2" type="checkbox" value="coup"/><div class="ta_left order" id="order_2" onclick="f_order_click('order_2')">coup</div><div></div>
+		<INPUT id="order_cb_3" type="checkbox" value="num"/><div class="ta_left order" id="order_3" onclick="f_order_click('order_3')">numéro</div><div></div>
+		<INPUT id="order_cb_4" type="checkbox" value="player"/><div class="ta_left order" id="order_4" onclick="f_order_click('order_4')">joueur</div><div></div></div>
+		<hr/>
+		<div class="field"><input class="btn" id="btn_test_prefs" value="tester" type="submit" onclick="test_prefs()"/></div>
+		<div class="field"><input class="btn" id="btn_save_prefs" value="sauver" type="submit" onclick="save_prefs()"/></div>
 	</div>
 	
 	<div id="account" style='display:none'>

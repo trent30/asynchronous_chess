@@ -388,22 +388,46 @@ function historique2log(h) {
 			numero = numero + 1;
 			precedent = joueur;
 		}
+		var num = '<div class="num">'+ numero + '</div>';
+		var com = '';
+		var player = '';
+		var coup = '';
 		try {
 			finish = h[i].flag.substr(h[i].flag.length - 9, 9);
 		} catch (err) {
 			finish = '';
 		}
-		var msg = '';
 		if (h[i].com != null) {
-			msg += '<div onclick="info(this)" class="msg" title="' + h[i].com + '"><img src="img/msg.png"></div>';
+			com = '<div onclick="info(this)" class="msg" title="' + h[i].com + '"><img src="img/msg.png"></div>';
 		}
 		if (finish != 'terminée.') {
-			msg += coup2log(h[i]);
+			coup = coup2log(h[i]);
 			if (h[i].c1 != null) {
-				msg += '<div class="num" title="coup joué par ' + joueur + '"> - ' + numero + '</div>';
+				num = '<div class="num" title="coup joué par ' + joueur + '">' + numero + '</div>';
+				player = '<div class="msg">coup joué par ' + joueur + '</div>';
 			}
-			add_log(msg);
 		}
+		var msg = '';
+		var order = try_get_local('order');
+		if (order == null) {
+			msg = com + coup + player + num;
+		} else {
+			order = order.split(',');
+			for (var j = 0; j < 4; j++) {
+				var aff = try_get_local('order_aff_' + order[j]);
+				if (aff == 'true') {
+					var value = eval(order[j]);
+					msg += value;
+					if (j != 3 && aff == 'true' && value != '') {
+						msg += ' - ';
+					}
+				}
+			}
+		}
+		if (msg.substr(msg.length - 3, msg.length) == ' - ') {
+			msg = msg.substr(0, msg.length - 3);
+		}
+		add_log(msg);
 		if (h[i].flag != null) {
 			add_log( '<div class="msg"><img src="img/info.png"> ' + h[i].flag + '</div>');
 		}
@@ -1008,7 +1032,26 @@ function aff_prefs() {
 	}
 	var range = document.getElementById('range');
 	range.min = min_size() * -1;
-	console.log(min_size());
+	var order = try_get_local('order');
+	if (order != null) {
+		tr = {'com' : 'commentaire',
+			'coup' : 'coup',
+			'num' : 'numéro',
+			'player' : 'joueur' };
+		for (var i = 1; i < 5; i++) {
+			var input = document.getElementById('order_cb_' + i);
+			var e = document.getElementById('order_' + i);
+			var v = order.split(',')[i-1];
+			input.value = v;
+			var ic = try_get_local('order_aff_' + v);
+			if (ic == 'true') {
+				input.checked = true;
+			} else {
+				input.checked = false;
+			}
+			e.innerHTML = tr[v];
+		}
+	}
 }
 
 function test_prefs() {
@@ -1032,10 +1075,41 @@ function save_prefs() {
 	for (var i in prefs) {
 		try_set_local(prefs[i] , document.getElementById("prefs_" + prefs[i]).value);
 	}
+	var order = '';
+	for (i = 1; i < 5; i++) {
+		var e = document.getElementById('order_cb_' + i);
+		order += e.value + ',';
+		try_set_local('order_aff_' + e.value, e.checked);
+	}
+	try_set_local('order', order);
 	draw_pieces(position);
 	draw_color_case();
 	resize();
 	f_option();
+}
+
+function f_order_click(e) {
+	var n = parseInt(e.split('order_')[1]);
+	var n2 = n + 1;
+	if (n == 4) {
+		for (var i = 3; i > 0; i--) {
+			f_order_click('order_' + i);
+		}
+		return;
+	}
+	var selection = document.getElementById('order_' + n);
+	var next = document.getElementById('order_' + n2);
+	var tmp = selection.innerHTML;
+	selection.innerHTML = next.innerHTML;
+	next.innerHTML = tmp;
+	var check = document.getElementById('order_cb_' + n);
+	var check2 = document.getElementById('order_cb_' + n2);
+	var tmp_check = check.checked;
+	var tmp_value = check.value;
+	check.checked = check2.checked;
+	check2.checked = tmp_check;
+	check.value = check2.value;
+	check2.value = tmp_value;
 }
 
 function invite_return(r) {
