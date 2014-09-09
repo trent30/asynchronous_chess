@@ -410,7 +410,7 @@ function historique2log(h) {
 		var msg = '';
 		var order = try_get_local('order');
 		if (order == null) {
-			msg = com + coup + player + num;
+			msg = com + coup + ' - ' + num;
 		} else {
 			order = order.split(',');
 			for (var j = 0; j < 4; j++) {
@@ -1044,12 +1044,23 @@ function aff_prefs() {
 			var v = order.split(',')[i-1];
 			input.value = v;
 			var ic = try_get_local('order_aff_' + v);
-			if (ic == 'true') {
+			if (ic == 'false') {
+				input.checked = false;
+			} else {
+				input.checked = true;
+			}
+			e.innerHTML = tr[v];
+		}
+	} else {
+		order = ['com', 'coup', 'num', 'player'];
+		for (var i = 1; i < 5; i++) {
+			var input = document.getElementById('order_cb_' + i);
+			var v = order[i-1];
+			if (v != 'player') {
 				input.checked = true;
 			} else {
 				input.checked = false;
 			}
-			e.innerHTML = tr[v];
 		}
 	}
 }
