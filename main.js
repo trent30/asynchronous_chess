@@ -881,12 +881,25 @@ function menu_login() {
 	return 0;
 }
 
-function list_games(detail) {
-	get_page('stats.py?p=' + detail, 'games_return', tr[detail]);
+function list_games(p) {
+	var detail = p.split(',')[0];
+	var id = p.split(',')[1];
+	var login = p.split(',')[2];
+	if (login == user_ID) {
+		login = '';
+	}
+	if (login != '') {
+		login = " (pour "+ login + ")";
+	}
+	var url = 'stats.py?p=' + detail;
+	if (id != '') {
+		url += '&i=' + id;
+	}
+	get_page(url, 'games_return', tr[detail] + login);
 }
 
-function get_stats_return(r) {
-	if ( r == 'disconnected') {
+function get_stats_return(r, id) {
+	if (r == 'disconnected') {
 		menu_login();
 		return 1;
 	}
@@ -897,12 +910,17 @@ function get_stats_return(r) {
 		return 2;
 	}
 	clean_log('');
-	var stats = "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p><hr/>";
+	var stats = '';
+	if (j.login != user_ID) {
+		stats = "<p> Statistiques pour " + j.login + "</p>";
+	}
+	stats += "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p><hr/>";
 	for (var i in tr) {
 		if (i == 'total') {
 			stats += '<hr/>';
 		}
-		stats += '<p class="stats" onclick=list_games("' + i + '")>' + tr[i] + ' : ' + j[i] + '</p>';
+		var params = i + ',' + id + ',' + j.login;
+		stats += '<p class="stats" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</p>';
 	}
 	var l = document.getElementById('log');
 	l.innerHTML = stats;
@@ -913,7 +931,7 @@ function get_stats(id) {
 	if (id != '') {
 		url += '?i=' + id;
 	}
-	get_page(url, 'get_stats_return');
+	get_page(url, 'get_stats_return', id);
 }
 
 function f_menu_return(r) {
@@ -970,12 +988,12 @@ function games_return(r, title) {
 function players_return(r) {
 	var l = document.getElementById('log');
 	var j = JSON.parse(r);
-	var e = '<br/>Cliquez sur le nom du joueur pour lui proposer une partie.<br/><br/>';
+	var e = '<p>Cliquez sur le nom du joueur pour lui proposer une partie (cliquez sur le graphique pour voir ses statistiques)</p>';
 	if (j.length == 0) {
 		e += "<p>Aucun joueur<p/>";
 	} else {
 		for (var i in j) {
-			e += "<div class='player' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>" + j[i].nom + "</div>";
+			e += "<div class='order'><img class='order' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player order' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>  " + j[i].nom + "</div><div></div>";
 		}
 	}
 	l.innerHTML = e;

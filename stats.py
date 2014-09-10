@@ -40,10 +40,13 @@ if __name__ == "__main__":
 	detail = parametres.get("p", -1)
 	
 	if player_id == -1:
+		login = b.session_to_login(s)
 		player_id = b.session_to_user_id(s)
 		if player_id == None:
 			print "disconnected"
 			exit(0)
+	else:
+		login = b.uid_to_login(player_id)
 	
 	if detail == 'win':
 		l = b.list_games_stats_win(player_id)
@@ -75,5 +78,6 @@ if __name__ == "__main__":
 		r['total'] = int(b.count_games(player_id))
 		r['not_finish'] = len(b.list_games(s))
 		r['lose'] = r['total'] - r['win'] - r['nul'] - r['not_finish']
-		
+		r['login'] = login
+	
 	print json.dumps(r)
