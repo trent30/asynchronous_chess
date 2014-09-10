@@ -160,15 +160,23 @@ function draw_color_case() {
 	}
 }
 	
-function draw_pieces(p) {
+function get_type_pieces() {
 	var tp = try_get_local("pieces");
 	if (tp == null || tp == '' || tp == 'classic' || tp == 'null') {
 		tp = '';
 	}
+	return tp;
+}
+	
+function get_cdn() {
 	var cdn = try_get_local("cdn");
 	if (cdn == null || cdn.substr(0, 4) != 'http') {
 		cdn = '';
 	}
+	return cdn;
+}
+
+function draw_pieces(p) {
 	for(var i in p) {
 		var id = i + '';
 		var e = document.getElementById(id);
@@ -176,7 +184,7 @@ function draw_pieces(p) {
 			if (p[id] == '') {
 				e.innerHTML = '';
 			} else {
-				e.innerHTML = '<img class="pieces" src="' + cdn + './pieces/' + tp + '/' + p[id] + '.png"</>';
+				e.innerHTML = '<img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + p[id] + '.png"</>';
 			}
 		}
 	}
@@ -560,11 +568,16 @@ function f_add() {
 	e.style.textAlign = "left";
 	var piece = ['T', 'C', 'F', 'D', 'R', 'p'];
 	var couleur = { 'n' : 'white', 'b' : 'black' };
+	var n = try_get_local('ccn');
+	if (n != null) {
+		couleur.n = n;
+		couleur.b = try_get_local('ccb');
+	}
 	var d = "<p>Sélectionner la pièce de votre choix puis cliquer sur la case de l'échiquier où vous souhaitez la déposer</p>";
 	for (var c in couleur) {
 		for (var p in piece) {
 			var nom = piece[p] + c;
-			d += '<div id="' + nom + '" onclick=f_click_add("' + nom + '") class="case add ' + couleur[c] + '"><img class="pieces" src="./pieces/' + nom + '.png"</></div>';
+			d += '<div style="background:' + couleur[c] + ';" id="' + nom + '" onclick=f_click_add("' + nom + '") class="case add ' + couleur[c] + '"><img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + nom + '.png"</></div>';
 		}
 		d += '<br/>';
 	}
