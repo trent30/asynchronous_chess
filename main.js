@@ -6,13 +6,7 @@ prefs = ['ccn', 'ccb', 'pieces', 'size'];
 actual_position = [];	//~ historique jusqu'au dernier coup "enregistré"
 historique = [];		//~ actual_position + bac à sable 
 next = [];
-log = "";
-selection = {
-	coord : '',
-	color : '',
-	html : '',
-	piece : ''
-	};
+deselect();
 selectColor = "#FF0000";
 try_get_local_login();
 game_ID = try_get_session('gid');
@@ -75,18 +69,18 @@ function nextligne(l, inverse) {
 
 function draw_board() {
 	resize();
-	e = document.getElementById('board');
-	t = '';
-	cases_lettres = [];
-	cases_chiffres = [];
+	var e = document.getElementById('board');
+	var t = '';
+	var cases_lettres = [];
+	var cases_chiffres = [];
 	if (player_color == 'white') {
-		colonne = 1;
-		ligne = 8;
+		var colonne = 1;
+		var ligne = 8;
 	} else {
-		colonne = 8;
-		ligne = 1;
+		var colonne = 8;
+		var ligne = 1;
 	}
-	color = 'white';
+	var color = 'white';
 	for (var i = 1; i < 9; i++) {
 		cases_lettres.push(i);
 		cases_lettres.push(i + 90);
@@ -95,16 +89,16 @@ function draw_board() {
 		cases_chiffres.push(i * 10);
 		cases_chiffres.push(i * 10 + 9);
 	}
-	for(i = 0; i < 100 ; i++ ) {
+	for(i = 0; i < 100 ; i++) {
 		var classe='case';
-		valeur = '';
-		id = 'case_' + i;
+		var valeur = '';
+		var id = 'case_' + i;
 		if ([0, 9, 90, 99].indexOf(i) > -1) {
 			classe += ' rien';
 		}
 		if (cases_lettres.indexOf(i) > -1) {
 			classe += ' coord';
-			c = i;
+			var c = i;
 			if (c > 10) c -= 90;
 			if (player_color == 'white') {
 				valeur = String.fromCharCode(c + 96);
@@ -115,7 +109,7 @@ function draw_board() {
 		}
 		if (cases_chiffres.indexOf(i) > -1) {
 			classe += ' coord';
-			l = i;
+			var l = i;
 			if (l % 2 !== 0) l -= 9;
 			if (player_color == 'black') {
 				valeur = l / 10;
@@ -125,8 +119,8 @@ function draw_board() {
 			valeur = '<p>' + valeur + '</p>';
 		}
 		if ( (i > 10) && (i < 89) && (i % 10 !== 0) && ((i + 1) % 10 !== 0)) {
-			id = String.fromCharCode(colonne + 96) + ligne;
-			sens = true;
+			var id = String.fromCharCode(colonne + 96) + ligne;
+			var sens = true;
 			if (player_color == 'black') { 
 				sens = !sens;
 			}
@@ -158,7 +152,7 @@ function draw_color_case() {
 	for (var j = 0; j < 2; j++ ) {
 		var case_color = try_get_local(cc[j]);
 		if (case_color != '' ||case_color != null) {
-			e = document.getElementsByClassName(ec[j]);
+			var e = document.getElementsByClassName(ec[j]);
 			for ( i = 0; i < e.length ; i++) { 
 				e[i].style.backgroundColor = case_color;
 			}
@@ -176,7 +170,7 @@ function draw_pieces(p) {
 		cdn = '';
 	}
 	for(var i in p) {
-		id = i + '';
+		var id = i + '';
 		var e = document.getElementById(id);
 		if (e != null) {
 			if (p[id] == '') {
@@ -190,9 +184,10 @@ function draw_pieces(p) {
 
 function pieceToText(t) {
 	if (t == '') return '';
-	piece = t[0];
-	couleur = t[1];
-	p = '';
+	var piece = t[0];
+	var couleur = t[1];
+	var p = '';
+	var c = '';
 	switch(piece) {
 		case 'T' : p = 'Tour';
 		break;
@@ -224,7 +219,7 @@ function pieceToText(t) {
 function clear_position() {
 	for(var i = 0; i < 8; i++) {
 		for(var j = 1; j < 9; j++) {
-			p =  String.fromCharCode(i + 97) + j;
+			var p =  String.fromCharCode(i + 97) + j;
 			position[p] = '';
 		}
 	}
@@ -233,7 +228,7 @@ function clear_position() {
 function init_position() {
 	clear_position();
 	for(var i = 0; i < 8; i++) { /* pions */
-		p =  String.fromCharCode(i + 97);
+		var p =  String.fromCharCode(i + 97);
 		position[p + '2'] = 'pb';
 		position[p + '7'] = 'pn';
 	}
@@ -311,9 +306,9 @@ function min_size() {
 }
 
 function resize() {
-	min = min_size();
-	e = document.getElementById('board');
-	marge = try_get_local('size');
+	var min = min_size();
+	var e = document.getElementById('board');
+	var marge = try_get_local('size');
 	if (marge == null || marge == 'null') {
 		marge = 0;
 	}
@@ -321,8 +316,7 @@ function resize() {
 	e.style.width = min;
 	e.style.height = min;
 	e = document.getElementById('gui');
-	var w = window.innerWidth - 35;
-	e.style.width = w - min - 10;
+	e.style.width = window.innerWidth - min - 45;
 }
 
 function getPieceFromHtml(t) {
@@ -458,8 +452,8 @@ function deselect() {
 
 function f_click(c) {
 	var coup = {};
-	e = document.getElementById(c);
-	e2 = document.getElementById(selection.coord);
+	var e = document.getElementById(c);
+	var e2 = document.getElementById(selection.coord);
 	if (!("case black" == e.className || "case white" == e.className)) {
 		console.log('sélection hors du plateau');
 		return 1;
@@ -486,7 +480,7 @@ function f_click(c) {
 		coup.p1 = selection.piece;
 		coup.c1 = selection.coord;
 		coup.p2 = '';
-		arrive = getPieceFromHtml(e.innerHTML);
+		var arrive = getPieceFromHtml(e.innerHTML);
 		if (arrive !== '') {
 			coup.p2 = arrive;
 		}
@@ -547,8 +541,8 @@ function f_next() {
 		console.log('rien à restaurer');
 		return 1;
 	}
-	clean_log(log);
 	coup = next.pop();
+	clean_log(log);
 	historique.push(coup);
 	if (coup.c1 != null) {
 		if (coup.c1 !== '') {
@@ -562,22 +556,21 @@ function f_next() {
 }
 
 function f_add() {
-	clean_log(log);
 	var e = document.getElementById('log');
 	e.style.textAlign = "left";
-	piece = ['T', 'C', 'F', 'D', 'R', 'p'];
-	couleur = { 'n' : 'white', 'b' : 'black' };
-	d = "<p>Sélectionner la pièce de votre choix puis cliquer sur la case de l'échiquier où vous souhaitez la déposer</p>";
+	var piece = ['T', 'C', 'F', 'D', 'R', 'p'];
+	var couleur = { 'n' : 'white', 'b' : 'black' };
+	var d = "<p>Sélectionner la pièce de votre choix puis cliquer sur la case de l'échiquier où vous souhaitez la déposer</p>";
 	for (var c in couleur) {
 		for (var p in piece) {
-			nom = piece[p] + c;
+			var nom = piece[p] + c;
 			d += '<div id="' + nom + '" onclick=f_click_add("' + nom + '") class="case add ' + couleur[c] + '"><img class="pieces" src="./pieces/' + nom + '.png"</></div>';
 		}
 		d += '<br/>';
 	}
 	e.innerHTML = d; 
 	e = document.getElementsByClassName('add');
-	w = e[0].offsetWidth;
+	var w = e[0].offsetWidth;
 	for (var i =0; i < e.length; i++) {
 		e[i].style.height = w;
 	}
@@ -604,8 +597,8 @@ function try_get_local_login() {
 
 function f_option() {
 	var e = document.getElementById("log");
-	t ='';
-	m = {};
+	var t ='';
+	var m = {};
 	e.style.textAlign = "center";
 	try_get_local_login();
 	if (user_ID == null) {
@@ -646,12 +639,12 @@ function f_init() {
 	set_position(actual_position);
 }
 
-function nothing(x) {
+function nothing_return(x) {
 	return;
 }
 
 function bug_report(gid) {
-	get_page('/bug.py?g=' + gid, 'nothing');
+	get_page('/bug.py?g=' + gid, 'nothing_return');
 }
 
 function f_reload_return(j) {
@@ -663,7 +656,7 @@ function f_reload_return(j) {
 		j = {};
 	}
 	try {
-		r = JSON.parse(j);
+		var r = JSON.parse(j);
 	} catch (err) {
 		bug_report(game_ID);
 		alert('La récupération de la liste des coups a échoué');
@@ -704,7 +697,7 @@ function f_del() {
 }
 
 function f_rotate() {
-	pc = player_color;
+	var pc = player_color;
 	var e = document.getElementById('case_10');
 	if (e.innerHTML == '<p>8</p>') {
 		player_color = 'black';
@@ -718,10 +711,10 @@ function f_rotate() {
 
 function f_send() {
 	var e = document.getElementById('send_form_origin');
-	l = document.getElementById('log');
-	r = diff_historique();
-	len = r.length;
-	txt = '<div id="send_form">';
+	var l = document.getElementById('log');
+	var r = diff_historique();
+	var len = r.length;
+	var txt = '<div id="send_form">';
 	clean_log('');
 	if (len == 0) {
 		txt += "Aucun coup n'a été joué";
@@ -765,7 +758,6 @@ function set_position(historique) {
 	if (n < 2) {
 		if (historique[0].p1 == null) {
 			console.log("L'historique est vide");
-			log = '';
 			return 1;
 		}
 	}
@@ -776,8 +768,8 @@ function set_position(historique) {
 function get_page(name, fonction, add) {
 	clean_log('En attente de la réponse...');
 	var xhr = new XMLHttpRequest();
-	url = name.split('?')[0];
-	params = name.split('?')[1];
+	var url = name.split('?')[0];
+	var params = name.split('?')[1];
 	try {
 		xhr.open('POST', url, true); // true = asynchrone
 	}
@@ -805,9 +797,9 @@ function get_login() {
 	get_page('/mylogin.py', 'get_login_return');
 }
 
-function login_return(r) {
+function login_return(r, l) {
 	if (r == 'Bonjour') {
-		user_ID = vlogin;
+		user_ID = l;
 		try_set_local("login", user_ID);
 		f_option();
 	} else {
@@ -816,9 +808,9 @@ function login_return(r) {
 }
 
 function login() {
-	vlogin = document.getElementById("l_l").value;
-	vpass = document.getElementById("l_p").value;
-	get_page('./login.py?l=' + vlogin + '&p=' + vpass, 'login_return');
+	var vlogin = document.getElementById("l_l").value;
+	var vpass = document.getElementById("l_p").value;
+	get_page('./login.py?l=' + vlogin + '&p=' + vpass, 'login_return', vlogin);
 }
 
 function aff_return(r) {
@@ -877,7 +869,7 @@ function menu_login() {
 	return 0;
 }
 
-function list_games(detail, title) {
+function list_games(detail) {
 	get_page('stats.py?p=' + detail, 'games_return', tr[detail]);
 }
 
@@ -893,7 +885,7 @@ function get_stats_return(r) {
 		return 2;
 	}
 	clean_log('');
-	stats = "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p><hr/>";
+	var stats = "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p><hr/>";
 	for (var i in tr) {
 		if (i == 'total') {
 			stats += '<hr/>';
@@ -1038,7 +1030,7 @@ function aff_prefs() {
 	range.min = min_size() * -1;
 	var order = try_get_local('order');
 	if (order != null) {
-		tr = {'com' : 'commentaire',
+		var tr2 = {'com' : 'commentaire',
 			'coup' : 'coup',
 			'num' : 'numéro',
 			'player' : 'joueur' };
@@ -1053,7 +1045,7 @@ function aff_prefs() {
 			} else {
 				input.checked = true;
 			}
-			e.innerHTML = tr[v];
+			e.innerHTML = tr2[v];
 		}
 	} else {
 		order = ['com', 'coup', 'num', 'player'];
@@ -1128,7 +1120,7 @@ function f_order_click(e) {
 }
 
 function invite_return(r) {
-	m = r.split('-')[0];
+	var m = r.split('-')[0];
 	if (m == 'ok') {
 		alert("La partie est créée, un mail a été envoyé à votre adversaire. C'est à vous de commencer !");
 		game_ID = r.split('-')[1];
@@ -1149,13 +1141,14 @@ function select_game(id) {
 	try_set_session("gid", id);
 	clean_log('');
 	init();
+	var l = document.getElementById('log');
 	l.scrollTop = l.scrollHeight;
 }
 
 function send_return(r) {
 	if (r == 'ok') {
 		var diff = diff_historique();
-		flag_tr = {'A' : "Vous avez abandoné",
+		var flag_tr = {'A' : "Vous avez abandoné",
 					'M' : "échec et mat",
 					'E' : "échec",
 					'P' : "pat"};
@@ -1192,10 +1185,10 @@ function send() {
 	com = com.replace(/&/g, "eperluetteamp");
 	com = com.replace(/\+/g, "#43plus#43");
 	form = document.getElementById('send_form');
-	flag = form.getElementsByClassName('flag');
+	var flag = form.getElementsByClassName('flag');
 	flag_value = '';
-	r = JSON.stringify(diff_historique());
-	url = '/move.py?c=' + r + '&gid=' + game_ID;
+	var r = JSON.stringify(diff_historique());
+	var url = '/move.py?c=' + r + '&gid=' + game_ID;
 	for (var i = 0; i < flag.length ; i++) {
 		if (flag[i].checked) {
 			flag_value += flag[i].value;
@@ -1233,7 +1226,7 @@ function info(t) {
 function on_load() {
 	var cdn = try_get_local('cdn');
 	if (cdn != null) {
-		e = document.getElementById('gui').getElementsByTagName('img');
+		var e = document.getElementById('gui').getElementsByTagName('img');
 		for (var i = 0; i < e.length; i++) {
 			e[i].src = cdn + 'img/' + e[i].src.split('img/')[1];
 		}
@@ -1242,7 +1235,7 @@ function on_load() {
 }
 
 function UpdateSizeBoardValue(s) {
-	t = document.getElementById('prefs_size');
+	var t = document.getElementById('prefs_size');
 	t.value = s;
 }
 
