@@ -630,8 +630,8 @@ function f_option() {
 
 function check_rotate() {
 	var e = document.getElementById('case_10');
-	if ((e.innerHTML == '8' && player_color == 'black')||
-		(e.innerHTML == '1' && player_color == 'white')) {
+	if ((e.innerHTML == '<p>8</p>' && player_color == 'black')||
+		(e.innerHTML == '<p>1</p>' && player_color == 'white')) {
 		f_rotate();
 	}
 }
@@ -702,7 +702,7 @@ function f_del() {
 function f_rotate() {
 	pc = player_color;
 	var e = document.getElementById('case_10');
-	if (e.innerHTML == '8') {
+	if (e.innerHTML == '<p>8</p>') {
 		player_color = 'black';
 	} else {
 		player_color = 'white';
