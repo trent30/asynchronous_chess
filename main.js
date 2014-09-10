@@ -429,7 +429,9 @@ function historique2log(h) {
 		if (msg.substr(msg.length - 3, msg.length) == ' - ') {
 			msg = msg.substr(0, msg.length - 3);
 		}
-		add_log(msg);
+		if (msg != num) {
+			add_log(msg);
+		}
 		if (h[i].flag != null) {
 			add_log( '<div class="msg"><img src="img/info.png"> ' + h[i].flag + '</div>');
 		}
@@ -769,7 +771,7 @@ function set_position(historique) {
 	draw_pieces(position);
 	next = [];
 	if (n < 2) {
-		if (historique[0].p1 == null) {
+		if (historique[0].p1 == null && historique[0].com == null) {
 			console.log("L'historique est vide");
 			return 1;
 		}
