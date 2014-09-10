@@ -1166,6 +1166,7 @@ function invite_return(r) {
 		alert("La partie est créée, un mail a été envoyé à votre adversaire. C'est à vous de commencer !");
 		game_ID = r.split('-')[1];
 		player_color = 'white';
+		log = '';
 		f_reload();
 	} else {
 		clean_log(r);
