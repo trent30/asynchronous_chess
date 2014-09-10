@@ -645,6 +645,7 @@ function f_init() {
 	check_rotate();
 	historique = [];
 	next = [];
+	log = '';
 	for (var i = 0; i < actual_position.length; i++) {
 		historique.push(actual_position[i]);
 	}
