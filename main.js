@@ -973,8 +973,10 @@ function games_return(r, title) {
 		e = '<h3>' + title + '</h3>';
 		for (var i in j) {
 			var trait = '';
-			if (j[i].trait != null && j[i].trait != user_ID) {
-				trait = ' (*)';
+			if (j[i].trait != null && 
+				j[i].trait != user_ID && 
+				/\)/.test(title) == false) {
+					trait = ' (*)';
 			}
 			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].joueurs + trait + "<div class='info'>Commencée le " + j[i].date + "</div></div>";
 		}
