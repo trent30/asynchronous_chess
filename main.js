@@ -924,6 +924,7 @@ function get_stats_return(r, id) {
 	}
 	var l = document.getElementById('log');
 	l.innerHTML = stats;
+	L_stats = stats;
 }
 
 function get_stats(id) {
@@ -981,8 +982,14 @@ function games_return(r, title) {
 	if (title == 'parties en cours') {
 		e += "<div style='font-size: smaller;'><br/><br/>(*) : cette marque indique que c'est à vous de jouer.</div>";
 	}
+	e += "<div class='stats' onclick='back_stats()'><p>← Retour</p></div>";
 	l.innerHTML = e;
 	l.style.textAlign = 'left';
+}
+
+function back_stats() {
+	var l = document.getElementById('log');
+	l.innerHTML = L_stats;
 }
 
 function players_return(r) {
