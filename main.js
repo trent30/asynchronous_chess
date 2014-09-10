@@ -503,8 +503,7 @@ function f_click(c) {
 		try {
 			e2.style.background = selection.color;
 			e2.innerHTML = '';
-		} catch (error) { /* cas où on ajoute une pièce */
-			e.style.background = selection.color;
+		} catch (error) {
 		}
 		e.innerHTML = selection.html;
 		deselect();
