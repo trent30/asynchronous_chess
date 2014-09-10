@@ -696,6 +696,8 @@ function f_home() {
 }
 
 function f_del() {
+	try_set_session('gid', '');
+	game_ID = '';
 	init();
 	clear_position();
 	draw_pieces(position);
