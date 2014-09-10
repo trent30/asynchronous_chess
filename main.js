@@ -689,6 +689,8 @@ function f_reload() {
 }
 
 function f_home() {
+	try_set_session('gid', '');
+	game_ID = '';
 	init();
 	clean_log('');
 }
