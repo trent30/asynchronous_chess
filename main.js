@@ -981,10 +981,12 @@ function games_return(r, title) {
 			e += "<div class='player' onclick='select_game(" + j[i].id + ")' id=" + j[i].id + ">" + j[i].joueurs + trait + "<div class='info'>Commencée le " + j[i].date + "</div></div>";
 		}
 	}
-	if (title == 'parties en cours') {
+	if (/parties en cours/.test(title) == true || title == 'total') {
 		e += "<div style='font-size: smaller;'><br/><br/>(*) : cette marque indique que c'est à vous de jouer.</div>";
 	}
-	e += "<div class='stats' onclick='back_stats()'><p>← Retour</p></div>";
+	if (title != 'parties en cours ') {
+		e += "<div class='stats' onclick='back_stats()'><p>← Retour</p></div>";
+	}
 	l.innerHTML = e;
 	l.style.textAlign = 'left';
 }
@@ -1029,7 +1031,7 @@ function f_menu(m) {
 		return;
 	}
 	if (m == 'games') {
-		get_page(m + '.py', 'games_return', 'parties en cours');
+		get_page(m + '.py', 'games_return', 'parties en cours ');
 		return;
 	}
 	if (m == 'players') {
