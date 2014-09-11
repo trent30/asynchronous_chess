@@ -29,7 +29,7 @@ if __name__ == "__main__":
 		print "disconnected"
 		exit(0)
 	
-	liste_games = b.list_games(s)
+	liste_games = b.list_games(b.session_to_user_id(s))
 	r = []
 	for i in liste_games:
 		l = b.get_players(i[0])

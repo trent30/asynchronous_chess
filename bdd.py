@@ -197,8 +197,7 @@ class bdd():
 		return self.requete_0("select max(id) from games where \
 		white='%s' and black='%s'" % (white, black))
 	
-	def list_games(self, s):
-		id = self.session_to_user_id(s)
+	def list_games(self, id):
 		if id == None:
 			return id
 		return self.con.query("""select t.id, t.date from (

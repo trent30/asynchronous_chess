@@ -76,7 +76,7 @@ if __name__ == "__main__":
 		r['win'] = int(b.stats(player_id, player_id))
 		r['nul'] = int(b.stats(0,  player_id))
 		r['total'] = int(b.count_games(player_id))
-		r['not_finish'] = len(b.list_games(s))
+		r['not_finish'] = len(b.list_games(player_id))
 		r['lose'] = r['total'] - r['win'] - r['nul'] - r['not_finish']
 		r['login'] = login
 	
