@@ -1023,7 +1023,9 @@ function f_menu(m) {
 	var l = document.getElementById('log');
 	if (m == 'logout' || m == 'delete_account') {
 		user_ID = '';
+		game_ID = '';
 		try_set_local("login", '');
+		try_set_session("gid", '');
 	}
 	if (m == 'stats') {
 		get_stats('');
