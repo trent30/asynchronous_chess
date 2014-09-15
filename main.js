@@ -734,6 +734,9 @@ function f_send() {
 	var r = diff_historique();
 	var len = r.length;
 	var txt = '<div id="send_form">';
+	if (check_player_in_game() == false) {
+		txt += "<p>Attention ! Vous n'êtes pas autorisé à jouer dans cette partie !</p>";
+	}
 	clean_log('');
 	if (len == 0) {
 		txt += "Aucun coup n'a été joué";
@@ -1227,6 +1230,13 @@ function send_return(r) {
 		return 0;
 	}
 	clean_log(r);
+}
+
+function check_player_in_game() {
+	var p = players.split(' vs ');
+	if (user_ID == p[0] || user_ID == p[1]) {
+		return true;
+	} return false;
 }
 
 function send() {
