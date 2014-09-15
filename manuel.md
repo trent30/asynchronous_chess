@@ -26,9 +26,7 @@ Un récapitulatif des coups qui seront envoyés est indiqué, si vous constatez 
 
 ## Naviguer dans l'historique
 
-![annuler](./img/undo.png 'annuler') Revenir au coup précédent.
-
-![avancer](./img/next.png 'avancer') Avancer au coup suivant.
+Vous pouvez naviguer dans l'historique en cliquant directement sur le coup.
 
 ![revenir à la position initiale](./img/init.png 'revenir à la position initiale') Revenir à la position initiale (permet d'annuler tous les coups que vous avez fait depuis le dernier chargement et qui ne sont pas encore envoyés).
 

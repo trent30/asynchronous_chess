@@ -379,6 +379,28 @@ function coup2log(c) {
 	return log;
 }
 
+function select_one_move(n) {
+	f_init();
+	var e = $(n.id);
+	e.style.background = '#828282';
+	init_position();
+	var num = parseInt(n.id.split('_')[1]);
+	var h = historique;
+	for (var i = 0; i < h.length; i++) {
+		if (i > num && i != h.length) {
+			draw_pieces(position);
+			return;
+		}
+		if (h[i].p1 != null) {
+			if (h[i].c1 != null) {
+				position[h[i].c1] = '';
+			}
+			position[h[i].c2] = h[i].p1;
+		}
+	}
+	draw_pieces(position);
+}
+
 function historique2log(h) {
 	var finish = '';
 	var numero = 0;
@@ -407,8 +429,9 @@ function historique2log(h) {
 			com = '<div onclick="info(this)" class="msg" title="' + h[i].com + '"><img src="img/msg.png"></div>';
 		}
 		if (finish != 'terminée.') {
-			coup = coup2log(h[i]);
 			if (h[i].c1 != null) {
+				var n = 'coup_' + i;
+				coup = "<div class='order' onclick=select_one_move(this) id=" + n + ">" + coup2log(h[i]) + "</div>";
 				num = '<div class="num" title="coup joué par ' + joueur + '">' + numero + '</div>';
 				player = '<div class="msg">coup joué par ' + joueur + '</div>';
 			}
@@ -527,45 +550,6 @@ function f_click_add(p) {
 	selection.html = e.innerHTML;
 	selection.piece = p;
 	e.style.background = selectColor;
-}
-		
-function f_undo() {
-	var n = historique.length - 1;
-	if (n < 0) {
-		console.log('rien à annuler');
-		return 1;
-	}
-	while (historique[n].p1 == null) {
-		next.push(historique.pop());
-		n -= 1;
-	}
-	position[historique[n].c2] = historique[n].p2;
-	if (historique[n].c1 !== '') {
-		position[historique[n].c1] = historique[n].p1;
-	}
-	draw_pieces(position);
-	next.push(historique.pop());
-	clean_log('');
-	historique2log(historique);
-}
-
-function f_next() {
-	if (next.length == 0) {
-		console.log('rien à restaurer');
-		return 1;
-	}
-	coup = next.pop();
-	clean_log(log);
-	historique.push(coup);
-	if (coup.c1 != null) {
-		if (coup.c1 !== '') {
-			position[coup.c1] = '';
-		}
-		position[coup.c2] = coup.p1;
-	}
-	draw_pieces(position);
-	clean_log('');
-	historique2log(historique);
 }
 
 function f_add() {
