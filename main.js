@@ -16,6 +16,10 @@ tr = {'win' : 'parties gagnées',
 	'not_finish' : 'parties en cours',
 	'total' : 'Total'};
 
+function $(x) {
+	return document.getElementById(x);
+}
+
 function try_get_local(v) {
 	try {
 		return localStorage.getItem(v);
@@ -69,7 +73,7 @@ function nextligne(l, inverse) {
 
 function draw_board() {
 	resize();
-	var e = document.getElementById('board');
+	var e = $('board');
 	var t = '';
 	var cases_lettres = [];
 	var cases_chiffres = [];
@@ -179,7 +183,7 @@ function get_cdn() {
 function draw_pieces(p) {
 	for(var i in p) {
 		var id = i + '';
-		var e = document.getElementById(id);
+		var e = $(id);
 		if (e != null) {
 			if (p[id] == '') {
 				e.innerHTML = '';
@@ -274,7 +278,7 @@ function init_return(v) {
 }
 
 function init() {
-	var e = document.getElementById('load');
+	var e = $('load');
 	if (e != null) {
 		e.parentNode.removeChild(e);
 	}
@@ -315,7 +319,7 @@ function min_size() {
 
 function resize() {
 	var min = min_size();
-	var e = document.getElementById('board');
+	var e = $('board');
 	var marge = try_get_local('size');
 	if (marge == null || marge == 'null') {
 		marge = 0;
@@ -323,7 +327,7 @@ function resize() {
 	min = min + parseInt(marge);
 	e.style.width = min;
 	e.style.height = min;
-	e = document.getElementById('gui');
+	e = $('gui');
 	e.style.width = window.innerWidth - min - 45;
 }
 
@@ -336,7 +340,7 @@ function getPieceFromHtml(t) {
 }
 
 function add_log(text) {
-	var l = document.getElementById('log');
+	var l = $('log');
 	l.style.textAlign = "right";
 	l.innerHTML += '<div class="llog">' + text + '</div>';
 	log = l.innerHTML;
@@ -344,7 +348,7 @@ function add_log(text) {
 }
 
 function clean_log(t) {
-	var l = document.getElementById('log');
+	var l = $('log');
 	l.innerHTML = t;
 	l.scrollTop = l.scrollHeight;
 }
@@ -462,8 +466,8 @@ function deselect() {
 
 function f_click(c) {
 	var coup = {};
-	var e = document.getElementById(c);
-	var e2 = document.getElementById(selection.coord);
+	var e = $(c);
+	var e2 = $(selection.coord);
 	if (!("case black" == e.className || "case white" == e.className)) {
 		console.log('sélection hors du plateau');
 		return 1;
@@ -513,9 +517,9 @@ function f_click(c) {
 }
 
 function f_click_add(p) {
-	var e = document.getElementById(p);
+	var e = $(p);
 	if (selection.piece !== '') {
-		var e2 = document.getElementById(selection.piece);
+		var e2 = $(selection.piece);
 		e2.style.background = selection.color;
 	}
 	selection.coord = '';
@@ -565,7 +569,7 @@ function f_next() {
 }
 
 function f_add() {
-	var e = document.getElementById('log');
+	var e = $('log');
 	e.style.textAlign = "left";
 	var piece = ['T', 'C', 'F', 'D', 'R', 'p'];
 	var couleur = { 'n' : 'white', 'b' : 'black' };
@@ -610,7 +614,7 @@ function try_get_local_login() {
 }
 
 function f_option() {
-	var e = document.getElementById("log");
+	var e = $("log");
 	var t ='';
 	var m = {};
 	e.style.textAlign = "center";
@@ -636,7 +640,7 @@ function f_option() {
 }
 
 function check_rotate() {
-	var e = document.getElementById('case_10');
+	var e = $('case_10');
 	if ((e.innerHTML == '<p>8</p>' && player_color == 'black')||
 		(e.innerHTML == '<p>1</p>' && player_color == 'white')) {
 		f_rotate();
@@ -713,7 +717,7 @@ function f_del() {
 
 function f_rotate() {
 	var pc = player_color;
-	var e = document.getElementById('case_10');
+	var e = $('case_10');
 	if (e.innerHTML == '<p>8</p>') {
 		player_color = 'black';
 	} else {
@@ -725,8 +729,8 @@ function f_rotate() {
 }
 
 function f_send() {
-	var e = document.getElementById('send_form_origin');
-	var l = document.getElementById('log');
+	var e = $('send_form_origin');
+	var l = $('log');
 	var r = diff_historique();
 	var len = r.length;
 	var txt = '<div id="send_form">';
@@ -823,8 +827,8 @@ function login_return(r, l) {
 }
 
 function login() {
-	var vlogin = document.getElementById("l_l").value;
-	var vpass = document.getElementById("l_p").value;
+	var vlogin = $("l_l").value;
+	var vpass = $("l_p").value;
 	get_page('./login.py?l=' + vlogin + '&p=' + vpass, 'login_return', vlogin);
 }
 
@@ -833,12 +837,12 @@ function aff_return(r) {
 }
 
 function forget() {
-	var mail = document.getElementById("mail_forget");
+	var mail = $("mail_forget");
 	get_page('./forget.py?mail=' + mail.value, 'aff_return');
 }
 
 function change_password() {
-	var passwd = document.getElementById("change_passwd");
+	var passwd = $("change_passwd");
 	get_page('./change_passwd.py?p=' + passwd.value, 'aff_return');
 }
 
@@ -851,9 +855,9 @@ function create_account_return(r) {
 }
 
 function create_account(){
-	var vlogin = document.getElementById("ca_l");
-	var vpass = document.getElementById("ca_p");
-	var vmail = document.getElementById("ca_mail");
+	var vlogin = $("ca_l");
+	var vpass = $("ca_p");
+	var vmail = $("ca_mail");
 	error = false;
 	if (vmail.value.split('@').length != 2) {
 		error = 'adresse mail non valide';
@@ -879,7 +883,7 @@ function delete_account() {
 
 function menu_login() {
 	f_menu('menu_login');
-	var e = document.getElementById("log");
+	var e = $("log");
 	e.style.textAlign = "center";
 	return 0;
 }
@@ -925,7 +929,7 @@ function get_stats_return(r, id) {
 		var params = i + ',' + id + ',' + j.login;
 		stats += '<p class="stats" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</p>';
 	}
-	var l = document.getElementById('log');
+	var l = $('log');
 	l.innerHTML = stats;
 	L_stats = stats;
 }
@@ -947,8 +951,8 @@ function f_menu_return(r) {
 }
 
 function account_return(r) {
-	var e = document.getElementById('account').innerHTML;
-	var l = document.getElementById('log');
+	var e = $('account').innerHTML;
+	var l = $('log');
 	try {
 		var j = JSON.parse(r);
 		e = 'Bonjour ' + j.login + '<br/><br/>Votre adresse mail est ' + j.mail + e;
@@ -966,7 +970,7 @@ function games_return(r, title) {
 		menu_login();
 		return;
 	}
-	var l = document.getElementById('log');
+	var l = $('log');
 	var j = JSON.parse(r);
 	var e = '';
 	if (j.length == 0) {
@@ -995,12 +999,12 @@ function games_return(r, title) {
 }
 
 function back_stats() {
-	var l = document.getElementById('log');
+	var l = $('log');
 	l.innerHTML = L_stats;
 }
 
 function players_return(r) {
-	var l = document.getElementById('log');
+	var l = $('log');
 	var j = JSON.parse(r);
 	var e = '<p>Cliquez sur le nom du joueur pour lui proposer une partie (cliquez sur le graphique pour voir ses statistiques)</p>';
 	if (j.length == 0) {
@@ -1019,8 +1023,8 @@ function f_menu(m) {
 	Si le menu est dans la page HTML on l'affiche,
 	Sinon on affiche la réponse du serveur
 	 */
-	var e = document.getElementById(m);
-	var l = document.getElementById('log');
+	var e = $(m);
+	var l = $('log');
 	if (m == 'logout' || m == 'delete_account') {
 		user_ID = '';
 		game_ID = '';
@@ -1061,7 +1065,7 @@ function aff_prefs_color_case(variable, defaut, element) {
 	} else {
 		color = ccb;
 	}
-	document.getElementById(element).value = color;
+	$(element).value = color;
 }
 
 function aff_prefs() {
@@ -1070,9 +1074,9 @@ function aff_prefs() {
 	aff_prefs_color_case("size", "0", 'prefs_size');
 	var tp = try_get_local("pieces");
 	if (tp != '' && tp != null && tp != 'null') {
-		document.getElementById("prefs_pieces").value = tp;	
+		$("prefs_pieces").value = tp;	
 	}
-	var range = document.getElementById('range');
+	var range = $('range');
 	range.min = min_size() * -1;
 	var order = try_get_local('order');
 	if (order != null) {
@@ -1081,8 +1085,8 @@ function aff_prefs() {
 			'num' : 'numéro',
 			'player' : 'joueur' };
 		for (var i = 1; i < 5; i++) {
-			var input = document.getElementById('order_cb_' + i);
-			var e = document.getElementById('order_' + i);
+			var input = $('order_cb_' + i);
+			var e = $('order_' + i);
 			var v = order.split(',')[i-1];
 			input.value = v;
 			var ic = try_get_local('order_aff_' + v);
@@ -1096,7 +1100,7 @@ function aff_prefs() {
 	} else {
 		order = ['com', 'coup', 'num', 'player'];
 		for (var i = 1; i < 5; i++) {
-			var input = document.getElementById('order_cb_' + i);
+			var input = $('order_cb_' + i);
 			var v = order[i-1];
 			if (v != 'player') {
 				input.checked = true;
@@ -1111,7 +1115,7 @@ function test_prefs() {
 	var old = {};
 	for (var i in prefs) { // on sauvegarde les valeurs actuelles
 		old[prefs[i]] = try_get_local(prefs[i]);
-		try_set_local(prefs[i] , document.getElementById("prefs_" + prefs[i]).value);
+		try_set_local(prefs[i] , $("prefs_" + prefs[i]).value);
 	}
 	// on applique les valeurs de test
 	draw_pieces(position);
@@ -1126,11 +1130,11 @@ function test_prefs() {
 
 function save_prefs() {
 	for (var i in prefs) {
-		try_set_local(prefs[i] , document.getElementById("prefs_" + prefs[i]).value);
+		try_set_local(prefs[i] , $("prefs_" + prefs[i]).value);
 	}
 	var order = '';
 	for (i = 1; i < 5; i++) {
-		var e = document.getElementById('order_cb_' + i);
+		var e = $('order_cb_' + i);
 		order += e.value + ',';
 		try_set_local('order_aff_' + e.value, e.checked);
 	}
@@ -1150,13 +1154,13 @@ function f_order_click(e) {
 		}
 		return;
 	}
-	var selection = document.getElementById('order_' + n);
-	var next = document.getElementById('order_' + n2);
+	var selection = $('order_' + n);
+	var next = $('order_' + n2);
 	var tmp = selection.innerHTML;
 	selection.innerHTML = next.innerHTML;
 	next.innerHTML = tmp;
-	var check = document.getElementById('order_cb_' + n);
-	var check2 = document.getElementById('order_cb_' + n2);
+	var check = $('order_cb_' + n);
+	var check2 = $('order_cb_' + n2);
 	var tmp_check = check.checked;
 	var tmp_value = check.value;
 	check.checked = check2.checked;
@@ -1188,7 +1192,7 @@ function select_game(id) {
 	try_set_session("gid", id);
 	clean_log('');
 	init();
-	var l = document.getElementById('log');
+	var l = $('log');
 	l.scrollTop = l.scrollHeight;
 }
 
@@ -1212,7 +1216,7 @@ function send_return(r) {
 		if (com != '') {
 			actual_position[ actual_position.length - 1 ].com = com;
 		}
-		var l = document.getElementById('log');
+		var l = $('log');
 		l.innerHTML = '';
 		historique2log(actual_position);
 		add_log('<hr/>');
@@ -1226,12 +1230,12 @@ function send_return(r) {
 }
 
 function send() {
-	com = document.getElementById('com').value;
+	com = $('com').value;
 	com = com.replace(/;/g, "#59semicolon#59");
 	com = com.replace(/\?/g, "¿");
 	com = com.replace(/&/g, "eperluetteamp");
 	com = com.replace(/\+/g, "#43plus#43");
-	form = document.getElementById('send_form');
+	form = $('send_form');
 	var flag = form.getElementsByClassName('flag');
 	flag_value = '';
 	var r = JSON.stringify(diff_historique());
@@ -1273,7 +1277,7 @@ function info(t) {
 function on_load() {
 	var cdn = try_get_local('cdn');
 	if (cdn != null) {
-		var e = document.getElementById('gui').getElementsByTagName('img');
+		var e = $('gui').getElementsByTagName('img');
 		for (var i = 0; i < e.length; i++) {
 			e[i].src = cdn + 'img/' + e[i].src.split('img/')[1];
 		}
@@ -1282,7 +1286,7 @@ function on_load() {
 }
 
 function UpdateSizeBoardValue(s) {
-	var t = document.getElementById('prefs_size');
+	var t = $('prefs_size');
 	t.value = s;
 }
 
