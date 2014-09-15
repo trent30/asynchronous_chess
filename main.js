@@ -1214,7 +1214,7 @@ function send_return(r) {
 			actual_position[ actual_position.length - 1 ].flag = flag_tr[flag_value];
 		}
 		if (com != '') {
-			actual_position[ actual_position.length - 1 ].com = com;
+			actual_position[ actual_position.length - 1 ].com = com1;
 		}
 		var l = $('log');
 		l.innerHTML = '';
@@ -1230,7 +1230,8 @@ function send_return(r) {
 }
 
 function send() {
-	com = $('com').value;
+	com1 = $('com').value;
+	com = com1;
 	com = com.replace(/;/g, "#59semicolon#59");
 	com = com.replace(/\?/g, "¿");
 	com = com.replace(/&/g, "eperluetteamp");
