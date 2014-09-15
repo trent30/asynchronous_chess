@@ -108,6 +108,11 @@ body {
 	font-size: small;
 }
 
+#game_info {
+	text-align: right;
+	font-size: small;
+}
+
 .field {
 	text-align: center;
 }

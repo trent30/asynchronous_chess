@@ -389,6 +389,7 @@ function select_one_move(n) {
 	for (var i = 0; i < h.length; i++) {
 		if (i > num && i != h.length) {
 			draw_pieces(position);
+			set_game_info(true);
 			return;
 		}
 		if (h[i].p1 != null) {
@@ -399,6 +400,7 @@ function select_one_move(n) {
 		}
 	}
 	draw_pieces(position);
+	set_game_info(true);
 }
 
 function historique2log(h) {
@@ -476,6 +478,7 @@ function historique2log(h) {
 			}
 		}
 	}
+	set_game_info(true);
 }
 
 function deselect() {
@@ -537,6 +540,7 @@ function f_click(c) {
 		e.innerHTML = selection.html;
 		deselect();
 	}
+	set_game_info(true);
 }
 
 function f_click_add(p) {
@@ -598,6 +602,7 @@ function try_get_local_login() {
 }
 
 function f_option() {
+	set_game_info(false);
 	var e = $("log");
 	var t ='';
 	var m = {};
@@ -650,6 +655,34 @@ function bug_report(gid) {
 	get_page('/bug.py?g=' + gid, 'nothing_return');
 }
 
+function scores() {
+	var valeur = { p : 1,
+		D : 10,
+		R : 0,
+		F : 3,
+		C : 3,
+		T : 5 };
+	var score = { n : 0, b : 0};
+	for (var i in position) {
+		var v = position[i];
+		if (v != '') {
+			score[v[1]] += valeur[v[0]];
+		}
+	}
+	return score;
+}
+
+function set_game_info(aff) {
+	var e=$('game_info');
+	if (aff == false) {
+		e.innerHTML = '';
+		return;
+	}
+	var p = players.split(' vs ');
+	var s = scores();
+	e.innerHTML = 'partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')' ;
+}
+
 function f_reload_return(j) {
 	if (j == 'no data') {
 		alert("Aucune donnée n'a pu être récupérée.");
@@ -673,6 +706,7 @@ function f_reload_return(j) {
 	window.document.title = 'chess #' + game_ID + ' ' + players;
 	set_position(r);
 	historique = r;
+	set_game_info(true);
 }
 
 function f_reload() {
