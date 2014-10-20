@@ -380,6 +380,8 @@ function coup2log(c) {
 }
 
 function select_one_move(n) {
+	var l = $('log');
+	var s = l.scrollTop;
 	f_init();
 	var e = $(n.id);
 	e.style.background = '#828282';
@@ -390,6 +392,7 @@ function select_one_move(n) {
 		if (i > num && i != h.length) {
 			draw_pieces(position);
 			set_game_info(true);
+			l.scrollTop = s;
 			return;
 		}
 		if (h[i].p1 != null) {
@@ -401,6 +404,7 @@ function select_one_move(n) {
 	}
 	draw_pieces(position);
 	set_game_info(true);
+	l.scrollTop = s;
 }
 
 function historique2log(h) {
