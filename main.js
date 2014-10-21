@@ -1208,6 +1208,7 @@ function invite_return(r) {
 }
 
 function invite(id) {
+	history.pushState(null, null, "/");
 	get_page('/invite.py?id=' + id, 'invite_return');
 }
 
