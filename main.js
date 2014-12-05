@@ -1265,6 +1265,7 @@ function send() {
 	com = com.replace(/\?/g, "¿");
 	com = com.replace(/&/g, "eperluetteamp");
 	com = com.replace(/\+/g, "#43plus#43");
+	com = com.replace(/\n/g, " ");
 	form = $('send_form');
 	var flag = form.getElementsByClassName('flag');
 	flag_value = '';
