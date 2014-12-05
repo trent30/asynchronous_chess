@@ -1327,5 +1327,26 @@ function checkEnter(e) {
 	}
 }
 
+function checkKey(e) {
+    e = e || window.event;
+	var num = parseInt(old_one_move.id.split('_')[1]);
+	var operation = 0;
+    if (e.keyCode == '38') { // up arrow 
+		operation = -1;
+    }
+    if (e.keyCode == '40') { // down arrow
+		operation = 1;
+    }
+	num = num + operation;
+    while ( $('coup_' + num) == null ) {
+		num = num + operation;
+		if (num < 0 || num > actual_position.length) {
+			break;
+		}
+	}
+	select_one_move($('coup_' + num));
+}
+
 window.onload = on_load ; 
 window.onresize = resize ;
+document.onkeydown = checkKey ;
