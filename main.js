@@ -10,6 +10,7 @@ deselect();
 selectColor = "#FF0000";
 try_get_local_login();
 game_ID = try_get_session('gid');
+old_one_move = '';
 tr = {'win' : 'parties gagnées',
 	'lose' : 'parties perdues',
 	'nul' : 'parties nulles',
@@ -379,12 +380,20 @@ function coup2log(c) {
 	return log;
 }
 
+function dselect_one_move(id) {
+	try {
+		id.style.background = '#FFFFFF';
+	}
+	catch (err) {
+		console.log('rien à déselectionner');
+	}
+}
+	
 function select_one_move(n) {
-	var l = $('log');
-	var s = l.scrollTop;
-	f_init();
+	dselect_one_move(old_one_move);
 	var e = $(n.id);
 	e.style.background = '#828282';
+	old_one_move = e;
 	init_position();
 	var num = parseInt(n.id.split('_')[1]);
 	var h = historique;
@@ -392,7 +401,6 @@ function select_one_move(n) {
 		if (i > num && i != h.length) {
 			draw_pieces(position);
 			set_game_info(true);
-			l.scrollTop = s;
 			return;
 		}
 		if (h[i].p1 != null) {
@@ -404,7 +412,6 @@ function select_one_move(n) {
 	}
 	draw_pieces(position);
 	set_game_info(true);
-	l.scrollTop = s;
 }
 
 function historique2log(h) {
@@ -638,17 +645,6 @@ function check_rotate() {
 		(e.innerHTML == '<p>1</p>' && player_color == 'white')) {
 		f_rotate();
 	}
-}
-
-function f_init() {
-	check_rotate();
-	historique = [];
-	next = [];
-	log = '';
-	for (var i = 0; i < actual_position.length; i++) {
-		historique.push(actual_position[i]);
-	}
-	set_position(actual_position);
 }
 
 function nothing_return(x) {
