@@ -1208,7 +1208,7 @@ function invite_return(r) {
 		game_ID = r.split('-')[1];
 		player_color = 'white';
 		log = '';
-		f_reload();
+		init();
 	} else {
 		clean_log(r);
 	}
