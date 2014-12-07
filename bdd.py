@@ -40,7 +40,7 @@ class bdd():
 			a = '{' + a
 		if a[ -1 : ] != '}':
 			a += '}'
-		return a
+		return a.replace('\n', ' ')
 	
 	def get_dernier_joueur(self, l):
 		joueur = -1
