@@ -34,7 +34,18 @@ class bdd():
 			return None
 		else:
 			return r[0][0]
-	
+		
+	def save_conf(self, s, data):
+		id = self.session_to_user_id(s)
+		if id == None:
+			return False
+		self.con.query("UPDATE users SET conf=%s WHERE id='%s'" % (data, id))
+		return True
+		
+	def restore_conf(self, s):
+		id = self.session_to_user_id(s)
+		return self.requete_0("select conf from users where id='%s'" % id)
+		
 	def encadre(self, a):
 		if a[0] != '{':
 			a = '{' + a

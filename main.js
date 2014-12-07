@@ -1358,6 +1358,39 @@ function checkKey(e) {
 	select_one_move($('coup_' + num));
 }
 
+function save_prefs_server_return(r) {
+	if (r == 'ok') {
+		clean_log('La configuration est sauvegardée.');
+	} else {
+		clean_log(r);
+	}
+}
+
+function save_prefs_server() {
+	var data = JSON.stringify(localStorage);
+	get_page('/save_conf.py?d=' + data, 'save_prefs_server_return');
+}
+
+function restore_prefs_server_return(r) {
+	if (r != 'error') {
+		data = JSON.parse(r);
+		for (i in data) {
+			try_set_local(i, data[i]);
+		}
+		clean_log('La configuration est restaurée.');
+		draw_pieces(position);
+		draw_color_case();
+		resize();
+		f_option();
+	} else {
+		clean_log("Une erreur s'est produite lors de la récupération de la configuration.");
+	}
+}
+
+function restore_prefs_server() {
+	get_page('/restore_conf.py', 'restore_prefs_server_return');
+}
+
 window.onload = on_load ; 
 window.onresize = resize ;
 document.onkeydown = checkKey ;
