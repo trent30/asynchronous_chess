@@ -1367,6 +1367,7 @@ function save_prefs_server_return(r) {
 }
 
 function save_prefs_server() {
+	save_prefs();
 	var data = JSON.stringify(localStorage);
 	get_page('/save_conf.py?d=' + data, 'save_prefs_server_return');
 }
