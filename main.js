@@ -1153,11 +1153,11 @@ function check_player_in_game() {
 function send() {
 	com1 = $('com').value;
 	com = com1;
-	com = com.replace(/;/g, "#59semicolon#59");
-	com = com.replace(/\?/g, "¿");
-	com = com.replace(/&/g, "eperluetteamp");
-	com = com.replace(/\+/g, "#43plus#43");
-	com = com.replace(/\n/g, " ");
+	com = com.replace(/;/g, "%3B");
+	com = com.replace(/\?/g, "%3F");
+	com = com.replace(/&/g, "%26");
+	com = com.replace(/\+/g, "%2B");
+	com = com.replace(/\n/g, "%0A");
 	form = $('send_form');
 	var flag = form.getElementsByClassName('flag');
 	flag_value = '';

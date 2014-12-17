@@ -5,7 +5,6 @@ import os
 import cgi
 import bdd
 import json
-import html
 from cookie_check import get_cookie
 import logging
 import mail
@@ -61,7 +60,7 @@ if __name__ == "__main__":
 	for i in ['gid', 'com', 'flag']:
 		dico_params[i] = None
 		try:
-			dico_params[i] = cgi.escape(parametres.get(i, None).replace("&", "&amp;"), quote=True)
+			dico_params[i] = cgi.escape(parametres.get(i, None), quote=True)
 			logging.debug(i + ' : ' + dico_params[i])
 		except:
 			pass
@@ -77,7 +76,6 @@ if __name__ == "__main__":
 	
 	if dico_params['com'] == None:
 		dico_params['com'] = ''
-	dico_params['com'] = html.encode_html(dico_params['com'])
 	
 	if dico_params['gid'] == None:
 		logging.debug("Aucune partie n'est sélectionnée.")

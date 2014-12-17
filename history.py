@@ -53,9 +53,9 @@ if __name__ == "__main__":
 		coms = []
 		for i in c:
 			dico = {}
-			dico['t'] = i[0]		# le texte
-			dico['j'] = i[1]		# le nom du joueur
-			dico['n'] = i[2] - 1	# le numéro
+			dico['t'] = i[0].replace('\n', '<br/>')		# le texte
+			dico['j'] = i[1]							# le nom du joueur
+			dico['n'] = i[2] - 1						# le numéro
 			if dico['n'] < 0:
 				dico['n'] = 0;
 			coms.append(dico)
