@@ -71,27 +71,16 @@ if __name__ == "__main__":
 	else:
 		adversaire = players[1]
 		
-	if game_token[0] == '+': 
-		#~ si c'est le flag « échec et mat » l'adversaire gagne
-		b.set_win(game, adversaire)
-		msg = b.uid_to_login(adversaire) + ' est victorieux !'
-	else:
-		#~ sinon c'est match null
-		b.set_win(game, 0)
-		msg = 'La partie est nulle'
-	
-	msg_end = "Cette partie est terminée."
+	b.set_win(game, 0)
+	msg = 'La partie est nulle.'
 	b.update_game_token(game, '')
-	b.add_move(game, '[{"flag" : "' + msg_end + '"}]')
 	
 	sujet = config.get('smtp', 'subject_finish').replace('Partie', 'Partie #' + str(game))
 	r1 = mail.send_mail(b.login_to_mail(b.session_to_login(s)), sujet, msg)
-	if 'victorieux' in msg:
-		msg = 'Vous êtes victorieux !'
 	r0 = mail.send_mail(b.login_to_mail(b.uid_to_login(adversaire)), sujet, msg)
 	
 	if r0 == 'ok' and r1 == 'ok':
-		print msg_end
+		print "Cette partie est terminée."
 	else:
 		print r0 + '<br/>'
 		print r1

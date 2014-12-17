@@ -5,6 +5,7 @@ import os
 import cgi
 import bdd
 from cookie_check import get_cookie
+import json
 
 def input():
 	form = cgi.FieldStorage()
@@ -35,19 +36,41 @@ if __name__ == "__main__":
 	parametres = input()
 	game = parametres.get("g", -1)
 	h = b.get_history(game)
-	l = len(h)
 	
-	if l == 0:
-		print '[{}]'
-		exit(0)
-	
-	if l == 1:
-		print h[0][0]
-		exit(0)
-		
-	r = '['
+	r = {}
+	coup = []
 	for i in h:
-		if i[0] != '[]':
-			r += i[0].replace('[', '').replace(']', '') + ','
-	r = r[ : len(r) - 1] + ']'
-	print r
+		coup.append(i[0])
+	r['h'] = coup
+	
+	token = b.get_game_token(game)
+	if token != '' and token != None:
+		if b.session_to_user_id(s) != int(token.split('_')[0]):
+			r['nulle'] = token
+		
+	if parametres.get("c", -1) == '1':
+		c = b.get_coms(game)
+		coms = []
+		for i in c:
+			dico = {}
+			dico['t'] = i[0]		# le texte
+			dico['j'] = i[1]		# le nom du joueur
+			dico['n'] = i[2] - 1	# le numéro
+			if dico['n'] < 0:
+				dico['n'] = 0;
+			coms.append(dico)
+		r['c'] = coms
+	
+	result = ''
+	w = b.get_winner(game)[0]
+	if w[2] != None:
+		if w[0] == w[2]:
+			result = '1-0'
+		if w[1] == w[2]:
+			result = '0-1'
+		if w[2] == 0:
+			result = '½-½'
+	if result != '':
+		r['r'] = result
+	
+	print json.dumps(r)

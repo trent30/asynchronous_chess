@@ -45,25 +45,13 @@ class bdd():
 	def restore_conf(self, s):
 		id = self.session_to_user_id(s)
 		return self.requete_0("select conf from users where id='%s'" % id)
-		
-	def encadre(self, a):
-		if a[0] != '{':
-			a = '{' + a
-		if a[ -1 : ] != '}':
-			a += '}'
-		return a.replace('\n', ' ')
 	
-	def get_dernier_joueur(self, l):
-		joueur = -1
-		while joueur == -1:
-			if len(l) == 0:
-				return None
-			t = l.pop()
-			t = t[0][1:][:-1].replace('}, {','},{')
-			for i in t.split( '},{'):
-				j = json.loads(self.encadre(i))
-				joueur = j.get('j', -1)
-		return joueur
+	def get_dernier_joueur(self, game_id):
+		return self.requete_0("""
+			SELECT u.login
+			FROM historique h, users u 
+			WHERE h.joueur = u.id and game_id='%s' 
+			order by h.id desc limit 1;""" % game_id)
 
 	def session_to_login(self, s):
 		return self.requete_0("select login from users u, sessions s\
@@ -198,9 +186,11 @@ class bdd():
 		return self.con.query("SELECT u.id, u.login FROM users u WHERE \
 			u.date_deleted is NULL AND u.confirmed=TRUE and u.id!='%s'" % uid).getresult()
 	
-	def add_move(self, game_id, coup):
-		self.con.query("INSERT INTO historique (game_id, coup) \
-		VALUES ('%s', '%s')" % (game_id, pg.escape_string(coup)))
+	def add_move(self, game_id, coup, s):
+		id = self.session_to_user_id(s)
+		self.con.query("INSERT INTO historique (game_id, coup, joueur) \
+		VALUES ('%s', '%s', '%s')" % (game_id, pg.escape_string(coup), id) )
+		self.update_game_token(game_id, '')
 	
 	def add_game(self, white, black):
 		self.con.query("INSERT INTO games (white, black, date) \
@@ -263,7 +253,11 @@ class bdd():
 	def update_game_token(self, game, token):
 		self.con.query("UPDATE games SET token='%s' WHERE id='%s'" \
 			% (token, game))
-	
+
+	def get_winner(self, game):
+		return self.con.query("select white, black, winner from games WHERE id='%s'" \
+			% (game)).getresult()
+
 	def get_game_token(self, game):
 		return self.requete_0("select token from games WHERE id='%s'" \
 			% (game))
@@ -274,6 +268,21 @@ class bdd():
 	def get_history(self, game_id):
 		return self.con.query("SELECT coup FROM historique WHERE game_id='%s' order by id asc" % game_id).getresult()
 	
+	def	add_com(self, com, gid, s):
+		id = self.session_to_user_id(s)
+		num_coup = self.requete_0(\
+			"select count(*) from historique where game_id='%s'" % gid)
+		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur) \
+			VALUES ('%s', '%s', '%s', '%s')" \
+			% (gid, pg.escape_string(com), num_coup, id))
+		
+	def	get_coms(self, gid):
+		return self.con.query("""SELECT c.text, u.login, c.num_coup 
+		FROM com c, users u
+		WHERE game_id='%s' 
+		and u.id = c.joueur 
+		order by c.id asc""" % gid).getresult()
+		
 	def	check_gid_uid(self, gid, s):
 		id = self.session_to_user_id(s)
 		if id == None:
@@ -315,10 +324,11 @@ class bdd():
 	def players_from_game(self, game):
 		return self.con.query("select white, black from games where id='%s'" % game).getresult()
 	
-	def insert_error(self, game_id, login_id):
-		self.con.query("INSERT INTO error (game_id, login_id, date) \
-		VALUES ('%s', '%s', NOW())" % (game_id, login_id))
+	def insert_error(self, game_id, login_id, texte):
+		self.con.query("INSERT INTO error (game_id, login_id, texte, date) \
+		VALUES ('%s', '%s','%s', NOW())" % (game_id, login_id, texte))
 	
 
 if __name__ == "__main__":
 	a = bdd()
+	print a.get_dernier_joueur(89)

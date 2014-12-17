@@ -1,12 +1,8 @@
-//~ b88628b684a47288c08cf59a7c0c512979589508
 player_color = 'white';
 players = '';
 position = {};
 prefs = ['ccn', 'ccb', 'pieces', 'size'];
-actual_position = [];	//~ historique jusqu'au dernier coup "enregistré"
-historique = [];		//~ actual_position + bac à sable 
-next = [];
-deselect();
+historique = [];
 selectColor = "#FF0000";
 try_get_local_login();
 game_ID = try_get_session('gid');
@@ -16,6 +12,15 @@ tr = {'win' : 'parties gagnées',
 	'nul' : 'parties nulles',
 	'not_finish' : 'parties en cours',
 	'total' : 'Total'};
+selection = {
+	coord : '',
+	color : '',
+	html : '',
+	piece : ''};
+deselect();
+PROMOTION = null;
+COUP_PROMOTION = null;
+INITIAL_POSITION = {};
 
 function $(x) {
 	return document.getElementById(x);
@@ -195,73 +200,14 @@ function draw_pieces(p) {
 	}
 }
 
-function pieceToText(t) {
-	if (t == '') return '';
-	var piece = t[0];
-	var couleur = t[1];
-	var p = '';
-	var c = '';
-	switch(piece) {
-		case 'T' : p = 'Tour';
-		break;
-		case 'C' : p = 'Cavalier';
-		break;
-		case 'F' : p = 'Fou';
-		break;
-		case 'R' : p = 'Roi';
-		break;
-		case 'D' : p = 'Dame';
-		break;
-		case 'p' : p = 'Pion';
-		break;
-	}
-	if (couleur == 'n') {
-		c = ' noir';
-		if (piece == 'T' || piece == 'D') {
-			c += 'e';
-		}
-	} else {
-		c = ' blanc';
-		if (piece == 'T' || piece == 'D') {
-			c += 'he';
-		}
-	}
-	return p + c;
-}
-
 function clear_position() {
-	for(var i = 0; i < 8; i++) {
-		for(var j = 1; j < 9; j++) {
-			var p =  String.fromCharCode(i + 97) + j;
-			position[p] = '';
-		}
-	}
+	CHESS.clear();
+	position = CHESS.position();
 }
 
 function init_position() {
-	clear_position();
-	for(var i = 0; i < 8; i++) { /* pions */
-		var p =  String.fromCharCode(i + 97);
-		position[p + '2'] = 'pb';
-		position[p + '7'] = 'pn';
-	}
-	position.a1 = 'Tb';
-	position.b1 = 'Cb';
-	position.c1 = 'Fb';
-	position.d1 = 'Db';
-	position.e1 = 'Rb';
-	position.f1 = 'Fb';
-	position.g1 = 'Cb';
-	position.h1 = 'Tb';
-	position.h1 = 'Tb';
-	position.a8 = 'Tn';
-	position.b8 = 'Cn';
-	position.c8 = 'Fn';
-	position.d8 = 'Dn';
-	position.e8 = 'Rn';
-	position.f8 = 'Fn';
-	position.g8 = 'Cn';
-	position.h8 = 'Tn';
+	CHESS = new Chess();
+	position = CHESS.position();
 }
 
 function init_return(v) {
@@ -283,13 +229,6 @@ function init() {
 	if (e != null) {
 		e.parentNode.removeChild(e);
 	}
-	draw_board();
-	init_position();
-	draw_pieces(position);
-	historique = [];
-	actual_position = [];
-	log = '';
-	next = [];
 	if (game_ID == '') {
 		game_ID = try_get_session("gid");
 	}
@@ -306,16 +245,35 @@ function init() {
 	} else {
 		f_option();
 	}
-	if (player_color == 'black') {
-		draw_board();
-		draw_pieces(position);
-	}
+	//~ if (player_color == 'black') {
+		//~ draw_board();
+		//~ draw_pieces(position);
+	//~ }
+	draw_board();
+	init_position();
+	draw_pieces(position);
+	historique = [];
+	log = '';
 }
 
 function min_size() {
 	var w = window.innerWidth - 35;
 	var h = window.innerHeight - 20;
 	return Math.min(h, w);
+}
+
+function finish_return(r) {
+	if ( r == 'ok') {
+		f_reload();
+	} else {
+		clean_log(r);
+	}
+}
+
+function finish(i) {
+	if (confirm("AVERTISSEMENT : cette action est définitive ! Voulez-vous continuer ?")) {
+		get_page('/finish.py?g=' + game_ID + '&token=' + INITIAL_POSITION.nulle, 'finish_return'); 
+	}
 }
 
 function resize() {
@@ -354,32 +312,6 @@ function clean_log(t) {
 	l.scrollTop = l.scrollHeight;
 }
 
-function finish_return(r) {
-	if ( r == 'ok') {
-		f_reload();
-	} else {
-		clean_log(r);
-	}
-}
-
-function finish(i) {
-	if (confirm("AVERTISSEMENT : cette action est définitive ! Voulez-vous continuer ?")) {
-		get_page('/finish.py?g=' + game_ID + '&token=' + actual_position[actual_position.length - 1 ].token, 'finish_return');
-	}
-}
-
-function coup2log(c) {
-	var log = '';
-	if (c.c1 != null ) {
-		log += pieceToText(c.p1) + ' ' + c.c1;
-		if (c.p2 !== '') {
-			log += ' prend ' + pieceToText(c.p2);
-		}
-		log += ' en ' + c.c2;
-	}
-	return log;
-}
-
 function dselect_one_move(id) {
 	try {
 		id.style.background = '#FFFFFF';
@@ -392,107 +324,91 @@ function dselect_one_move(id) {
 function select_one_move(n) {
 	dselect_one_move(old_one_move);
 	var e = $(n.id);
-	e.style.background = '#828282';
+	e.style.background = '#D4D4D4';
 	old_one_move = e;
 	init_position();
 	var num = parseInt(n.id.split('_')[1]);
-	var h = historique;
-	for (var i = 0; i < h.length; i++) {
-		if (i > num && i != h.length) {
-			draw_pieces(position);
-			set_game_info(true);
-			return;
-		}
-		if (h[i].p1 != null) {
-			if (h[i].c1 != null) {
-				position[h[i].c1] = '';
-			}
-			position[h[i].c2] = h[i].p1;
-		}
+	for (var i = 0; i <= num; i++) {
+		CHESS.move(historique[i]);
 	}
+	position = CHESS.position();
 	draw_pieces(position);
 	set_game_info(true);
 }
 
+function list_check_com(h) {
+	var l = h.c;
+	var r = [];
+	for (var i = 0; i < h.h.length; i++) {
+		r[i] = false;
+	}
+	for (var i = 0; i < l.length; i++) {
+		r[ l[i].n ] = true;
+	}
+	return r;
+}
+
+function message_or_not(b) {
+	if (b) {
+		return '<div onclick="info(_n_)" class="order" title="message"></div>';
+	}
+	return '<div style="color: #FFF;" class="order"' + '">.</div>';
+}
+
+function piece_to_image(p) {
+	var t = { 	'K' : '♔',
+				'Q' : '♕',
+				'R' : '♖',
+				'B' : '♗',
+				'N' : '♘' };
+	for (var i in t) {
+		var r = new RegExp(i, "g");
+		p = p.replace(r, t[i]);
+	}
+	return p;
+}
+
 function historique2log(h) {
-	var finish = '';
+	clean_log('');
 	var numero = 0;
-	var precedent = null;
-	var joueur = '';
-	for (var i = 0; i < h.length; i++) {
-		if (h[i].j != null) {
-			joueur = h[i].j;
+	var t = '';
+	var l = list_check_com(h);
+	var m = '';
+	var i = 0;
+	var com = false;
+	for (i = 0; i < h.h.length; i++) {
+		t = "<div class='order' onclick=select_one_move(this) id=coup_" + i + ">" + piece_to_image(h.h[i]) + "</div>" + t;
+		if (l[i]) {	com = true; }
+		if ( i % 2 == 0 ) {
+			numero = i / 2 + 1;
 		} else {
-			joueur = '';
-		}
-		if ( joueur != precedent && h[i].c1 != null) {
-			numero = numero + 1;
-			precedent = joueur;
-		}
-		var num = '<div class="num">'+ numero + '</div>';
-		var com = '';
-		var player = '';
-		var coup = '';
-		try {
-			finish = h[i].flag.substr(h[i].flag.length - 9, 9);
-		} catch (err) {
-			finish = '';
-		}
-		if (h[i].com != null) {
-			com = '<div onclick="info(this)" class="msg" title="' + h[i].com + '"><img src="img/msg.png"></div>';
-		}
-		if (finish != 'terminée.') {
-			if (h[i].c1 != null) {
-				var n = 'coup_' + i;
-				coup = "<div class='order' onclick=select_one_move(this) id=" + n + ">" + coup2log(h[i]) + "</div>";
-				num = '<div class="num" title="coup joué par ' + joueur + '">' + numero + '</div>';
-				player = '<div class="msg">coup joué par ' + joueur + '</div>';
-			}
-		}
-		var msg = '';
-		var order = try_get_local('order');
-		if (order == null) {
-			msg = com + coup + ' - ' + num;
-		} else {
-			order = order.split(',');
-			for (var j = 0; j < 4; j++) {
-				var aff = try_get_local('order_aff_' + order[j]);
-				if (aff == 'true') {
-					var value = eval(order[j]);
-					msg += value;
-					if (j != 3 && aff == 'true' && value != '') {
-						msg += ' - ';
-					}
-				}
-			}
-		}
-		if (msg.substr(msg.length - 3, msg.length) == ' - ') {
-			msg = msg.substr(0, msg.length - 3);
-		}
-		if (msg != num) {
-			add_log(msg);
-		}
-		if (h[i].flag != null) {
-			add_log( '<div class="msg"><img src="img/info.png"> ' + h[i].flag + '</div>');
+			m = message_or_not(com);
+			add_log(m.replace(/_n_/, numero) + t + '<div class="num">'+ numero + '</div>');
+			add_log('<div class="msg" id=msg_' + numero + '></div>');
+			t = '';
+			com = false;
 		}
 	}
-	//~ affiche le bouton confirmer uniquement si :
-	//~  * le dernier coup possède un flag
-	//~  * si ce flag est 'pat' ou 'mat'
-	//~  * et si c'est l'adversaire qui a mis le flag
-	if (h.length > 0) {
-		if (h[h.length - 1].flag != null ) {
-			var le_flag = h[h.length - 1].flag.substr(h[h.length - 1].flag.length - 4, 3);
-			var auteur = h[h.length - 1].flag.split(' ')[0];
-			if ((le_flag == 'pat' || le_flag == 'at ') && (h[h.length - 1].flag.split(' ')[0] != user_ID) ) {
-				add_log('<div onclick="finish()" class="btn">CONFIRMER ?</a></div>');
-			}
-		}
+	if ( i % 2 == 1 ) {
+		m = message_or_not(l[i - 1]);
+		add_log(m.replace(/_n_/, numero) + "<div class='order'>...</div>" + t + '<div class="num">'+ numero + '</div>');
+		add_log('<div class="msg" id=msg_' + numero + '></div>');
 	}
-	set_game_info(true);
+	if ( h.nulle != null) {
+		add_log('<div class="msg">Votre adversaire vous propose la nulle.</div><div onclick="finish()" class="btn">Accepter</a></div>');
+	}
+	if ( h.r != null) {
+		add_log("<b>" + h.r + "</b>");
+	} else {
+		add_log('<hr/>');
+	}
 }
 
 function deselect() {
+	var e = $(selection.coord);
+	try {
+		e.style.background = selection.color;
+	} catch (error) { }
 	selection = {
 		coord : '',
 		color : '',
@@ -536,13 +452,31 @@ function f_click(c) {
 			coup.p2 = arrive;
 		}
 		coup.c2 = c;
-		historique.push(coup);
+		var m = { 'from' : selection.coord, 'to' : c };
+		if (CHESS.move(m) == null) {
+			if ((((c[1] == 8) && (selection.piece == 'pb')) || 
+				((c[1] == 1) && (selection.piece == 'pn'))) &&
+				(CHESS.in_check() == false) ) { // promotion
+					deselect();
+					f_add();
+					PROMOTION = m;
+					COUP_PROMOTION = coup;
+					return;
+				}
+			var message = 'Coup invalide ! ';
+			if (CHESS.in_check()) {
+				message = 'Attention, vous êtes en échec !';
+			}
+			alert(message);
+			deselect();
+			return;
+		}
 		if (coup.c1 !== '') {
 			position[coup.c1] = '';
 		}
 		position[c] = selection.piece;
 		clean_log(log);
-		add_log(coup2log(coup));
+		add_log(CHESS.history().pop());
 		try {
 			e2.style.background = selection.color;
 			e2.innerHTML = '';
@@ -552,6 +486,8 @@ function f_click(c) {
 		deselect();
 	}
 	set_game_info(true);
+	position = CHESS.position();
+	draw_pieces(position);
 }
 
 function f_click_add(p) {
@@ -565,26 +501,59 @@ function f_click_add(p) {
 	selection.html = e.innerHTML;
 	selection.piece = p;
 	e.style.background = selectColor;
+	if (PROMOTION != null ) {
+		PROMOTION.promotion = transpose_piece_to_promotion(p);
+		if (CHESS.move(PROMOTION) == null) {
+			alert('Erreur lors de la promotion');
+		} else {
+			if (COUP_PROMOTION.c1 !== '') {
+				position[COUP_PROMOTION.c1] = '';
+			}
+			position[COUP_PROMOTION.c2] = p;
+			clean_log(log);
+			add_log(CHESS.history().pop());
+			deselect();
+			set_game_info(true);
+			draw_pieces(position);
+		}
+	}
+	PROMOTION = null;
+	COUP_PROMOTION = null;
+}
+
+function transpose_piece_to_promotion(piece) {
+	piece = piece[0];
+	switch(piece) {
+		case 'T' : p = 'r';
+		break;
+		case 'C' : p = 'n';
+		break;
+		case 'F' : p = 'b';
+		break;
+		case 'R' : p = 'k';
+		break;
+		case 'D' : p = 'q';
+		break;
+	}
+	return p;
 }
 
 function f_add() {
 	var e = $('log');
 	e.style.textAlign = "left";
 	var piece = ['T', 'C', 'F', 'D', 'R', 'p'];
-	var couleur = { 'n' : 'white', 'b' : 'black' };
-	var n = try_get_local('ccn');
-	if (n != null) {
-		couleur.n = n;
-		couleur.b = try_get_local('ccb');
+	var c  ='';
+	if (CHESS.history().length % 2 == 0) {
+		c = 'b';
+	} else {
+		c = 'n';
 	}
-	var d = "<p>Sélectionner la pièce de votre choix puis cliquer sur la case de l'échiquier où vous souhaitez la déposer</p>";
-	for (var c in couleur) {
-		for (var p in piece) {
-			var nom = piece[p] + c;
-			d += '<div style="background:' + couleur[c] + ';" id="' + nom + '" onclick=f_click_add("' + nom + '") class="case add ' + couleur[c] + '"><img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + nom + '.png"</></div>';
-		}
-		d += '<br/>';
+	var d = "<p>Promotion :</p>";
+	for (var p in piece) {
+		var nom = piece[p] + c;
+		d += '<div id="' + nom + '" onclick=f_click_add("' + nom + '") class="case add white"><img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + nom + '.png"</></div>';
 	}
+	d += '<br/>';
 	e.innerHTML = d; 
 	e = document.getElementsByClassName('add');
 	var w = e[0].offsetWidth;
@@ -649,13 +618,8 @@ function check_rotate() {
 
 function f_init() {
 	check_rotate();
-	historique = [];
-	next = [];
 	log = '';
-	for (var i = 0; i < actual_position.length; i++) {
-		historique.push(actual_position[i]);
-	}
-	set_position(actual_position);
+	set_position(INITIAL_POSITION);
 }
 
 function nothing_return(x) {
@@ -707,16 +671,13 @@ function f_reload_return(j) {
 	} catch (err) {
 		bug_report(game_ID);
 		alert('La récupération de la liste des coups a échoué');
+		console.log(j);
 		return 4;
-	}
-	actual_position = [];
-	for (var i = 0; i < r.length; i++) {
-		actual_position.push(r[i]);
 	}
 	window.document.title = 'chess'; // midori ne rafraichi pas le titre sinon
 	window.document.title = 'chess #' + game_ID + ' ' + players;
 	set_position(r);
-	historique = r;
+	INITIAL_POSITION = r;
 	set_game_info(true);
 }
 
@@ -726,22 +687,7 @@ function f_reload() {
 		return 2;
 	}
 	check_rotate();
-	get_page('/history.py?g=' + game_ID, 'f_reload_return');
-}
-
-function f_home() {
-	try_set_session('gid', '');
-	game_ID = '';
-	init();
-	clean_log('');
-}
-
-function f_del() {
-	try_set_session('gid', '');
-	game_ID = '';
-	init();
-	clear_position();
-	draw_pieces(position);
+	get_page('/history.py?g=' + game_ID + '&c=1', 'f_reload_return');
 }
 
 function f_rotate() {
@@ -757,63 +703,73 @@ function f_rotate() {
 	player_color = pc;
 }
 
+function check_last_move(c) {
+	if (c == '') { return true };
+	var test = new Chess();
+	var h = INITIAL_POSITION.h;
+	for (var i = 0; i < h.length; i++) {
+		test.move(h[i]);
+	}
+	if (test.move(c) == null) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function f_send() {
+	clean_log('');
+	var r = diff_historique();
+	if (check_last_move(r) == false) {
+		alert('Dernier coup invalide.');
+		f_init();
+		return;
+	}
 	var e = $('send_form_origin');
 	var l = $('log');
-	var r = diff_historique();
-	var len = r.length;
 	var txt = '<div id="send_form">';
 	if (check_player_in_game() == false) {
 		txt += "<p>Attention ! Vous n'êtes pas autorisé à jouer dans cette partie !</p>";
 	}
 	clean_log('');
-	if (len == 0) {
+	if (r == '') {
 		txt += "Aucun coup n'a été joué";
-	}
-	if (len == 1) {
+	} else {
 		txt += 'Le coup suivant va être envoyé :';
-	}
-	if (len > 1) {
-		txt += 'La liste des coups suivants va être envoyée :';
-	} 
-	txt += '<br/><br/>';
-	for (var i = 0; i < len; i++) {
-		txt += coup2log(r[i]) + '<br/>';
+		txt += '<br/><br/>' + r + '<br/>';
 	}
 	l.innerHTML = txt + e.innerHTML + '</div>';
 }
 
 function diff_historique() {
-	var diff = historique.length - actual_position.length;
-	var r = [];
-	for (var i = 0; i < diff; i++) {
-		r.unshift(historique[historique.length - 1 - i]);
+	if (CHESS.history().length == historique.length) {
+		return '';
 	}
-	return r;
+	return CHESS.history()[historique.length];
 }
 
-function set_position(historique) {
+function set_position(h) {
 	clean_log('INFORMATION : les coups que vous jouez ici sont considérés comme un «&nbsp;brouillon&nbsp;», il faut cliquer sur le bouton «&nbsp;envoyer&nbsp;» pour valider vos modifications.<hr/>');
 	init_position();
-	var n = historique.length;
+	historique = [];
+	var n = h.h.length;
+	if (n == 0) {
+		console.log("L'historique est vide");
+	}
 	for (var i = 0; i < n; i ++) {
-		if (historique[i].p1 != null) {
-			if (historique[i].c1 != null) {
-				position[historique[i].c1] = '';
-				position[historique[i].c2] = historique[i].p1;
-			}
+		var coup = h.h[i];
+		if (CHESS.move(coup) == null) {
+			console.log('Erreur ! coup  ' + coup + ' invalide');
+			coup = coup.replace(/\+/g, "%2B");
+			coup = coup.replace(/#/g, "%23");
+			get_page('/bug.py?g=' + game_ID + '&c=' + i + '%3D' + coup, 'nothing_return');
+		} else {
+			historique.push(h.h[i]);
 		}
 	}
+	position = CHESS.position();
 	draw_pieces(position);
-	next = [];
-	if (n < 2) {
-		if (historique[0].p1 == null && historique[0].com == null) {
-			console.log("L'historique est vide");
-			return 1;
-		}
-	}
-	historique2log(historique);
-	add_log('<hr/>');
+	historique2log(h);
 }
 
 function get_page(name, fonction, add) {
@@ -1043,7 +999,7 @@ function players_return(r) {
 		e += "<p>Aucun joueur<p/>";
 	} else {
 		for (var i in j) {
-			e += "<div class='order'><img class='order' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player order' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>  " + j[i].nom + "</div><div></div>";
+			e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>  " + j[i].nom + "</div><div></div>";
 		}
 	}
 	l.innerHTML = e;
@@ -1110,37 +1066,6 @@ function aff_prefs() {
 	}
 	var range = $('range');
 	range.min = min_size() * -1;
-	var order = try_get_local('order');
-	if (order != null) {
-		var tr2 = {'com' : 'commentaire',
-			'coup' : 'coup',
-			'num' : 'numéro',
-			'player' : 'joueur' };
-		for (var i = 1; i < 5; i++) {
-			var input = $('order_cb_' + i);
-			var e = $('order_' + i);
-			var v = order.split(',')[i-1];
-			input.value = v;
-			var ic = try_get_local('order_aff_' + v);
-			if (ic == 'false') {
-				input.checked = false;
-			} else {
-				input.checked = true;
-			}
-			e.innerHTML = tr2[v];
-		}
-	} else {
-		order = ['com', 'coup', 'num', 'player'];
-		for (var i = 1; i < 5; i++) {
-			var input = $('order_cb_' + i);
-			var v = order[i-1];
-			if (v != 'player') {
-				input.checked = true;
-			} else {
-				input.checked = false;
-			}
-		}
-	}
 }
 
 function test_prefs() {
@@ -1164,41 +1089,10 @@ function save_prefs() {
 	for (var i in prefs) {
 		try_set_local(prefs[i] , $("prefs_" + prefs[i]).value);
 	}
-	var order = '';
-	for (i = 1; i < 5; i++) {
-		var e = $('order_cb_' + i);
-		order += e.value + ',';
-		try_set_local('order_aff_' + e.value, e.checked);
-	}
-	try_set_local('order', order);
 	draw_pieces(position);
 	draw_color_case();
 	resize();
 	f_option();
-}
-
-function f_order_click(e) {
-	var n = parseInt(e.split('order_')[1]);
-	var n2 = n + 1;
-	if (n == 4) {
-		for (var i = 3; i > 0; i--) {
-			f_order_click('order_' + i);
-		}
-		return;
-	}
-	var selection = $('order_' + n);
-	var next = $('order_' + n2);
-	var tmp = selection.innerHTML;
-	selection.innerHTML = next.innerHTML;
-	next.innerHTML = tmp;
-	var check = $('order_cb_' + n);
-	var check2 = $('order_cb_' + n2);
-	var tmp_check = check.checked;
-	var tmp_value = check.value;
-	check.checked = check2.checked;
-	check2.checked = tmp_check;
-	check.value = check2.value;
-	check2.value = tmp_value;
 }
 
 function invite_return(r) {
@@ -1232,27 +1126,14 @@ function select_game(id) {
 function send_return(r) {
 	if (r == 'ok') {
 		var diff = diff_historique();
-		var flag_tr = {'A' : "Vous avez abandoné",
-					'M' : "échec et mat",
-					'E' : "échec",
-					'P' : "pat"};
-		for (var i in diff) {
-			diff[i].j = user_ID;
-			actual_position.push(diff[i]);
-		}
-		if (diff.length == 0) {
-			actual_position.push({});
-		}
-		if (flag_value != '') {
-			actual_position[ actual_position.length - 1 ].flag = flag_tr[flag_value];
-		}
-		if (com != '') {
-			actual_position[ actual_position.length - 1 ].com = com1;
-		}
 		var l = $('log');
+		if (diff != '') {
+			INITIAL_POSITION.nulle = null;
+			INITIAL_POSITION.h.push(diff);
+			historique.push(diff);
+		}
 		l.innerHTML = '';
-		historique2log(actual_position);
-		add_log('<hr/>');
+		historique2log(INITIAL_POSITION);
 		return 0;
 	}
 	if (r == "déco") {
@@ -1280,7 +1161,9 @@ function send() {
 	form = $('send_form');
 	var flag = form.getElementsByClassName('flag');
 	flag_value = '';
-	var r = JSON.stringify(diff_historique());
+	var r = diff_historique();
+	r = r.replace(/\+/g, "%2B");
+	r = r.replace(/#/g, "%23");
 	var url = '/move.py?c=' + r + '&gid=' + game_ID;
 	for (var i = 0; i < flag.length ; i++) {
 		if (flag[i].checked) {
@@ -1290,6 +1173,14 @@ function send() {
 	if (com.length != 0) {
 		url += '&com=' + com;
 	}
+	
+	var h = INITIAL_POSITION.h;
+	for (var i = 0; i < h.length; i++) {
+		CHESS.move(h[i]);
+	}
+	CHESS.move(r);
+	if (CHESS.in_draw()) { flag_value='D'; }
+	
 	if (flag_value.length != 0) {
 		url += '&flag=' + flag_value;
 		if (flag_value == 'A') {
@@ -1306,14 +1197,21 @@ function send() {
 	get_page(url, 'send_return');
 }
 
-function info(t) {
-	//~ Affichage des commentaires d'un coup
-	var txt = document.createTextNode(t.title);
-	if (t.textContent.length != 0) {
-		t.removeChild(t.lastChild);
-	} else {
-		t.appendChild(txt);
+function info(nt) {
+	var m = '';
+	var t = $('msg_' + nt);
+	if (t.innerHTML != '') {
+		t.innerHTML = '';
+		return;
 	}
+	for (var i = 0; i < INITIAL_POSITION.c.length; i++) {
+		if (INITIAL_POSITION.c[i].n == nt * 2 - 2 || 
+			INITIAL_POSITION.c[i].n == nt * 2 - 1) {
+			m += 'Commentaire de <b>' + INITIAL_POSITION.c[i].j + '</b> :';
+			m += '<br> ' + INITIAL_POSITION.c[i].t + '<br><br> ';
+		}
+	}
+	t.innerHTML = m;
 }
 
 function on_load() {
@@ -1340,7 +1238,9 @@ function checkEnter(e) {
 
 function checkKey(e) {
     e = e || window.event;
-	var num = parseInt(old_one_move.id.split('_')[1]);
+    try {
+		var num = parseInt(old_one_move.id.split('_')[1]);
+	} catch (e) { return }
 	var operation = 0;
     if (e.keyCode == '38') { // up arrow 
 		operation = -1;
@@ -1351,7 +1251,7 @@ function checkKey(e) {
 	num = num + operation;
     while ( $('coup_' + num) == null ) {
 		num = num + operation;
-		if (num < 0 || num > actual_position.length) {
+		if (num < 0 || num > INITIAL_POSITION.h.length) {
 			break;
 		}
 	}

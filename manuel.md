@@ -6,10 +6,7 @@
 <body>
 # Manuel
 
-Ce site fournit simplement un échiquier pour jouer à distance et être informé par mail lorsque votre adversaire a joué. Vous devez donc fournir une adresse mail valide lors de votre inscription, aucune pub ou spam ne sera envoyé dessus et vos adversaires ne la verront pas.
-		
-Aucune vérification n'est effectuée, vous pouvez faire des coups invalides, tricher, déplacer les pièces de votre adversaire, c'est exactement comme dans la vraie vie, sauf qu'ici vous avez l'historique de tous les coups pour vérifier.
-Si votre adversaire fait une erreur vous pouvez l'indiquer dans le commentaire et lui demander de rejouer.
+Ce site fournit simplement un échiquier pour jouer à distance et être informé par mail lorsque votre adversaire a joué. Vous devez donc fournir une adresse mail valide lors de votre inscription, aucune pub ou spam ne sera envoyé dessus et elle ne sera communiqué à aucun tier, pas même à vos adversaire.
 
 
 ## Asynchrone jusqu'au plateau
@@ -20,13 +17,13 @@ Si votre adversaire fait une erreur vous pouvez l'indiquer dans le commentaire e
 
 Tous les coups que vous jouez sur le plateau ne sont pas envoyés directement. Cela vous permet de tester vos stratégies sur plusieurs coups, et aussi d'éviter d'envoyer une erreur ! (un mauvais clique est vite arrivé). Une fois que vous êtes sûr de votre coup vous pouvez cliquer sur le bouton « envoyer ».
 
-Un récapitulatif des coups qui seront envoyés est indiqué, si vous constatez une erreur vous pouvez encore annuler en cliquant sur :
+Le coup qui sera envoyé est indiqué, si vous constatez une erreur vous pouvez encore annuler en cliquant sur :
 ![revenir à la position initiale](./img/init.png 'revenir à la position initiale')
 
 
 ## Naviguer dans l'historique
 
-Vous pouvez naviguer dans l'historique en cliquant directement sur le coup.
+Vous pouvez naviguer dans l'historique en cliquant directement sur le coup, puis en utilisant les flèches haut et bas du clavier.
 
 ![revenir à la position initiale](./img/init.png 'revenir à la position initiale') Revenir à la position initiale (permet d'annuler tous les coups que vous avez fait depuis le dernier chargement et qui ne sont pas encore envoyés).
 
@@ -34,12 +31,6 @@ Avec le bouton « revenir à la position initiale » si votre adversaire a joué
 
 
 ## Les autres boutons
-
-![](./img/add.png 'annuler') Ajouter une pièce sur l'échiquier.
-
-![](./img/home.png 'annuler') Revenir à la position initiale d'un échiquier.
-
-![](./img/clear.png 'annuler') Effacer toutes les pièces de l'échiquier.
 
 ![](./img/rotate.png 'annuler') Retourner l'échiquier.
 

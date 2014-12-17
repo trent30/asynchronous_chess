@@ -2,6 +2,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link href="style.css" rel="stylesheet" type="text/css">
+		<script src="chess.js"></script>
 		<script src="main.js"></script>
 		<title>chess</title>
 	</head>
@@ -17,9 +18,6 @@
 			<div id='init_btn' class="btn_gui" title="revenir à la position initiale (efface l'historique temporaire)" onclick="f_init()"><img src='./img/init.png'></div>
 			<div id='send_btn' class="btn_gui" title="envoyer" onclick="f_send()"><img src='./img/send.png'></div>
 			<div id='refresh_btn' class="btn_gui" title="recharger la partie depuis le serveur" onclick="f_reload()"><img src='./img/refresh.png'></div>
-			<div id='add_btn' class="btn_gui" title="ajouter une pièce" onclick="f_add()"><img src='./img/add.png'></div>
-			<div id='home_btn' class="btn_gui" title="réinitialiser l'échiquier" onclick="f_home()"><img src='./img/home.png'></div>
-			<div id='del_btn' class="btn_gui" title="supprimer toutes les pièces" onclick="f_del()"><img src='./img/clear.png'></div>
 			<div id='rotate_btn' class="btn_gui" title="retourner l'échiquier" onclick="f_rotate()"><img src='./img/rotate.png'></div>
 			<div id='option_btn' class="btn_gui" title="manuel"><a href="./manuel.html" target="_blank"><img src='./img/help.png'></a></div>
 			<div id='option_btn' class="btn_gui" title="menu option" onclick="f_option()"><img src='./img/options.png'></div>
@@ -31,11 +29,9 @@
 		<div id="about2"> 
 		<p>Ce site fournit simplement un échiquier pour jouer à distance et être informé par mail lorsque votre adversaire a joué. L'avantage est d'avoir un historique commun entre les 2 joueurs sans que l'un des échiquiers se «&nbsp;désynchronise&nbsp;» (errare humanum est).</p>
 		
-		<p>Aucune vérification n'est effectuée, vous pouvez faire des coups invalides, tricher, déplacer les pièces de votre adversaire, c'est exactement comme dans la vraie vie, sauf qu'ici vous avez l'historique de tous les coups pour vérifier.</p>
-		
 		<p>contact : chess+dev@trent.homelinux.org</p>
 		<div style="font-size: small;text-align: left;">
-			<p>version 0.a</p>
+			<p>version 0.b</p>
 			<p>licence <a href="http://fr.wikipedia.org/wiki/WTF_Public_License" target="_blank">WTFPL</a></p>
 			<p>source : git clone http://git.chess.trent.homelinux.org</p>
 		</div></div>
@@ -94,9 +90,7 @@
 		<div><textarea name="commentaire" id="com"></textarea></div>
 		<FORM>
 		<INPUT id="flag_A" class="flag" type="radio" name="group" value="A"><label for="flag_A">Abandonner</label>
-		<INPUT id="flag_E" class="flag" type="radio" name="group" value="E"><label for="flag_E">Échec !</label>
-		<INPUT id="flag_M" class="flag" type="radio" name="group" value="M"><label for="flag_M">Échec et mat !</label>
-		<INPUT id="flag_P" class="flag" type="radio" name="group" value="P"><label for="flag_P">Pat</label>
+		<INPUT id="flag_N" class="flag" type="radio" name="group" value="N"><label for="flag_N">Proposer la nulle</label>
 		<INPUT id="noflag" class="flag" type="radio" name="group" value="" checked="true"><label for="noflag">Aucun</label>
 		</FORM>
 		<div class="center"><input class="btn" id="btn_login" value="Envoyer" type="submit" onclick="send()"/></div>
@@ -141,14 +135,6 @@
 		<option>Staunton
 		</SELECT>
 		</div><div><hr/></div>
-		<div class="ta_left">Ordre d'affichage dans l'historique des coups</div>
-		<div class="ta_left" style="font-size: small;">(cliquez sur l'élément que vous voulez descendre, et cocher la case si vous voulez l'afficher dans l'historique)</div>
-		<div class="ta_left" id="order_list">
-		<INPUT id="order_cb_1" type="checkbox" value="com"/><div class="ta_left order" id="order_1" onclick="f_order_click('order_1')">commentaire</div><div></div>
-		<INPUT id="order_cb_2" type="checkbox" value="coup"/><div class="ta_left order" id="order_2" onclick="f_order_click('order_2')">coup</div><div></div>
-		<INPUT id="order_cb_3" type="checkbox" value="num"/><div class="ta_left order" id="order_3" onclick="f_order_click('order_3')">numéro</div><div></div>
-		<INPUT id="order_cb_4" type="checkbox" value="player"/><div class="ta_left order" id="order_4" onclick="f_order_click('order_4')">joueur</div><div></div></div>
-		<hr/>
 		<div class="field"><input class="btn" id="btn_test_prefs" value="tester" type="submit" onclick="test_prefs()"/></div>
 		<div class="field"><input class="btn" id="btn_save_prefs" value="sauver (en local)" type="submit" onclick="save_prefs()"/></div>
 		<div class="field"><input class="btn" id="btn_save_prefs_server" value="sauver sur le serveur" type="submit" onclick="save_prefs_server()"/></div>

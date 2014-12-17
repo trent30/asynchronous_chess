@@ -113,7 +113,7 @@ CREATE TABLE games (
     black integer NOT NULL,
     winner integer,
     date timestamp without time zone NOT NULL,
-    id integer NOT NULL
+    id integer NOT NULL,
     token text
 );
 
@@ -365,6 +365,7 @@ CREATE TABLE error
   id serial NOT NULL,
   date timestamp without time zone,
   login_id integer,
+  texte text,
   CONSTRAINT error_pkey PRIMARY KEY (id ),
   CONSTRAINT error_game_id_fkey FOREIGN KEY (game_id)
       REFERENCES games (id) MATCH SIMPLE
@@ -410,6 +411,33 @@ CREATE OR REPLACE VIEW v_list_games AS
 
 ALTER TABLE v_list_games
   OWNER TO chess;
+  
+
+-- Table: com
+
+-- DROP TABLE com;
+
+CREATE TABLE com
+(
+  id serial NOT NULL,
+  text text,
+  joueur integer,
+  num_coup integer,
+  game_id integer,
+  CONSTRAINT com_pkey PRIMARY KEY (id ),
+  CONSTRAINT com_game_id_fkey FOREIGN KEY (game_id)
+      REFERENCES games (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT com_joueur_fkey FOREIGN KEY (joueur)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE com
+  OWNER TO chess;
+
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres

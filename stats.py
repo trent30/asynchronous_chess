@@ -67,7 +67,7 @@ if __name__ == "__main__":
 			dico['date'] = i[3].split('.')[0]
 			dico['joueurs'] = i[0] + ' vs ' + i[1]
 			if detail == 'not_finish' or detail == 'total':
-				trait = b.get_dernier_joueur(b.get_history(i[2]))
+				trait = b.get_dernier_joueur(i[2])
 				if trait != None:
 					dico['trait'] = trait
 			r.append(dico)

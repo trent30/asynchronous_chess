@@ -1034,7 +1034,40 @@ var Chess = function(fen) {
 
     return s;
   }
-
+  
+  function transpose_piece(piece, color) {
+    var p = 'p';
+	switch(piece) {
+		case 'r' : p = 'T';
+		break;
+		case 'n' : p = 'C';
+		break;
+		case 'b' : p = 'F';
+		break;
+		case 'k' : p = 'R';
+		break;
+		case 'q' : p = 'D';
+		break;
+	}
+	if (color == 'b') { color = 'n' };
+	if (color == 'w') { color = 'b' };
+	return p + color;
+  }
+	
+  function position() {
+    var pos = {};
+    for (var i = SQUARES.a8; i <= SQUARES.h1; i++) {
+	  if (board[i] == null) {
+        pos[algebraic(i)] = '';
+      } else {
+        var piece = board[i].type;
+        var color = board[i].color;
+		pos[algebraic(i)] = transpose_piece(piece, color);
+      }
+    }
+    return pos;
+  }
+  
   /*****************************************************************************
    * UTILITY FUNCTIONS
    ****************************************************************************/
@@ -1455,6 +1488,10 @@ var Chess = function(fen) {
 
     ascii: function() {
       return ascii();
+    },
+
+    position: function() {
+      return position();
     },
 
     turn: function() {

@@ -10,7 +10,7 @@ from cookie_check import get_cookie
 import logging
 import mail
 import ConfigParser
-import lcookie
+from lcookie import token
 
 config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
@@ -52,9 +52,9 @@ if __name__ == "__main__":
 	b = bdd.bdd()
 	if not b.autorized(s):
 		logging.debug('pas autorisé')
-		print "déco"
+		print "Vous n'êtes pas autorisé à jouer dans cette partie."
 		exit(0)
-	
+		
 	parametres = input()
 	dico_params = {}
 	logging.debug('paramètres brutes : ')
@@ -65,12 +65,14 @@ if __name__ == "__main__":
 			logging.debug(i + ' : ' + dico_params[i])
 		except:
 			pass
-	dico_params['c'] = parametres.get('c', None)
-	logging.debug('coup brute : ' + dico_params['c'])
 	
-	import coup2txt
-	jcoup = json.loads(dico_params['c'], 'UTF-8')
-	coup = coup2txt.main(jcoup)
+	if b.get_dernier_joueur(int(dico_params['gid'])) == \
+		b.session_to_login(s) and dico_params['flag'] != 'A':
+		print "Ce n'est pas à votre tour de jouer."
+		exit(0)
+	
+	dico_params['c'] = parametres.get('c', None)
+	coup = parametres.get('c', '')
 	logging.debug('coup : ' + coup)
 	
 	if dico_params['com'] == None:
@@ -90,37 +92,10 @@ if __name__ == "__main__":
 	login = b.session_to_login(s).encode('UTF-8', 'ascci')
 	logging.debug('login : ' + login)
 	txt = ''
-	token = ''
 	if dico_params['flag'] != None:
-		txt = login + ' annonce '
 		if dico_params['flag'] == 'A':
-			txt += 'son abandon.'
-		if dico_params['flag'] == 'E':
-			txt += 'échec !'
-		if dico_params['flag'] == 'M':
-			txt += 'échec et mat !'
-		if dico_params['flag'] == 'P':
-			txt += 'pat.'
-	
-	for i in jcoup:
-		i['j'] = login
-	dico_params['c'] = json.dumps(jcoup)
-	
-	if dico_params['c'] == '[]':
-		dico_params['c'] = '[{}]'
-	
-	if txt != '':
-		dico_params['c'] = dico_params['c'].replace('}]', ', "flag" : "') + txt + '"}]'
-		if token != '':
-			dico_params['c'] = dico_params['c'].replace('}]', ', "token" : "') + token + '"}]'
-	
-	if dico_params['com'] != '':
-		dico_params['com'] = 'commentaire de ' + login + ' : ' + dico_params['com']
-		dico_params['c'] = dico_params['c'].replace('}]', ', "com" : "') + dico_params['com'] + '"}]'
-	
-	dico_params['c'] = dico_params['c'].replace('[{,', '[{')
+			txt += login + ' annonce son abandon.'
 		
-	
 	# récupère l'email de l'adversaire
 	players = b.players_from_game(dico_params['gid'])[0]
 	adversaire = ''
@@ -143,22 +118,29 @@ if __name__ == "__main__":
 	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, dico_params['com'], url)
 	if coup == '':
 		msg = msg.replace('a joué :', "n'a pas joué.")
+	
+	if dico_params['c'] != None:
+		b.add_move(dico_params['gid'], dico_params['c'], s)
+		if dico_params['c'][-1:] == '#':
+			msg += '<br/>Vous avez perdu !'
+			b.set_win(dico_params['gid'], b.session_to_user_id(s))
 		
 	if dico_params['flag'] == 'A':
 		msg += '<br/>Vous avez gagné !'
 		b.set_win(dico_params['gid'], adversaire)
 		
-	r = mail.send_mail(email, sujet, msg )
-	b.add_move(dico_params['gid'], dico_params['c'])
-	
-	if dico_params['flag'] == 'M' or dico_params['flag'] == 'P':
-		token = lcookie.token()
-		if dico_params['flag'] == 'M':
-			token = '+' + token
-		b.update_game_token(dico_params['gid'], token)
-	else:
-		b.update_game_token(dico_params['gid'], '')
+	if dico_params['flag'] == 'D':
+		msg += '<br/>La partie est nulle.'
+		b.set_win(dico_params['gid'], 0)
 		
+	if dico_params['flag'] == 'N':
+		msg += '<br/>Votre adversaire vous propose la nulle.'
+		b.update_game_token(dico_params['gid'], str(b.session_to_user_id(s)) + '_' + token())
+	
+	if dico_params['com'] != '':
+		b.add_com(dico_params['com'], dico_params['gid'], s)
+	
+	r = mail.send_mail(email, sujet, msg )
 	#~ test local
 	#~ r = 'ok'
 	print r

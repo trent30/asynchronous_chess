@@ -148,15 +148,17 @@ body {
 }
 
 .msg {
-	display: inline;
+	display: block;
 	margin-right : 10px;
 	font-style: italic;
+	text-align: left;
 }
 
 .num {
 	display: inline;
 	font-style: italic;
 	color: #A69B9B;
+	padding-right: 10px;
 }
 
 .color_input {
@@ -179,4 +181,11 @@ body {
 
 .order {
 	display: inline;
+	float: right;
+	width: 80px;
+}
+
+.lst_players {
+	display: inline;
+	padding-right: 5px;
 }

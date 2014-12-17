@@ -35,5 +35,8 @@ if __name__ == "__main__":
 	
 	parametres = input()
 	b = bdd.bdd()
-	b.insert_error(parametres.get('g', None), b.session_to_user_id(s))
+	b.insert_error(\
+		parametres.get('g', None), \
+		b.session_to_user_id(s), \
+		parametres.get('c', None))
 	print "Le bug est enregistré"

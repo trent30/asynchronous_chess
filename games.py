@@ -37,7 +37,7 @@ if __name__ == "__main__":
 		dico['id'] = l[0][0]
 		dico['joueurs'] = l[0][1] + ' vs ' + l[0][2]
 		dico['date'] = l[0][3].split('.')[0]
-		dico['trait'] = b.get_dernier_joueur(b.get_history(l[0][0]))
+		dico['trait'] = b.get_dernier_joueur(l[0][0])
 		r.append(dico)
 	
 	print json.dumps(r)
