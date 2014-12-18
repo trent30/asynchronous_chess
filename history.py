@@ -40,7 +40,8 @@ if __name__ == "__main__":
 	r = {}
 	coup = []
 	for i in h:
-		coup.append(i[0])
+		if i[0][0] != '[':
+			coup.append(i[0])
 	r['h'] = coup
 	
 	token = b.get_game_token(game)
