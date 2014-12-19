@@ -55,5 +55,5 @@ if __name__ == "__main__":
 		print_page('La longueur du mot de passe doit faire au moins 8 caractères')
 	
 	p = bcrypt.hashpw(passwd, bcrypt.gensalt())
-	b.update_passwd(s, p)
+	b.update_passwd(t, p)
 	print_page('Votre mot de passe a été modifié.')
