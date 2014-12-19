@@ -113,7 +113,7 @@ if __name__ == "__main__":
 		' (#' + str(dico_params['gid']) + ')'
 	logging.debug('sujet : ' + sujet)
 	
-	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, dico_params['com'], url)
+	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, 'Commentaire de ' + login + ' :<br/>' + dico_params['com'], url)
 	if coup == '':
 		msg = msg.replace('a joué :', "n'a pas joué.")
 	
