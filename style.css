@@ -150,6 +150,10 @@ body {
 .msg {
 	display: block;
 	margin-right : 10px;
+	text-align: left;
+}
+
+.com_auteur {
 	font-style: italic;
 	text-align: left;
 }
