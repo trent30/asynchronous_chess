@@ -620,6 +620,7 @@ function f_init() {
 	check_rotate();
 	log = '';
 	set_position(INITIAL_POSITION);
+	deselect();
 }
 
 function nothing_return(x) {
