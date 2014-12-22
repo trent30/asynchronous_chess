@@ -21,6 +21,7 @@ deselect();
 PROMOTION = null;
 COUP_PROMOTION = null;
 INITIAL_POSITION = {};
+MODE_PATRON = false;
 
 function $(x) {
 	return document.getElementById(x);
@@ -75,6 +76,40 @@ function nextligne(l, inverse) {
 		if (l == 1) return 8;
 		return l - 1;
 	}
+}
+
+function switch_color_ascii(color) {
+	if (color == '') {
+		return 'style="background : #D4D4D4"';
+	} else {
+		return ''
+	}
+}
+
+function draw_board_ascii() {
+	var e = $('board');
+	var t = '<table>';
+	var colonne = '';
+	var color = ' ';
+	for (var x = 8; x > 0; x--) {
+		t += '<tr><td>' + x + '</td>';
+		for (var y = 1; y < 9; y++) {
+			colonne = String.fromCharCode(y + 96);
+			color = switch_color_ascii(color)
+			t += '<td ' + color + '>' + piece_to_image_all(position[colonne + x]) + '</td>'
+		}
+		t += '</tr>';
+		color = switch_color_ascii(color)
+	}
+	t += '<tr><td></td>';
+	for (var y = 1; y < 9; y++) {
+		colonne = String.fromCharCode(y + 96);
+		t += '<td>' + colonne + '</td>'
+	}
+	t += '</tr></table>';
+	console.log(t);
+	e.style.background = 'white';
+	e.innerHTML = t;
 }
 
 function draw_board() {
@@ -187,6 +222,10 @@ function get_cdn() {
 }
 
 function draw_pieces(p) {
+	if (MODE_PATRON == true) {
+		draw_board_ascii();
+		return;
+	}
 	for(var i in p) {
 		var id = i + '';
 		var e = $(id);
@@ -360,6 +399,27 @@ function piece_to_image(p) {
 				'R' : '♖',
 				'B' : '♗',
 				'N' : '♘' };
+	for (var i in t) {
+		var r = new RegExp(i, "g");
+		p = p.replace(r, t[i]);
+	}
+	return p;
+}
+
+function piece_to_image_all(p) {
+	var t = { 	'Rb' : '♔',
+				'Db' : '♕',
+				'Tb' : '♖',
+				'Fb' : '♗',
+				'Cb' : '♘', 
+				'pb' : '♙',
+				'Rn' : '♚',
+				'Dn' : '♛',
+				'Tn' : '♜',
+				'Fn' : '♝',
+				'Cn' : '♞', 
+				'pn' : '♟',
+				};
 	for (var i in t) {
 		var r = new RegExp(i, "g");
 		p = p.replace(r, t[i]);
@@ -1252,6 +1312,20 @@ function checkKey(e) {
     if (e.keyCode == '80') { // 'p'
 		pgn();
 		return;
+    }
+    if (e.keyCode == '27') { // 'Echap'
+		if (MODE_PATRON == true) {
+			MODE_PATRON = false;
+			console.log('mode ascii OFF');
+			draw_board();
+			draw_pieces(position);
+			return;
+		} else {
+			MODE_PATRON = true;
+			console.log('mode ascii ON');
+			draw_board_ascii();
+			return;
+		}
     }
     try {
 		var num = parseInt(old_one_move.id.split('_')[1]);
