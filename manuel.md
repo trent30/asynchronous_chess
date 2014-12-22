@@ -36,6 +36,8 @@ Avec le bouton « revenir à la position initiale » si votre adversaire a joué
 
 ![](./img/help.png 'annuler') Afficher l'aide.
 
+La touche 'p' affiche la position au format FEN ainsi que la partie au format PGN.
+
 ## Informations complémentaires
 
 Toutes les parties sont publiques, cela implique que tous vos messages pourront être lus (faites attention à ce qui vous écrivez). Pour partager une partie avec un spectateur il suffit de lui donner le lien que vous recevez dans le mail (il se termine par "?gid=" suivi du numéro de la partie).

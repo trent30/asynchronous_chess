@@ -1236,8 +1236,23 @@ function checkEnter(e) {
 	}
 }
 
+function pgn() {
+	var t = '<div class="pgn">';
+	CHESS.header('White', players.split(' vs ')[0]);
+	CHESS.header('Black', players.split(' vs ')[1]);
+	t += '<b>Position :</b><br/><br/>';
+	t += CHESS.fen();
+	t += '<br/><br/><hr/><b>PGN :</b><br/><br/>';
+	t += CHESS.pgn().replace(/\n/g, '<br/>');
+	clean_log(t + '</div>');
+}
+
 function checkKey(e) {
     e = e || window.event;
+    if (e.keyCode == '80') { // 'p'
+		pgn();
+		return;
+    }
     try {
 		var num = parseInt(old_one_move.id.split('_')[1]);
 	} catch (e) {
