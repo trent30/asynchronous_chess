@@ -323,12 +323,11 @@ function dselect_one_move(id) {
 	
 function select_one_move(n) {
 	dselect_one_move(old_one_move);
-	var e = $(n.id);
+	var e = $( 'coup_' + n );
 	e.style.background = '#D4D4D4';
 	old_one_move = e;
 	init_position();
-	var num = parseInt(n.id.split('_')[1]);
-	for (var i = 0; i <= num; i++) {
+	for (var i = 0; i <= n; i++) {
 		CHESS.move(historique[i]);
 	}
 	position = CHESS.position();
@@ -377,7 +376,7 @@ function historique2log(h) {
 	var i = 0;
 	var com = false;
 	for (i = 0; i < h.h.length; i++) {
-		t = "<div class='order' onclick=select_one_move(this) id=coup_" + i + ">" + piece_to_image(h.h[i]) + "</div>" + t;
+		t = "<div class='order' onclick=select_one_move(" + i + ") id=coup_" + i + ">" + piece_to_image(h.h[i]) + "</div>" + t;
 		if (l[i]) {	com = true; }
 		if ( i % 2 == 0 ) {
 			numero = i / 2 + 1;
@@ -1241,7 +1240,9 @@ function checkKey(e) {
     e = e || window.event;
     try {
 		var num = parseInt(old_one_move.id.split('_')[1]);
-	} catch (e) { return }
+	} catch (e) {
+		var num = INITIAL_POSITION.h.length; 
+	}
 	var operation = 0;
     if (e.keyCode == '38') { // up arrow 
 		operation = -1;
@@ -1256,7 +1257,7 @@ function checkKey(e) {
 			break;
 		}
 	}
-	select_one_move($('coup_' + num));
+	select_one_move(num);
 }
 
 function save_prefs_server_return(r) {
