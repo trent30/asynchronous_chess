@@ -1327,26 +1327,29 @@ function checkKey(e) {
 			return;
 		}
     }
-    try {
-		var num = parseInt(old_one_move.id.split('_')[1]);
-	} catch (e) {
-		var num = INITIAL_POSITION.h.length; 
-	}
-	var operation = 0;
-    if (e.keyCode == '38') { // up arrow 
-		operation = -1;
-    }
-    if (e.keyCode == '40') { // down arrow
-		operation = 1;
-    }
-	num = num + operation;
-    while ( $('coup_' + num) == null ) {
-		num = num + operation;
-		if (num < 0 || num > INITIAL_POSITION.h.length) {
-			break;
+    
+    if ((e.keyCode == '38') || (e.keyCode == '40')) {
+		try {
+			var num = parseInt(old_one_move.id.split('_')[1]);
+		} catch (e) {
+			var num = INITIAL_POSITION.h.length; 
 		}
+		var operation = 0;
+		if (e.keyCode == '38') { // up arrow 
+			operation = -1;
+		}
+		if (e.keyCode == '40') { // down arrow
+			operation = 1;
+		}
+		num = num + operation;
+		while ( $('coup_' + num) == null ) {
+			num = num + operation;
+			if (num < 0 || num > INITIAL_POSITION.h.length) {
+				break;
+			}
+		}
+		select_one_move(num);
 	}
-	select_one_move(num);
 }
 
 function save_prefs_server_return(r) {
