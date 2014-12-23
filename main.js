@@ -1191,6 +1191,11 @@ function send_return(r) {
 			INITIAL_POSITION.nulle = null;
 			INITIAL_POSITION.h.push(diff);
 			historique.push(diff);
+			var c = {};
+			c.j = user_ID;
+			c.n = INITIAL_POSITION.h.length - 1;
+			c.t = com1;
+			INITIAL_POSITION.c.push(c);
 		}
 		l.innerHTML = '';
 		historique2log(INITIAL_POSITION);
