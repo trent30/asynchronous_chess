@@ -712,6 +712,10 @@ function set_game_info(aff) {
 		return;
 	}
 	var p = players.split(' vs ');
+	if (p[1] == null) {
+		p[0] = 'blancs';
+		p[1] = 'noirs';
+	}
 	var s = scores();
 	e.innerHTML = 'partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')' ;
 }
