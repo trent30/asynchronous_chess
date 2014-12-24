@@ -20,7 +20,7 @@ selection = {
 deselect();
 PROMOTION = null;
 COUP_PROMOTION = null;
-INITIAL_POSITION = {};
+INITIAL_POSITION = {'h' : [], 'c' : []};
 MODE_PATRON = false;
 
 function $(x) {
