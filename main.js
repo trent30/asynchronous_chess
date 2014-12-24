@@ -458,8 +458,6 @@ function historique2log(h) {
 	}
 	if ( h.r != null) {
 		add_log("<b>" + h.r + "</b>");
-	} else {
-		add_log('<hr/>');
 	}
 }
 
@@ -534,8 +532,8 @@ function f_click(c) {
 			position[coup.c1] = '';
 		}
 		position[c] = selection.piece;
-		clean_log(log);
-		add_log(CHESS.history().pop());
+		historique = CHESS.history();
+		historique2log({'h' : CHESS.history(), 'c' : INITIAL_POSITION.c});
 		try {
 			e2.style.background = selection.color;
 			e2.innerHTML = '';
@@ -736,8 +734,8 @@ function f_reload_return(j) {
 	}
 	window.document.title = 'chess'; // midori ne rafraichi pas le titre sinon
 	window.document.title = 'chess #' + game_ID + ' ' + players;
-	set_position(r);
 	INITIAL_POSITION = r;
+	set_position(r);
 	set_game_info(true);
 }
 
@@ -802,10 +800,10 @@ function f_send() {
 }
 
 function diff_historique() {
-	if (CHESS.history().length == historique.length) {
+	if (CHESS.history().length == INITIAL_POSITION.h.length) {
 		return '';
 	}
-	return CHESS.history()[historique.length];
+	return CHESS.history()[INITIAL_POSITION.h.length];
 }
 
 function set_position(h) {
