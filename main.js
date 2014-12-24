@@ -390,7 +390,7 @@ function message_or_not(b) {
 	if (b) {
 		return '<div onclick="info(_n_)" class="order" title="message"></div>';
 	}
-	return '<div style="color: #FFF;" class="order"' + '">.</div>';
+	return '<div style="color: #FFF;" class="order">.</div>';
 }
 
 function piece_to_image(p) {
