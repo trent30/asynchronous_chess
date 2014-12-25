@@ -113,6 +113,11 @@ body {
 	font-size: small;
 }
 
+#game_info:hover {
+	text-decoration : underline;
+	font-style: italic;
+}
+
 .field {
 	text-align: center;
 }

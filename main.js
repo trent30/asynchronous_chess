@@ -1328,10 +1328,6 @@ function pgn() {
 
 function checkKey(e) {
     e = e || window.event;
-    if (e.keyCode == '80') { // 'p'
-		pgn();
-		return;
-    }
     if (e.keyCode == '27') { // 'Echap'
 		if (MODE_PATRON == true) {
 			MODE_PATRON = false;

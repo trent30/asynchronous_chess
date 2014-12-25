@@ -36,8 +36,6 @@ Avec le bouton « revenir à la position initiale » si votre adversaire a joué
 
  - ![](./img/help.png 'annuler') Afficher l'aide.
 
- - La touche 'p' affiche la position au format FEN ainsi que la partie au format PGN.
-
  - La touche ECHAP permet de passer en mode « patron » : affiche l'échiquier en ASCII pour être plus discret au travail. Ce mode ne permet pas de sélectionner une pièce, il faut repasser en mode normal en appuyant de nouveau sur ECHAP pour jouer.
 
 ## Informations complémentaires
