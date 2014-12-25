@@ -390,7 +390,7 @@ function message_or_not(b) {
 	if (b) {
 		return '<div onclick="info(_n_)" class="order" title="message"></div>';
 	}
-	return '<div style="color: #FFF;" class="order">.</div>';
+	return '<div class="order hide">.</div>';
 }
 
 function piece_to_image(p) {
@@ -435,24 +435,28 @@ function historique2log(h) {
 	var m = '';
 	var i = 0;
 	var com = false;
+	var llog = '';
 	for (i = 0; i < h.h.length; i++) {
 		t = "<div class='order' onclick=select_one_move(" + i + ") id=coup_" + i + ">" + piece_to_image(h.h[i]) + "</div>" + t;
-		if (l[i]) {	com = true; }
+		if (l[i] == true) {
+			com = true;
+		}
 		if ( i % 2 == 0 ) {
 			numero = i / 2 + 1;
 		} else {
 			m = message_or_not(com);
-			add_log(m.replace(/_n_/, numero) + t + '<div class="num">'+ numero + '</div>');
-			add_log('<div class="msg" id=msg_' + numero + '></div>');
+			llog += m.replace(/_n_/, numero) + t + '<div class="num">'+ numero + '</div>';
+			llog += '<div class="msg" id="msg_' + numero + '"></div><div class="plate hide">.</div>';
 			t = '';
 			com = false;
 		}
 	}
 	if ( i % 2 == 1 ) {
 		m = message_or_not(l[i - 1]);
-		add_log(m.replace(/_n_/, numero) + "<div class='order'>...</div>" + t + '<div class="num">'+ numero + '</div>');
-		add_log('<div class="msg" id=msg_' + numero + '></div>');
+		llog += m.replace(/_n_/, numero) + "<div class='order'>...</div>" + t + '<div class="num">'+ numero + '</div>';
+		llog += '<div class="msg" id="msg_' + numero + '"></div>';
 	}
+	clean_log(llog);
 	if ( h.nulle != null) {
 		add_log('<div class="msg">Votre adversaire vous propose la nulle.</div><div onclick="finish()" class="btn">Accepter</a></div>');
 	}
