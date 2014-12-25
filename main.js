@@ -388,7 +388,7 @@ function list_check_com(h) {
 
 function message_or_not(b) {
 	if (b) {
-		return '<div onclick="info(_n_)" class="order" title="message"></div>';
+		return '<div onclick="info(_n_)" class="order" title="message"><img src="./img/msg16x16.png"></div>';
 	}
 	return '<div class="order hide">.</div>';
 }
