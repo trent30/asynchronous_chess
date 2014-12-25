@@ -159,10 +159,10 @@ body {
 }
 
 .num {
-	display: inline;
 	font-style: italic;
 	color: #A69B9B;
-	padding-right: 10px;
+	text-align: right;
+	margin-right: 300;
 }
 
 .color_input {
