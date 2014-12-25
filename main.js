@@ -571,8 +571,8 @@ function f_click_add(p) {
 				position[COUP_PROMOTION.c1] = '';
 			}
 			position[COUP_PROMOTION.c2] = p;
-			clean_log(log);
-			add_log(CHESS.history().pop());
+			historique.push(CHESS.history().pop());
+			historique2log({"h" : historique, "c" : INITIAL_POSITION.c});
 			deselect();
 			set_game_info(true);
 			draw_pieces(position);
