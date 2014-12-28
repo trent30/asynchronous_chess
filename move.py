@@ -66,7 +66,8 @@ if __name__ == "__main__":
 			pass
 	
 	if b.get_dernier_joueur(int(dico_params['gid'])) == \
-		b.session_to_login(s) and dico_params['flag'] != 'A':
+		b.session_to_login(s) and dico_params['flag'] != 'A' \
+		and dico_params['com'] == None:
 		print "Ce n'est pas à votre tour de jouer."
 		exit(0)
 	
