@@ -52,6 +52,9 @@ class bdd():
 			FROM historique h, users u 
 			WHERE h.joueur = u.id and game_id='%s' 
 			order by h.id desc limit 1;""" % game_id)
+			
+	def get_date(self, game_id):
+		return self.requete_0("SELECT date FROM games WHERE id='%s';" % game_id)
 
 	def session_to_login(self, s):
 		return self.requete_0("select login from users u, sessions s\

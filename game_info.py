@@ -48,4 +48,6 @@ if __name__ == "__main__":
 	else:
 		r['players'] = '';
 	
+	r['date'] = b.get_date(game).split()[0]
+	
 	print json.dumps(r)

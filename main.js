@@ -1,5 +1,6 @@
 player_color = 'white';
 players = '';
+DATE = '';
 position = {};
 prefs = ['ccn', 'ccb', 'pieces', 'size'];
 historique = [];
@@ -254,12 +255,14 @@ function init_return(v) {
 		var j = JSON.parse(v);
 		player_color = j.color;
 		players = j.players;
+		DATE = j.date;
 	} catch (err) {
 		console.log('La récupération des informations de la partie a échouée');
 	}
 	console.log('game :', game_ID);
 	console.log('color :', player_color);
 	console.log('joueurs :', players);
+	console.log('date :', DATE);
 	f_reload();
 }
 
@@ -1319,6 +1322,7 @@ function pgn() {
 	var t = '<div class="pgn">';
 	CHESS.header('White', players.split(' vs ')[0]);
 	CHESS.header('Black', players.split(' vs ')[1]);
+	CHESS.header('Date', DATE);
 	t += '<b>Position :</b><br/><br/>';
 	t += CHESS.fen();
 	t += '<br/><br/><hr/><b>PGN :</b><br/><br/>';
