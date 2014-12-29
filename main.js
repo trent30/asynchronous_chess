@@ -92,23 +92,42 @@ function draw_board_ascii() {
 	var t = '<table>';
 	var colonne = '';
 	var color = ' ';
-	for (var x = 8; x > 0; x--) {
-		t += '<tr><td>' + x + '</td>';
-		for (var y = 1; y < 9; y++) {
-			colonne = String.fromCharCode(y + 96);
+	if (player_color == 'white') {
+		for (var x = 8; x > 0; x--) {
+			t += '<tr><td>' + x + '</td>';
+			for (var y = 1; y < 9; y++) {
+				colonne = String.fromCharCode(y + 96);
+				color = switch_color_ascii(color)
+				t += '<td ' + color + '>' + piece_to_image_all(position[colonne + x]) + '</td>';
+			}
+			t += '</tr>';
 			color = switch_color_ascii(color)
-			t += '<td ' + color + '>' + piece_to_image_all(position[colonne + x]) + '</td>'
 		}
+	} else {
+		for (var x = 1; x < 9; x++) {
+		t += '<tr><td>' + x + '</td>';
+			for (var y = 8; y > 0; y--) {
+				colonne = String.fromCharCode(y + 96);
+				color = switch_color_ascii(color)
+				t += '<td ' + color + '>' + piece_to_image_all(position[colonne + x]) + '</td>';
+			}
 		t += '</tr>';
 		color = switch_color_ascii(color)
+		}
 	}
 	t += '<tr><td></td>';
-	for (var y = 1; y < 9; y++) {
-		colonne = String.fromCharCode(y + 96);
-		t += '<td>' + colonne + '</td>'
+	if (player_color == 'white') {
+		for (var y = 1; y < 9; y++) {
+			colonne = String.fromCharCode(y + 96);
+			t += '<td>' + colonne + '</td>'
+		}
+	} else {
+		for (var y = 8; y > 0; y--) {
+			colonne = String.fromCharCode(y + 96);
+			t += '<td>' + colonne + '</td>'
+		}
 	}
 	t += '</tr></table>';
-	console.log(t);
 	e.style.background = 'white';
 	e.innerHTML = t;
 }
