@@ -699,6 +699,7 @@ function f_option() {
 
 function check_rotate() {
 	var e = $('case_10');
+	if (e == null) { return; }
 	if ((e.innerHTML == '<p>8</p>' && player_color == 'black')||
 		(e.innerHTML == '<p>1</p>' && player_color == 'white')) {
 		f_rotate();
