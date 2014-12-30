@@ -10,6 +10,7 @@ import logging
 import mail
 import ConfigParser
 from lcookie import token
+import subprocess
 
 config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
@@ -19,6 +20,7 @@ logging.basicConfig(filename=config.get('log', 'file'), \
 	level=int(config.get('log', 'level')))
 
 logging.debug('-'*20)
+b = bdd.bdd()
 
 def input():
 	form = cgi.FieldStorage()
@@ -29,7 +31,20 @@ def input():
 		except:
 			data[i] = ''
 	return data
-
+	
+def check_move(gid, dernier_coup):
+	h = b.get_history(gid)
+	arg = ['node', 'chess_server_side.js']
+	for i in h:
+		if i[0][0] != '[':
+			arg.append(i[0])
+	arg.append(dernier_coup)
+	p = subprocess.Popen(arg, stdout=subprocess.PIPE)
+	if p.wait() == 1:
+		return False
+	else:
+		return True
+	
 if __name__ == "__main__":
 	print "Content-type: text/html\n\n"
 	
@@ -48,7 +63,6 @@ if __name__ == "__main__":
 		print "déco"
 		exit(0)
 	
-	b = bdd.bdd()
 	if not b.autorized(s):
 		logging.debug('pas autorisé')
 		print "Vous n'êtes pas autorisé à jouer dans cette partie."
@@ -123,7 +137,11 @@ if __name__ == "__main__":
 		msg = msg.replace('a joué :', "n'a pas joué.")
 	
 	if dico_params['c'] != None:
-		b.add_move(dico_params['gid'], dico_params['c'], s)
+		if check_move(dico_params['gid'], dico_params['c']):
+			b.add_move(dico_params['gid'], dico_params['c'], s)
+		else :
+			print "Coup invalide !"
+			exit(0)
 		if dico_params['c'][-1:] == '#':
 			msg += '<br/>Vous avez perdu !'
 			b.set_win(dico_params['gid'], b.session_to_user_id(s))
