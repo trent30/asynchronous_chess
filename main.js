@@ -1262,7 +1262,7 @@ function send() {
 	com = com.replace(/\n/g, "%0A");
 	form = $('send_form');
 	var flag = form.getElementsByClassName('flag');
-	flag_value = '';
+	var flag_value = '';
 	var r = diff_historique();
 	r = r.replace(/\+/g, "%2B");
 	r = r.replace(/#/g, "%23");
@@ -1276,12 +1276,15 @@ function send() {
 		url += '&com=' + com;
 	}
 	
+	//~ vérification si la partie est nulle
 	var h = INITIAL_POSITION.h;
+	var c = new Chess();
+	c.reset();
 	for (var i = 0; i < h.length; i++) {
-		CHESS.move(h[i]);
+		c.move(h[i]);
 	}
-	CHESS.move(r);
-	if (CHESS.in_draw()) { flag_value='D'; }
+	c.move(diff_historique());
+	if (c.in_draw()) { flag_value='D'; }
 	
 	if (flag_value.length != 0) {
 		url += '&flag=' + flag_value;
@@ -1292,7 +1295,7 @@ function send() {
 		}
 	}
 	/* vérification que tout n'est pas vide */
-	if (diff_historique().length == 0 && com.length == 0 && flag_value.length == 0) {
+	if (r == '' && com.length == 0 && flag_value.length == 0) {
 		alert("Vous n'avez rien à envoyer.");
 		return 2;
 	}

@@ -34,16 +34,13 @@ def input():
 	
 def check_move(gid, dernier_coup):
 	h = b.get_history(gid)
-	arg = ['node', 'chess_server_side.js']
+	arg = ['nodejs', 'chess_server_side.js']
 	for i in h:
 		if i[0][0] != '[':
 			arg.append(i[0])
 	arg.append(dernier_coup)
 	p = subprocess.Popen(arg, stdout=subprocess.PIPE)
-	if p.wait() == 1:
-		return False
-	else:
-		return True
+	return p.wait()
 	
 if __name__ == "__main__":
 	print "Content-type: text/html\n\n"
@@ -136,12 +133,15 @@ if __name__ == "__main__":
 	if coup == '':
 		msg = msg.replace('a joué :', "n'a pas joué.")
 	
+	verification = check_move(dico_params['gid'], dico_params['c'])
+	
 	if dico_params['c'] != None:
-		if check_move(dico_params['gid'], dico_params['c']):
+		if verification == 0:
 			b.add_move(dico_params['gid'], dico_params['c'], s)
 		else :
-			print "Coup invalide !"
-			exit(0)
+			if verification != 2:
+				print "Coup invalide !"
+				exit(0)
 		if dico_params['c'][-1:] == '#':
 			msg += '<br/>Vous avez perdu !'
 			b.set_win(dico_params['gid'], b.session_to_user_id(s))
@@ -151,8 +151,13 @@ if __name__ == "__main__":
 		b.set_win(dico_params['gid'], adversaire)
 		
 	if dico_params['flag'] == 'D':
-		msg += '<br/>La partie est nulle.'
-		b.set_win(dico_params['gid'], 0)
+		if verification == 2:
+			msg += '<br/>La partie est nulle.'
+			b.add_move(dico_params['gid'], dico_params['c'], s)
+			b.set_win(dico_params['gid'], 0)
+		else :
+			print "Coup invalide ! (la partie n'est pas nulle)"
+			exit(0)
 		
 	if dico_params['flag'] == 'N':
 		msg += '<br/>Votre adversaire vous propose la nulle.'
