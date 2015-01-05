@@ -485,6 +485,9 @@ function historique2log(h) {
 	if ( h.r != null) {
 		add_log("<b>" + h.r + "</b>");
 	}
+	if ( h.r == null && CHESS.in_draw() ) {
+		add_log("<b>½-½</b>");
+	}
 }
 
 function deselect() {
