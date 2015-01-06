@@ -76,14 +76,15 @@ if __name__ == "__main__":
 		except:
 			pass
 	
+	dico_params['c'] = parametres.get('c', None)
+	coup = parametres.get('c', '')
+	
 	if b.get_dernier_joueur(int(dico_params['gid'])) == \
 		b.session_to_login(s) and dico_params['flag'] != 'A' \
-		and dico_params['com'] == None:
+		and coup != '':
 		print "Ce n'est pas à votre tour de jouer."
 		exit(0)
 	
-	dico_params['c'] = parametres.get('c', None)
-	coup = parametres.get('c', '')
 	logging.debug('coup : ' + coup)
 	
 	if dico_params['com'] == None:
@@ -133,7 +134,10 @@ if __name__ == "__main__":
 	if coup == '':
 		msg = msg.replace('a joué :', "n'a pas joué.")
 	
-	verification = check_move(dico_params['gid'], dico_params['c'])
+	if dico_params['c'] != None:
+		verification = check_move(dico_params['gid'], dico_params['c'])
+	else:
+		verification = 1
 	
 	if dico_params['c'] != None:
 		if verification == 0:
