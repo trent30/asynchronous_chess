@@ -1190,7 +1190,9 @@ function save_prefs() {
 	draw_pieces(position);
 	draw_color_case();
 	resize();
-	f_option();
+	f_menu('preferences');
+	add_log('<br/>La configuration est sauvegardée en local.');
+	aff_prefs();
 }
 
 function invite_return(r) {
@@ -1399,7 +1401,9 @@ function checkKey(e) {
 
 function save_prefs_server_return(r) {
 	if (r == 'ok') {
-		clean_log('La configuration est sauvegardée.');
+		f_menu('preferences');
+		add_log('<br/>La configuration est sauvegardée sur le serveur.');
+		aff_prefs();
 	} else {
 		clean_log(r);
 	}
@@ -1417,11 +1421,12 @@ function restore_prefs_server_return(r) {
 		for (i in data) {
 			try_set_local(i, data[i]);
 		}
-		clean_log('La configuration est restaurée.');
+		f_menu('preferences');
+		add_log('<br/>La configuration est restaurée.');
+		aff_prefs();
 		draw_pieces(position);
 		draw_color_case();
 		resize();
-		f_option();
 	} else {
 		clean_log("Une erreur s'est produite lors de la récupération de la configuration.");
 	}

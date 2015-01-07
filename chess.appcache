@@ -1,10 +1,11 @@
 CACHE MANIFEST
-#vendredi 5 septembre 2014, 16:12:49 (UTC+0200)
-#
+# mercredi 7 janvier 2015, 19:51:44 (UTC+0100)
+
 CACHE:
 style.css
 main.js
 chess.js
+index.html
 ./img/clear.png
 ./img/rotate.png
 ./img/options.png
