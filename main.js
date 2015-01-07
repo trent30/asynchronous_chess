@@ -341,7 +341,7 @@ function resize() {
 	var min = min_size();
 	var e = $('board');
 	var marge = try_get_local('size');
-	if (marge == null || marge == 'null') {
+	if (marge == null || marge == 'null' || marge == '') {
 		marge = 0;
 	}
 	min = min + parseInt(marge);
