@@ -147,11 +147,14 @@ if __name__ == "__main__":
 				print "Coup invalide !"
 				exit(0)
 		if dico_params['c'][-1:] == '#':
+			b.add_move(dico_params['gid'], dico_params['c'], s)
 			msg += '<br/>Vous avez perdu !'
+			logging.debug(b.uid_to_login(adversaire) + ' a perdu.')
 			b.set_win(dico_params['gid'], b.session_to_user_id(s))
 		
 	if dico_params['flag'] == 'A':
 		msg += '<br/>Vous avez gagné !'
+		logging.debug(login + ' a gagné par abandon.')
 		b.set_win(dico_params['gid'], adversaire)
 		
 	if dico_params['flag'] == 'D':
