@@ -714,6 +714,7 @@ function f_init() {
 	log = '';
 	set_position(INITIAL_POSITION);
 	deselect();
+	set_game_info(true);
 }
 
 function nothing_return(x) {
