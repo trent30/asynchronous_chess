@@ -503,6 +503,29 @@ function deselect() {
 		};
 }
 
+function anim_stop() {
+	try {
+		clearInterval(INTERVAL_ID);
+	} catch (err) {}
+	var img = $('send_btn');
+	img.style.opacity = 1;
+}
+
+function anim_send_btn() {
+	var img = $('send_btn');
+	var s = img.style;
+	if (s.opacity == 1) {
+		s.opacity = 0.4;
+	} else {
+		s.opacity = 1;
+	}
+}
+
+function anim_start() {
+	anim_stop();
+	INTERVAL_ID = setInterval(anim_send_btn, 700);
+}
+
 function f_click(c) {
 	var coup = {};
 	var e = $(c);
@@ -576,6 +599,7 @@ function f_click(c) {
 		}
 		e.innerHTML = selection.html;
 		deselect();
+		anim_start();
 	}
 	set_game_info(true);
 	position = CHESS.position();
@@ -710,6 +734,7 @@ function check_rotate() {
 }
 
 function f_init() {
+	anim_stop();
 	check_rotate();
 	log = '';
 	set_position(INITIAL_POSITION);
@@ -781,6 +806,7 @@ function f_reload_return(j) {
 }
 
 function f_reload() {
+	anim_stop();
 	if (game_ID == '') {
 		alert("aucune partie n'est sélectionnée.");
 		return 2;
@@ -817,6 +843,7 @@ function check_last_move(c) {
 }
 
 function f_send() {
+	anim_stop();
 	clean_log('');
 	var r = diff_historique();
 	if (check_last_move(r) == false) {
