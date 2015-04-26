@@ -83,7 +83,7 @@ function switch_color_ascii(color) {
 	if (color == '') {
 		return 'style="background : #D4D4D4"';
 	} else {
-		return ''
+		return '';
 	}
 }
 
@@ -97,34 +97,34 @@ function draw_board_ascii() {
 			t += '<tr><td>' + x + '</td>';
 			for (var y = 1; y < 9; y++) {
 				colonne = String.fromCharCode(y + 96);
-				color = switch_color_ascii(color)
+				color = switch_color_ascii(color);
 				t += '<td ' + color + '>' + piece_to_image_all(position[colonne + x]) + '</td>';
 			}
 			t += '</tr>';
-			color = switch_color_ascii(color)
+			color = switch_color_ascii(color);
 		}
 	} else {
 		for (var x = 1; x < 9; x++) {
 		t += '<tr><td>' + x + '</td>';
 			for (var y = 8; y > 0; y--) {
 				colonne = String.fromCharCode(y + 96);
-				color = switch_color_ascii(color)
+				color = switch_color_ascii(color);
 				t += '<td ' + color + '>' + piece_to_image_all(position[colonne + x]) + '</td>';
 			}
 		t += '</tr>';
-		color = switch_color_ascii(color)
+		color = switch_color_ascii(color);
 		}
 	}
 	t += '<tr><td></td>';
 	if (player_color == 'white') {
 		for (var y = 1; y < 9; y++) {
 			colonne = String.fromCharCode(y + 96);
-			t += '<td>' + colonne + '</td>'
+			t += '<td>' + colonne + '</td>';
 		}
 	} else {
 		for (var y = 8; y > 0; y--) {
 			colonne = String.fromCharCode(y + 96);
-			t += '<td>' + colonne + '</td>'
+			t += '<td>' + colonne + '</td>';
 		}
 	}
 	t += '</tr></table>';
@@ -829,7 +829,7 @@ function f_rotate() {
 }
 
 function check_last_move(c) {
-	if (c == '') { return true };
+	if (c == '') { return true; }
 	var test = new Chess();
 	var h = INITIAL_POSITION.h;
 	for (var i = 0; i < h.length; i++) {
@@ -1446,7 +1446,7 @@ function save_prefs_server() {
 function restore_prefs_server_return(r) {
 	if (r != 'error') {
 		data = JSON.parse(r);
-		for (i in data) {
+		for (var i in data) {
 			try_set_local(i, data[i]);
 		}
 		f_menu('preferences');
