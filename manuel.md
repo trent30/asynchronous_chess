@@ -37,7 +37,10 @@ Avec le bouton « revenir à la position initiale » si votre adversaire a joué
  - ![](./img/help.png 'annuler') Afficher l'aide.
 
  - La touche ECHAP permet de passer en mode « patron » : affiche l'échiquier en ASCII pour être plus discret au travail. Ce mode ne permet pas de sélectionner une pièce, il faut repasser en mode normal en appuyant de nouveau sur ECHAP pour jouer.
-
+ 
+ - Pour afficher le PGN, cliquez sur le numéro de la partie juste en dessous des boutons (avec le nom des joueurs).
+ 
+ 
 ## Informations complémentaires
 
 Toutes les parties sont publiques, cela implique que tous vos messages pourront être lus (faites attention à ce qui vous écrivez). Pour partager une partie avec un spectateur il suffit de lui donner le lien que vous recevez dans le mail (il se termine par "?gid=" suivi du numéro de la partie).
