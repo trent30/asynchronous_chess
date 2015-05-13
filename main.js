@@ -23,6 +23,7 @@ PROMOTION = null;
 COUP_PROMOTION = null;
 INITIAL_POSITION = {'h' : [], 'c' : []};
 MODE_PATRON = false;
+com1 = '';
 
 function $(x) {
 	return document.getElementById(x);
@@ -865,6 +866,7 @@ function f_send() {
 		txt += '<br/><br/>' + r + '<br/>';
 	}
 	l.innerHTML = txt + e.innerHTML + '</div>';
+	$('com').value = com1;
 }
 
 function diff_historique() {
@@ -1269,6 +1271,7 @@ function send_return(r) {
 		}
 		l.innerHTML = '';
 		historique2log(INITIAL_POSITION);
+		com1 = '';
 		return 0;
 	}
 	if (r == "déco") {
