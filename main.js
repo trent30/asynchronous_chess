@@ -1386,6 +1386,7 @@ function pgn() {
 	t += CHESS.fen();
 	t += '<br/><br/><hr/><b>PGN :</b><br/><br/>';
 	t += CHESS.pgn().replace(/\n/g, '<br/>');
+	t += "<div class='stats' onclick='f_init()'><p>← Revenir à la liste des coups</p></div>";
 	clean_log(t + '</div>');
 }
 
