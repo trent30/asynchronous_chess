@@ -14,10 +14,27 @@ def send_mail(MAIL_TO, subject, msg):
 	corps += subject + '\n'
 	corps += 'Content-Type: text/html; charset=utf-8\n\n'
 	corps += msg
+	host = config.get('smtp', 'host')
+	port = config.get('smtp', 'port')
 	try:
-		mail = smtplib.SMTP(config.get('smtp', 'host'), config.get('smtp', 'port'))
+		username = config.get('smtp', 'username')
 	except:
-		return 'serveur smtp injoignable'
+		username = None
+	try:
+		password = config.get('smtp', 'password')
+	except:
+		password = None
+	try:
+		mail = smtplib.SMTP(host, port)
+	except:
+		return 'serveur %s:%s injoignable' % (host, port)
+	
+	if username != None:
+		try:
+			mail.login(username, password)
+		except:
+			return "L'authentification au serveur %s:%s a échoué" % (host, port)
+	
 	try:
 		mail.sendmail(MAIL_FROM, MAIL_TO, corps)
 	except:
