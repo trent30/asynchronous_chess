@@ -24,15 +24,16 @@ def send_mail(MAIL_TO, subject, msg):
 		password = config.get('smtp', 'password')
 	except:
 		password = None
+	
+	if MAIL_TO.split('@')[1] == 'trent.homelinux.org':
+		host = '192.168.0.13'
+		port = '25'
+		username = None
+		
 	try:
 		mail = smtplib.SMTP(host, port)
 	except:
 		return 'serveur %s:%s injoignable' % (host, port)
-	
-	if MAIL_TO.split('@')[1] == 'trent.homelinux.org':
-		host = 192.168.0.13
-		port = 25
-		username = None
 		
 	if username != None:
 		try:
