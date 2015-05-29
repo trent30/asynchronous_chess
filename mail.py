@@ -3,13 +3,15 @@
 
 import smtplib
 import ConfigParser
+from time import strftime
 
 config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
 
 def send_mail(MAIL_TO, subject, msg):
 	MAIL_FROM = config.get('smtp', 'from')
-	corps = "From: " + MAIL_FROM
+	corps = "Date: %s" % strftime("%a, %d %b %Y %H:%M:%S %z")
+	corps += "\nFrom: " + MAIL_FROM
 	corps += "\nTo: " + MAIL_TO + "\nSubject: "
 	corps += subject + '\n'
 	corps += 'Content-Type: text/html; charset=utf-8\n\n'
