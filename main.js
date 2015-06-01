@@ -24,6 +24,7 @@ COUP_PROMOTION = null;
 INITIAL_POSITION = {'h' : [], 'c' : []};
 MODE_PATRON = false;
 com1 = '';
+DISPLAY_ALL_MESSAGES = false;
 
 function $(x) {
 	return document.getElementById(x);
@@ -451,7 +452,7 @@ function piece_to_image_all(p) {
 }
 
 function historique2log(h) {
-	clean_log('');
+	clean_log('<div id="print_all" onclick="print_all_messages()" style="text-align: right;"><img src="./img/msg16x16.png" title="afficher/masquer tous les messages"></div>');
 	var numero = 0;
 	var t = '';
 	var l = list_check_com(h);
@@ -479,7 +480,7 @@ function historique2log(h) {
 		llog += m.replace(/_n_/, numero) + "<div class='order'>...</div>" + t + '<div class="num">'+ numero + '</div>';
 		llog += '<div class="msg" id="msg_' + numero + '"></div>';
 	}
-	clean_log(llog);
+	add_log(llog);
 	if ( h.nulle != null) {
 		add_log('<div class="msg">Votre adversaire vous propose la nulle.</div><div onclick="finish()" class="btn">Accepter</a></div>');
 	}
@@ -1336,6 +1337,26 @@ function send() {
 		return 2;
 	}
 	get_page(url, 'send_return');
+}
+
+function print_all_messages() {
+	if (DISPLAY_ALL_MESSAGES) {
+		DISPLAY_ALL_MESSAGES = false;
+	} else {
+		DISPLAY_ALL_MESSAGES = true;
+	}
+	for (var i = 0; i < INITIAL_POSITION.c.length; i++) {
+		var t = $('msg_' + i);
+		if (t != null) {
+			if (DISPLAY_ALL_MESSAGES) {
+				m = '<div class="com_auteur">Commentaire de <b>' + INITIAL_POSITION.c[i].j + '</b> :</div>';
+				m += INITIAL_POSITION.c[i].t + '<br><br> ';
+			} else {
+				m = '';
+			}
+			t.innerHTML = m;
+		}
+	}
 }
 
 function info(nt) {
