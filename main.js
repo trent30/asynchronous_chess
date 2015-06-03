@@ -1340,21 +1340,18 @@ function send() {
 }
 
 function print_all_messages() {
+	for (var i = 0; i < INITIAL_POSITION.c.length; i++) {
+		var t = $('msg_' + i);
+		if (t != null) {
+			t.innerHTML = '';
+		}
+	}
 	if (DISPLAY_ALL_MESSAGES) {
 		DISPLAY_ALL_MESSAGES = false;
 	} else {
 		DISPLAY_ALL_MESSAGES = true;
-	}
-	for (var i = 0; i < INITIAL_POSITION.c.length; i++) {
-		var t = $('msg_' + i);
-		if (t != null) {
-			if (DISPLAY_ALL_MESSAGES) {
-				m = '<div class="com_auteur">Commentaire de <b>' + INITIAL_POSITION.c[i].j + '</b> :</div>';
-				m += INITIAL_POSITION.c[i].t + '<br><br> ';
-			} else {
-				m = '';
-			}
-			t.innerHTML = m;
+		for (var i = 0; i < INITIAL_POSITION.c.length; i++) {
+			info(i);
 		}
 	}
 }
@@ -1362,6 +1359,7 @@ function print_all_messages() {
 function info(nt) {
 	var m = '';
 	var t = $('msg_' + nt);
+	if (t == null) { return; }
 	if (t.innerHTML != '') {
 		t.innerHTML = '';
 		return;
