@@ -64,14 +64,34 @@ body {
 }
 
 #log {
-	display: inline-block;
-	overflow: auto;
 	height : 100%;
 	width: 95%;
 	text-align: right;
 	margin-top: 1%;
 	margin-left: 5%;
 	padding-left: 10;
+	overflow: auto;
+}
+
+.llog {
+	direction: rtl;
+	margin-right: 5%;
+}
+
+.llog * {
+	direction: ltr;
+}
+
+.num {
+	font-style: italic;
+	color: #A69B9B;
+	display: inline-block;
+	margin-right: 30px;
+}
+
+.order {
+	display:inline-block;
+	width: 100px;
 }
 
 .btn {
@@ -164,13 +184,6 @@ body {
 	background : #E5E6E6;
 }
 
-.num {
-	font-style: italic;
-	color: #A69B9B;
-	text-align: right;
-	margin-right: 300;
-}
-
 .color_input {
 	text-align : right;
 	padding-right : 20%;
@@ -187,12 +200,6 @@ body {
 .stats:hover {
 	text-decoration : underline;
 	font-style: italic;
-}
-
-.order {
-	display: inline;
-	float: right;
-	width: 80px;
 }
 
 .lst_players {
