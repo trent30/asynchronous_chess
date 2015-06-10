@@ -1123,7 +1123,7 @@ function back_stats() {
 function players_return(r) {
 	var l = $('log');
 	var j = JSON.parse(r);
-	var e = '<p>Cliquez sur le nom du joueur pour lui proposer une partie (cliquez sur le graphique pour voir ses statistiques)</p>';
+	var e = '<p>Cliquez sur le nom du joueur pour lui proposer une partie ou cliquez sur le graphique pour voir ses statistiques (utilisez CTRL+F pour faire une recherche) </p>';
 	if (j.length == 0) {
 		e += "<p>Aucun joueur<p/>";
 	} else {
