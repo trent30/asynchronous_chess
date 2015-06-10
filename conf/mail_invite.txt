@@ -1,2 +1,3 @@
 <p>%s vous invite à faire une partie !</p>
 <p><a href="%s">Cliquez ici</a> pour accéder à la partie.</p>
+<p>Vous pouvez aussi annuler cette partie en <a href="%s">cliquant ici.</a></p>

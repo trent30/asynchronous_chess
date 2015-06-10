@@ -144,6 +144,21 @@ class bdd():
 	def domain_to_id(self, domain):
 		return self.requete_0("select id from domains where name='%s'" % domain)
 	
+	def count_move(self, g):
+		return self.requete_0("select count(*) \
+		FROM historique where game_id='%s'" % g)
+		
+	def delete_com(self, g):
+		self.con.query("DELETE FROM com WHERE game_id='%s'" % g)
+		
+	def delete_historique(self, g):
+		self.con.query("DELETE FROM historique WHERE game_id='%s'" % g)
+		
+	def delete_game(self, g):
+		self.delete_com(g)
+		self.delete_historique(g)
+		self.con.query("DELETE FROM games WHERE id='%s'" % g)
+	
 	def insert_mail(self, email, login):
 		mail = email.split('@')[0]
 		domain = email.split('@')[1]

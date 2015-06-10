@@ -56,8 +56,9 @@ if __name__ == "__main__":
 	config = ConfigParser.RawConfigParser()
 	config.read('conf/main.conf')
 	url = config.get('site', 'url') + '/?gid=' + str(gid)
+	url2 = config.get('site', 'url') + '/abort.py?g=' + str(gid)
 	sujet = config.get('smtp', 'subject_invite')
-	msg = open('conf/mail_invite.txt').read() % (login, url)
+	msg = open('conf/mail_invite.txt').read() % (login, url, url2)
 	r = mail.send_mail(email, sujet, msg )
 	#~ test local
 	#~ r = 'ok'
