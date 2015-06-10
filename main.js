@@ -1341,7 +1341,7 @@ function send() {
 
 function print_all_messages() {
 	var longueur = INITIAL_POSITION.h.length;
-	for (var i = 0; i < longueur; i++) {
+	for (var i = 0; i <= longueur; i++) {
 		var t = $('msg_' + i);
 		if (t != null) {
 			t.innerHTML = '';
@@ -1351,7 +1351,7 @@ function print_all_messages() {
 		DISPLAY_ALL_MESSAGES = false;
 	} else {
 		DISPLAY_ALL_MESSAGES = true;
-		for (var i = 0; i < longueur; i++) {
+		for (var i = 0; i <= longueur; i++) {
 			info(i);
 		}
 	}
