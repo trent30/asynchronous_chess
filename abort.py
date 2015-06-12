@@ -26,7 +26,7 @@ def print_page(m):
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>chess</title>
 	</head>
-	<body>%s</body></html>
+	<body><p>%s</p><a href="/">Retour</a></body></html>
 	""" % m
 	print html
 	exit(0)
