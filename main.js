@@ -1095,6 +1095,9 @@ function games_return(r, title) {
 		e += "<p>Si vous devez avoir des parties en cours, déconnectez-vous puis reconnectez-vous.<p/>";
 	} else {
 		e = '<h3>' + title + '</h3>';
+		if (title == 'parties en cours ') {
+			e = "<div onclick=f_menu('games');><h3>" + title + "</h3>";
+		}
 		for (var i in j) {
 			var trait = '';
 			if (j[i].trait != null && 
