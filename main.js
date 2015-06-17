@@ -1141,7 +1141,7 @@ function get_all_pgn_return(r, param) {
 		pgn_chess.header('Event', 'game #' + i);
 		pgn_chess.header('White', players.split(' vs ')[0]);
 		pgn_chess.header('Black', players.split(' vs ')[1]);
-		pgn_chess.header('Date', ALL_HISTORY[i].date);
+		pgn_chess.header('Date', ALL_HISTORY[i].date.replace(/-/g, '.').split(' ')[0]);
 		if (ALL_HISTORY[i].h.r != null) {
 			pgn_chess.header('Result', ALL_HISTORY[i].h.r);
 		}
@@ -1448,7 +1448,7 @@ function pgn() {
 	CHESS.header('Event', 'game #' + game_ID);
 	CHESS.header('White', players.split(' vs ')[0]);
 	CHESS.header('Black', players.split(' vs ')[1]);
-	CHESS.header('Date', DATE);
+	CHESS.header('Date', DATE.replace(/-/g, '.'));
 	t += '<b>Position :</b><br/><br/>';
 	t += CHESS.fen();
 	t += '<br/><br/><hr/><b>PGN :</b><br/><br/>';
