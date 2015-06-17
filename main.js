@@ -1444,6 +1444,8 @@ function checkEnter(e) {
 
 function pgn() {
 	var t = '<div class="pgn">';
+	CHESS.header('Site', location.host);
+	CHESS.header('Event', 'game #' + game_ID);
 	CHESS.header('White', players.split(' vs ')[0]);
 	CHESS.header('Black', players.split(' vs ')[1]);
 	CHESS.header('Date', DATE);
