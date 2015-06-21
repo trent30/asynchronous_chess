@@ -288,6 +288,8 @@ class bdd():
 	
 	def	add_com(self, com, gid, s):
 		id = self.session_to_user_id(s)
+		if id == None:
+			id = 0
 		num_coup = self.requete_0(\
 			"select count(*) from historique where game_id='%s'" % gid)
 		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur) \

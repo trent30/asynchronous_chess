@@ -114,11 +114,13 @@ if __name__ == "__main__":
 		adversaire = players[0]
 	else:
 		adversaire = players[1]
-	email = b.login_to_mail(b.uid_to_login(adversaire))
+	
+	login_adversaire = b.uid_to_login(adversaire)
+	email = b.login_to_mail(login_adversaire)
 	if email == None:
 		print "adversaire inconnu."
 		exit(0)
-	logging.debug('adversaire : ' + b.uid_to_login(adversaire))
+	logging.debug('adversaire : ' + login_adversaire)
 	logging.debug('email adversaire : ' + email)
 	
 	url = config.get('site', 'url') + '/?gid=' + str(dico_params['gid'])
@@ -149,7 +151,7 @@ if __name__ == "__main__":
 		if dico_params['c'][-1:] == '#':
 			b.add_move(dico_params['gid'], dico_params['c'], s)
 			msg += '<br/>Vous avez perdu !'
-			logging.debug(b.uid_to_login(adversaire) + ' a perdu.')
+			logging.debug(login_adversaire + ' a perdu.')
 			b.set_win(dico_params['gid'], b.session_to_user_id(s))
 		
 	if dico_params['flag'] == 'A':
@@ -169,7 +171,9 @@ if __name__ == "__main__":
 	if dico_params['flag'] == 'N':
 		msg += '<br/>Votre adversaire vous propose la nulle.'
 		b.update_game_token(dico_params['gid'], str(b.session_to_user_id(s)) + '_' + token())
-	
+		com_nulle = '%s propose la nulle à %s.' % (login, login_adversaire)
+		b.add_com(com_nulle, dico_params['gid'], None)
+		
 	if dico_params['com'] != '':
 		b.add_com(dico_params['com'], dico_params['gid'], s)
 	
