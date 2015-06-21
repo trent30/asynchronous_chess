@@ -482,7 +482,11 @@ function historique2log(h) {
 	}
 	add_log(llog);
 	if ( h.nulle != null) {
-		add_log('<div class="msg">Votre adversaire vous propose la nulle.</div><div onclick="finish()" class="btn">Accepter</a></div>');
+		add_log('<div id="nulle_message">\
+			<div class="msg">Votre adversaire vous propose la nulle.</div>\
+			<div onclick="finish()" class="btn">Accepter</a></div>\
+			<div onclick="remove_nulle_message();" class="btn">Refuser</a></div>\
+			</div>');
 	}
 	if ( h.r != null) {
 		add_log("<b>" + h.r + "</b>");
@@ -490,6 +494,11 @@ function historique2log(h) {
 	if ( h.r == null && CHESS.in_draw() ) {
 		add_log("<b>½-½</b>");
 	}
+}
+
+function remove_nulle_message() {
+	var i = $('nulle_message');
+	i.parentNode.removeChild(i);
 }
 
 function deselect() {
