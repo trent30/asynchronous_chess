@@ -1089,6 +1089,7 @@ function games_return(r, title) {
 	}
 	var l = $('log');
 	var j = JSON.parse(r);
+	LIST_STAT = j;
 	var e = '';
 	if (j.length == 0) {
 		e += "<p>Aucune partie disponible.<p/>";
@@ -1096,8 +1097,9 @@ function games_return(r, title) {
 	} else {
 		e = '<h3>' + title + '</h3>';
 		if (title == 'parties en cours ') {
-			e = "<div onclick=f_menu('games');><h3>" + title + "</h3>";
+			e = "<div onclick=f_menu('games');><h3>" + title + "</h3></div>";
 		}
+		e += "<div id='game_info' onclick=get_all_pgn(LIST_STAT);>Récupérer en PGN</div>";
 		for (var i in j) {
 			var trait = '';
 			if (j[i].trait != null && 
@@ -1118,6 +1120,46 @@ function games_return(r, title) {
 	l.style.textAlign = 'left';
 }
 
+function get_all_pgn_return(r, param) {
+	ALL_HISTORY[param.id] = {};
+	ALL_HISTORY[param.id].date = param.date;
+	ALL_HISTORY[param.id].joueurs = param.joueurs;
+	ALL_HISTORY[param.id].h = JSON.parse(r);
+	if (ALL_HISTORY.length < param.max) { 
+		//~ Si tout n'est pas encore récupéré
+		return ;
+	}
+	clean_log('génération du PGN en cours...');
+	var pgn = '<div class="pgn">';
+	for (var i in ALL_HISTORY) {
+		var pgn_chess = new Chess();
+		for (var j = 0; j < ALL_HISTORY[i].h.h.length; j++) {
+			pgn_chess.move(ALL_HISTORY[i].h.h[j]);
+		}
+		var players = ALL_HISTORY[i].joueurs;
+		pgn_chess.header('Site', location.host);
+		pgn_chess.header('Event', 'game #' + i);
+		pgn_chess.header('White', players.split(' vs ')[0]);
+		pgn_chess.header('Black', players.split(' vs ')[1]);
+		pgn_chess.header('Date', ALL_HISTORY[i].date.replace(/-/g, '.').split(' ')[0]);
+		if (ALL_HISTORY[i].h.r != null) {
+			pgn_chess.header('Result', ALL_HISTORY[i].h.r);
+		}
+		pgn += pgn_chess.pgn().replace(/\n/g, '<br/>');
+		pgn += '<br/><br/><hr/><br/>';
+	}
+	clean_log( pgn + '</div>' );
+}
+
+function get_all_pgn(liste) {
+	ALL_HISTORY = {};
+	var max = liste.length;
+	for (var i = 0; i < max; i++) {
+		liste[i].max = max;
+		get_page('./history.py?g=' + liste[i].id, 'get_all_pgn_return', liste[i]);
+	}
+}
+	
 function back_stats() {
 	var l = $('log');
 	l.innerHTML = L_stats;
@@ -1402,9 +1444,11 @@ function checkEnter(e) {
 
 function pgn() {
 	var t = '<div class="pgn">';
+	CHESS.header('Site', location.host);
+	CHESS.header('Event', 'game #' + game_ID);
 	CHESS.header('White', players.split(' vs ')[0]);
 	CHESS.header('Black', players.split(' vs ')[1]);
-	CHESS.header('Date', DATE);
+	CHESS.header('Date', DATE.replace(/-/g, '.'));
 	t += '<b>Position :</b><br/><br/>';
 	t += CHESS.fen();
 	t += '<br/><br/><hr/><b>PGN :</b><br/><br/>';
