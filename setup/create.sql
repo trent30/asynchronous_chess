@@ -453,3 +453,4 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 -- PostgreSQL database dump complete
 --
 
+insert into users(login, date_create, confirmed) values ('admin', now(), true);
