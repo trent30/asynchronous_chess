@@ -25,6 +25,8 @@ INITIAL_POSITION = {'h' : [], 'c' : []};
 MODE_PATRON = false;
 com1 = '';
 DISPLAY_ALL_MESSAGES = false;
+VITESSE_MENU_DELAY = 10;
+VITESSE_MENU_PAS = 0.05;
 
 function $(x) {
 	return document.getElementById(x);
@@ -730,9 +732,29 @@ function f_option() {
 	}
 	t += '<div id="menu"> ';
 	for (var i in m) {
-		t += '<div class="btn" onclick=f_menu("' + m[i] + '")>' +  i + '</div>';
+		var id = 'menu_btn_' + m[i];
+		t += '<div id="' + id + '" class="btn" onclick=f_menu("' + m[i] + '")>' +  i + '</div>';
 	}
 	e.innerHTML = t + '</div>';
+	var cpt = 0.0;
+	for (var i in m) {
+		var id = 'menu_btn_' + m[i];
+		$(id).style.opacity = 0;
+		cpt += 1;
+		anim_menu(id, - 0.1 * cpt)
+	}
+}
+
+function anim_menu(p, depart) {
+	var btn = $(p);
+	var o = parseFloat(btn.style.opacity);
+	if ( o < 1 ) {
+		depart += VITESSE_MENU_PAS;
+		if (depart > 0) {
+			btn.style.opacity = depart;
+		}
+		setTimeout( anim_menu, VITESSE_MENU_DELAY, p, depart );
+	}
 }
 
 function check_rotate() {
