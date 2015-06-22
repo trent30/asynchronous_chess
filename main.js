@@ -944,10 +944,16 @@ function get_page(name, fonction, add) {
 		console.log(error);
 	}
 	if (params == null) {
-		xhr.send(null);
+		try {
+			xhr.send(null);
+		}
+		catch (e) {};
 	} else {
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhr.send(params);
+		try {
+			xhr.send(params);
+		}
+		catch (e) {};
 	}
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
