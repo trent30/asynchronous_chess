@@ -773,6 +773,7 @@ function f_init() {
 	set_position(INITIAL_POSITION);
 	deselect();
 	set_game_info(true);
+	DISPLAY_ALL_MESSAGES = false;
 }
 
 function nothing_return(x) {
