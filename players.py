@@ -28,6 +28,7 @@ if __name__ == "__main__":
 		dico = {}
 		dico['id'] = i[0]
 		dico['nom'] = i[1]
+		dico['elo'] = int(round(i[2]))
 		r.append(dico)
 	
 	print json.dumps(r)

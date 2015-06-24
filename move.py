@@ -11,6 +11,7 @@ import mail
 import ConfigParser
 from lcookie import token
 import subprocess
+import elo
 
 config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
@@ -153,17 +154,22 @@ if __name__ == "__main__":
 			msg += '<br/>Vous avez perdu !'
 			logging.debug(login_adversaire + ' a perdu.')
 			b.set_win(dico_params['gid'], b.session_to_user_id(s))
+			e1, e2 = elo.new_elo( b.session_to_user_id(s), adversaire, 1 )
+			msg += '<br/>Votre nouveau classement ELO est : %i' % int(round(e2))
 		
 	if dico_params['flag'] == 'A':
 		msg += '<br/>Vous avez gagné !'
-		logging.debug(login + ' a gagné par abandon.')
+		logging.debug(login_adversaire + ' a gagné par abandon.')
 		b.set_win(dico_params['gid'], adversaire)
+		e1, e2 = elo.new_elo( adversaire, b.session_to_user_id(s), 1 )
+		msg += '<br/>Votre nouveau classement ELO est : %i' % int(round(e1))
 		
 	if dico_params['flag'] == 'D':
 		if verification == 2:
 			msg += '<br/>La partie est nulle.'
 			b.add_move(dico_params['gid'], dico_params['c'], s)
 			b.set_win(dico_params['gid'], 0)
+			e1, e2 = elo.new_elo( adversaire, b.session_to_user_id(s), 0.5 )
 		else :
 			print "Coup invalide ! (la partie n'est pas nulle)"
 			exit(0)
@@ -181,5 +187,6 @@ if __name__ == "__main__":
 	#~ test local
 	#~ r = 'ok'
 	print r
+	logging.debug(msg)
 	logging.debug(r)
 	logging.debug('EOF')

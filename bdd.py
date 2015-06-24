@@ -55,7 +55,13 @@ class bdd():
 			
 	def get_date(self, game_id):
 		return self.requete_0("SELECT date FROM games WHERE id='%s';" % game_id)
-
+			
+	def get_elo(self, joueur_id):
+		return self.requete_0("SELECT elo FROM users WHERE id='%s';" % joueur_id)
+			
+	def set_elo(self, joueur_id, elo):
+		self.con.query("UPDATE users SET elo=%s WHERE id='%s'" % (elo, joueur_id))
+	
 	def session_to_login(self, s):
 		return self.requete_0("select login from users u, sessions s\
 			where s.session='%s' and u.id = s.user_id \
@@ -201,7 +207,7 @@ class bdd():
 			WHERE id='%s'" % id)
 	
 	def users_list(self, uid):
-		return self.con.query("SELECT u.id, u.login FROM users u WHERE \
+		return self.con.query("SELECT u.id, u.login, u.elo FROM users u WHERE \
 			u.date_deleted is NULL AND u.confirmed=TRUE and u.id!='%s'" % uid).getresult()
 	
 	def add_move(self, game_id, coup, s):

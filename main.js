@@ -1211,7 +1211,7 @@ function players_return(r) {
 		e += "<p>Aucun joueur<p/>";
 	} else {
 		for (var i in j) {
-			e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>  " + j[i].nom + "</div><div></div>";
+			e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>  " + j[i].nom + " ( " + j[i].elo + " )</div><div></div>";
 		}
 	}
 	l.innerHTML = e;
