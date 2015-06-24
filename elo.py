@@ -21,7 +21,7 @@ def kaf_k(joueur_id):
 	http://fr.wikipedia.org/wiki/Classement_Elo :
 	 - 40 pour les 30 premières parties,
 	 - 20 tant que le joueur est en dessous de 2400 points Elo
-	 - 10 qi elo > 2400
+	 - 10 si elo > 2400
 	Bizarrement, l'exemple de calcul donnée ensuite utilise K=15
 	"""
 	
