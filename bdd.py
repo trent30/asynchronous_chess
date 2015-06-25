@@ -222,6 +222,9 @@ class bdd():
 		return self.requete_0("select max(id) from games where \
 		white='%s' and black='%s'" % (white, black))
 	
+	def list_finish_games(self):
+		return self.con.query("select white, black, winner from games where winner is not null order by date;").getresult()
+	
 	def list_games(self, id):
 		if id == None:
 			return id
