@@ -12,7 +12,7 @@ if __name__ == "__main__":
 	
 	Si vous le faites, c'est que vous voulez recalculer tous les points ELO de chaque joueurs, il vous faudra donc faire un : 'update users set elo=1200;' avant.
 	
-	Si vous savez ce que vous faites et que vous voulez exécuter ce script, décommenter la ligne 'exit(0)' sous ce commentaire.
+	Si vous savez ce que vous faites et que vous voulez exécuter ce script, commenter la ligne 'exit(0)' sous ce commentaire.
 	"""
 	
 	exit(0)
