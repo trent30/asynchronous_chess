@@ -33,6 +33,7 @@ if __name__ == "__main__":
 	r = {}
 	r['login'] = b.session_to_login(s)
 	r['mail'] = b.login_to_mail(r['login'])
+	r['elo'] = int(round(b.get_elo(b.session_to_user_id(s))))
 	
 	print json.dumps(r);
 
