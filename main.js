@@ -846,6 +846,7 @@ function f_reload() {
 		return 2;
 	}
 	check_rotate();
+	DISPLAY_ALL_MESSAGES = false;
 	get_page('/history.py?g=' + game_ID + '&c=1', 'f_reload_return');
 }
 
