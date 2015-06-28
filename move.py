@@ -23,6 +23,14 @@ logging.basicConfig(filename=config.get('log', 'file'), \
 logging.debug('-'*20)
 b = bdd.bdd()
 
+def msg_elo(old, new):
+	diff = new - old
+	if diff > 0:
+		signe = '+'
+	else:
+		signe = ''
+	return '<p>Votre nouveau classement ELO est : %i (%s%i)</p>' % (int(round(new)), signe, int(round(diff)))
+
 def input():
 	form = cgi.FieldStorage()
 	data = {}
@@ -102,6 +110,7 @@ if __name__ == "__main__":
 		exit(0)
 	
 	login = b.session_to_login(s).encode('UTF-8', 'ascci')
+	joueur_id = b.session_to_user_id(s)
 	logging.debug('login : ' + login)
 	txt = ''
 	if dico_params['flag'] != None:
@@ -151,32 +160,51 @@ if __name__ == "__main__":
 				exit(0)
 		if dico_params['c'][-1:] == '#':
 			b.add_move(dico_params['gid'], dico_params['c'], s)
-			msg += '<br/>Vous avez perdu !'
+			msg += '<p>Vous avez perdu !</p>'
+			msg2 = msg + '<p>Vous avez gagné !</p>' 
 			logging.debug(login_adversaire + ' a perdu.')
-			b.set_win(dico_params['gid'], b.session_to_user_id(s))
-			e1, e2 = elo.new_elo( b.session_to_user_id(s), adversaire, 1 )
-			msg += '<br/>Votre nouveau classement ELO est : %i' % int(round(e2))
+			b.set_win(dico_params['gid'], joueur_id)
+			e1 = b.get_elo(joueur_id)
+			e2 = b.get_elo(adversaire)
+			ne1, ne2 = elo.new_elo(joueur_id, adversaire, 1 )
+			msg2 += msg_elo(e1, ne1)
+			msg += msg_elo(e2, ne2)
+			r = mail.send_mail(b.login_to_mail(login), sujet, msg2 )
+			logging.debug('mail au gagnant : ' + r)
+			logging.debug('ELO : ' + str(e1) + ',' + str(ne1) + '(gagnant) / ' + str(e2) + ',' + str(ne2) )
 		
 	if dico_params['flag'] == 'A':
 		msg += '<br/>Vous avez gagné !'
+		msg2 = msg + '<p>Vous avez perdu !</p>' 
 		logging.debug(login_adversaire + ' a gagné par abandon.')
 		b.set_win(dico_params['gid'], adversaire)
-		e1, e2 = elo.new_elo( adversaire, b.session_to_user_id(s), 1 )
-		msg += '<br/>Votre nouveau classement ELO est : %i' % int(round(e1))
+		e1 = b.get_elo(adversaire)
+		e2 = b.get_elo(joueur_id)
+		ne1, ne2 = elo.new_elo( adversaire, joueur_id, 1 )
+		msg += msg_elo(e1, ne1)
+		msg2 += msg_elo(e2, ne2)
+		r = mail.send_mail(b.login_to_mail(login), sujet, msg2 )
+		logging.debug('mail au perdant : ' + r)
+		logging.debug('ELO : ' + str(e1) + ',' + str(ne1) + '(gagnant) / ' + str(e2) + ',' + str(ne2) )
 		
 	if dico_params['flag'] == 'D':
 		if verification == 2:
 			msg += '<br/>La partie est nulle.'
 			b.add_move(dico_params['gid'], dico_params['c'], s)
 			b.set_win(dico_params['gid'], 0)
-			e1, e2 = elo.new_elo( adversaire, b.session_to_user_id(s), 0.5 )
+			e1 = b.get_elo(joueur_id)
+			e2 = b.get_elo(adversaire)
+			ne1, ne2 = elo.new_elo( joueur_id, adversaire, 0.5 )
+			msg += msg_elo(e1, ne1)
+			r = mail.send_mail(b.login_to_mail(login), sujet, msg )
+			logging.debug('ELO : ' + str(e1) + ',' + str(ne1) + '(gagnant) / ' + str(e2) + ',' + str(ne2) )
 		else :
 			print "Coup invalide ! (la partie n'est pas nulle)"
 			exit(0)
 		
 	if dico_params['flag'] == 'N':
 		msg += '<br/>Votre adversaire vous propose la nulle.'
-		b.update_game_token(dico_params['gid'], str(b.session_to_user_id(s)) + '_' + token())
+		b.update_game_token(dico_params['gid'], str(joueur_id) + '_' + token())
 		com_nulle = '%s propose la nulle à %s.' % (login, login_adversaire)
 		b.add_com(com_nulle, dico_params['gid'], None)
 		
