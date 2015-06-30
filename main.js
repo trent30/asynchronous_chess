@@ -698,7 +698,8 @@ function build_menu(connected) {
 		'parties en cours' : 'games',
 		'statistiques' : 'stats',
 		'liste des joueurs' : 'players',
-		'à propos' : 'about'};
+		'à propos' : 'about',
+		'news' : 'news' };
 	if (connected == false) {
 		m = {'se connecter' : 'menu_login',
 		'à propos' : 'about'};
@@ -708,6 +709,19 @@ function build_menu(connected) {
 
 function try_get_local_login() {
 	user_ID = try_get_local("login");
+}
+
+function checknews() {
+	var nb_news = try_get_local("news");
+	if (nb_news == null) {
+		nb_news = 0;
+	}
+	try {
+		if (nb_news < BREAKING_NEWS) {
+			return true;
+		}
+	} catch (e) {};
+	return false;
 }
 
 function f_option() {
@@ -733,7 +747,13 @@ function f_option() {
 	t += '<div id="menu"> ';
 	for (var i in m) {
 		var id = 'menu_btn_' + m[i];
-		t += '<div id="' + id + '" class="btn" onclick=f_menu("' + m[i] + '")>' +  i + '</div>';
+		var txt = i;
+		if (i == 'news') {
+			if (checknews()) {
+				txt += ' (*)';
+			}
+		}
+		t += '<div id="' + id + '" class="btn" onclick=f_menu("' + m[i] + '")>' +  txt + '</div>';
 	}
 	e.innerHTML = t + '</div>';
 	var cpt = 0.0;
@@ -1219,6 +1239,13 @@ function players_return(r) {
 	l.style.textAlign = 'left';
 }
 
+function news_return(r) {
+	clean_log('<div class="ta_left"><h3>Ci-dessous, la liste des derniers commits<h3></div>');
+	add_log(r);
+	$('log').scrollTop = 0;
+	try_set_local('news', BREAKING_NEWS);
+}
+
 function f_menu(m) {
 	/*
 	Si le menu est dans la page HTML on l'affiche,
@@ -1246,6 +1273,10 @@ function f_menu(m) {
 	}
 	if (m == 'players') {
 		get_page(m + '.py', 'players_return');
+		return;
+	}
+	if (m == 'news') {
+		get_page('news.html', 'news_return');
 		return;
 	}
 	if (e !== null) {
