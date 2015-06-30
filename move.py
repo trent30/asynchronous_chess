@@ -160,8 +160,8 @@ if __name__ == "__main__":
 				exit(0)
 		if dico_params['c'][-1:] == '#':
 			b.add_move(dico_params['gid'], dico_params['c'], s)
+			msg2 = '<p>Vous avez gagné !</p>' 
 			msg += '<p>Vous avez perdu !</p>'
-			msg2 = msg + '<p>Vous avez gagné !</p>' 
 			logging.debug(login_adversaire + ' a perdu.')
 			b.set_win(dico_params['gid'], joueur_id)
 			e1 = b.get_elo(joueur_id)
@@ -174,8 +174,8 @@ if __name__ == "__main__":
 			logging.debug('ELO : ' + str(e1) + ',' + str(ne1) + '(gagnant) / ' + str(e2) + ',' + str(ne2) )
 		
 	if dico_params['flag'] == 'A':
+		msg2 = '<p>Vous avez perdu !</p>' 
 		msg += '<br/>Vous avez gagné !'
-		msg2 = msg + '<p>Vous avez perdu !</p>' 
 		logging.debug(login_adversaire + ' a gagné par abandon.')
 		b.set_win(dico_params['gid'], adversaire)
 		e1 = b.get_elo(adversaire)
