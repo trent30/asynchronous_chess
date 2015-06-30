@@ -130,7 +130,7 @@ if __name__ == "__main__":
 	
 	com = dico_params['com']
 	if com != '':
-		com = 'Commentaire de ' + login + ' :<br/>' + dico_params['com']
+		com = 'Commentaire de ' + login + ' :<br/>' + dico_params['com'].replace('\n', '<br/>')
 		
 	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, com, url)
 	if coup == '':
