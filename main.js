@@ -1203,16 +1203,24 @@ function games_return(r, title) {
 	l.style.textAlign = 'left';
 }
 
+function dico_length(d) {
+	var cpt = 0;
+	for (var i in d) {
+		cpt += 1;
+	}
+	return cpt;
+}
+
 function get_all_pgn_return(r, param) {
+	clean_log('génération du PGN ' + param.id + ' en cours...');
 	ALL_HISTORY[param.id] = {};
 	ALL_HISTORY[param.id].date = param.date;
 	ALL_HISTORY[param.id].joueurs = param.joueurs;
 	ALL_HISTORY[param.id].h = JSON.parse(r);
-	if (ALL_HISTORY.length < param.max) { 
+	if (dico_length(ALL_HISTORY) < param.max) { 
 		//~ Si tout n'est pas encore récupéré
 		return ;
 	}
-	clean_log('génération du PGN en cours...');
 	var pgn = '<div class="pgn">';
 	for (var i in ALL_HISTORY) {
 		var pgn_chess = new Chess();
