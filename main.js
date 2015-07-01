@@ -727,7 +727,14 @@ function f_option() {
 		t = '<div id="login">(pensez à autoriser les cookies pour pouvoir vous connecter)</div>';
 		m = build_menu(false);
 	} else {
-		t = '<div id="login">Vous êtes connecté en tant que : ' + user_ID + '</div>';
+		var elo = try_get_local('elo');
+		if (elo == null) {
+			elo = '';
+		}
+		if (elo != '') {
+			elo = ' (' + elo + ')';
+		}
+		t = '<div id="login">Vous êtes connecté en tant que : ' + user_ID + elo +'</div>';
 		m = build_menu(true);
 	}
 	t += '<div id="menu"> ';
@@ -1111,9 +1118,12 @@ function account_return(r) {
 	var l = $('log');
 	try {
 		var j = JSON.parse(r);
-		e = 'Bonjour ' + j.login + '<br/><br/>Votre adresse mail est ' + j.mail + e;
+		e = 'Bonjour ' + j.login + 
+		'<br/><br/>Votre adresse mail est ' + j.mail + 
+		'<br/><br/>Votre classement ELO est : ' + j.elo + e;
 		user_ID = j.login;
 		try_set_local('user_ID', j.login);
+		try_set_local('elo', j.elo);
 	} catch (err) {
 		e = r;
 	}
@@ -1212,7 +1222,7 @@ function players_return(r) {
 		e += "<p>Aucun joueur<p/>";
 	} else {
 		for (var i in j) {
-			e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>  " + j[i].nom + "</div><div></div>";
+			e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>  " + j[i].nom + " ( " + j[i].elo + " )</div><div></div>";
 		}
 	}
 	l.innerHTML = e;
