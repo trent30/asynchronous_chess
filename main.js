@@ -1347,7 +1347,7 @@ function save_prefs() {
 	draw_color_case();
 	resize();
 	f_menu('preferences');
-	add_log('<br/>La configuration est sauvegardée en local.');
+	add_log('<div class="center"><br/>La configuration est sauvegardée en local.</div>');
 	aff_prefs();
 }
 
@@ -1581,7 +1581,7 @@ function checkKey(e) {
 function save_prefs_server_return(r) {
 	if (r == 'ok') {
 		f_menu('preferences');
-		add_log('<br/>La configuration est sauvegardée sur le serveur.');
+		add_log('<div class="center"><br/>La configuration est sauvegardée sur le serveur.</div>');
 		aff_prefs();
 	} else {
 		clean_log(r);
@@ -1601,7 +1601,7 @@ function restore_prefs_server_return(r) {
 			try_set_local(i, data[i]);
 		}
 		f_menu('preferences');
-		add_log('<br/>La configuration est restaurée.');
+		add_log('<div class="center"><br/>La configuration est restaurée.</div>');
 		aff_prefs();
 		draw_pieces(position);
 		draw_color_case();
