@@ -1240,7 +1240,7 @@ function players_return(r) {
 }
 
 function news_return(r) {
-	clean_log('<div class="ta_left"><h3>Ci-dessous, la liste des derniers commits<h3></div>');
+	clean_log('<div class="ta_left"><h3>Liste des derniers commits<h3></div>');
 	add_log(r);
 	$('log').scrollTop = 0;
 	try_set_local('news', BREAKING_NEWS);
