@@ -453,6 +453,20 @@ function piece_to_image_all(p) {
 	return p;
 }
 
+function check_trait() {
+	var p = players.split(' vs ');
+	if (user_ID != p[0] && user_ID != p[1]) {
+		return false;
+	}
+	if (player_color == 'black' && (historique.length % 2) == 1) {
+		return true;
+	}
+	if (player_color == 'white' && (historique.length % 2) == 0) {
+		return true;
+	}
+	return false;
+}
+
 function historique2log(h) {
 	clean_log('<div id="print_all" onclick="print_all_messages()" style="text-align: right;"><img src="./img/msg16x16.png" title="afficher/masquer tous les messages"></div>');
 	var numero = 0;
@@ -484,11 +498,7 @@ function historique2log(h) {
 	}
 	add_log(llog);
 	if ( h.nulle != null) {
-		add_log('<div id="nulle_message">\
-			<div class="msg">Votre adversaire vous propose la nulle.</div>\
-			<div onclick="finish()" class="btn">Accepter</a></div>\
-			<div onclick="remove_nulle_message();" class="btn">Refuser</a></div>\
-			</div>');
+		add_log('<div id="nulle_message"><div class="msg">Votre adversaire vous propose la nulle.</div><div onclick="finish()" class="btn">Accepter</a></div><div onclick="remove_nulle_message();" class="btn">Refuser</a></div></div>');
 	}
 	if ( h.r != null) {
 		add_log("<b>" + h.r + "</b>");
@@ -496,6 +506,10 @@ function historique2log(h) {
 	if ( h.r == null && CHESS.in_draw() ) {
 		add_log("<b>½-½</b>");
 	}
+	if ( h.r == null && !CHESS.in_draw() && check_trait()) {
+		add_log("<br/>C'est à vous de jouer");
+	}
+	
 }
 
 function remove_nulle_message() {
@@ -720,7 +734,7 @@ function checknews() {
 		if (nb_news < BREAKING_NEWS) {
 			return true;
 		}
-	} catch (e) {};
+	} catch (e) {}
 	return false;
 }
 
@@ -768,7 +782,7 @@ function f_option() {
 		var id = 'menu_btn_' + m[i];
 		$(id).style.opacity = 0;
 		cpt += 1;
-		anim_menu(id, - 0.1 * cpt)
+		anim_menu(id, - 0.1 * cpt);
 	}
 }
 
@@ -976,13 +990,13 @@ function get_page(name, fonction, add) {
 		try {
 			xhr.send(null);
 		}
-		catch (e) {};
+		catch (e) {}
 	} else {
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		try {
 			xhr.send(params);
 		}
-		catch (e) {};
+		catch (e) {}
 	}
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
