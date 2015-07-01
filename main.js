@@ -458,6 +458,9 @@ function check_trait() {
 	if (user_ID != p[0] && user_ID != p[1]) {
 		return false;
 	}
+	if (CHESS.history().length != INITIAL_POSITION.h.length) {
+		return false;
+	}
 	if (player_color == 'black' && (historique.length % 2) == 1) {
 		return true;
 	}
@@ -1408,7 +1411,6 @@ function send_return(r) {
 		if (diff != '') {
 			INITIAL_POSITION.nulle = null;
 			INITIAL_POSITION.h.push(diff);
-			historique.push(diff);
 		}
 		if (com1 != '') {
 			var c = {};
