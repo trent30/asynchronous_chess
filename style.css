@@ -218,3 +218,10 @@ body {
 .plate {
 	height: 1px;
 }
+
+.inline {
+	display: inline;
+}
+.ml50 {
+	margin-left: 50px;
+}

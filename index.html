@@ -37,6 +37,19 @@
 			<p>source : git clone http://git.chess.trent.homelinux.org</p>
 		</div></div>
 	</div>
+	
+	<div id="btn_tri" style='display:none'> 
+	<p>Cliquez sur le nom du joueur pour lui proposer une partie ou cliquez sur le graphique pour voir ses statistiques (utilisez CTRL+F pour faire une recherche) </p>
+	<div class="com_auteur">
+		Tri : 
+		<div class="ml50 inline ta_right"> Nom </div>
+		<img src="./img/tri_up.png" onclick=sort_players("nom",true); title="tri par ordre alphabétique">
+		<img src="./img/tri_down.png" onclick=sort_players("nom",false); title="ordre inverse">
+		<div class="ml50 inline ta_right"> elo </div>
+		<img src="./img/tri_up.png" onclick=sort_players("elo",true); title="du plus petit au plus grand">
+		<img src="./img/tri_down.png" onclick=sort_players("elo",false); title="du plus grand au plus petit">
+	</div><br/>
+	</div>
 		
 	<div id="menu_login" style='display:none'>
 		<div class="form_txt"> login :</div>
