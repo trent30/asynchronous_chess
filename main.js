@@ -1267,6 +1267,10 @@ function players_return(r) {
 		e += "<p>Aucun joueur<p/>";
 	} else {
 		for (var i in j) {
+			if (j[i].nom == user_ID) {
+				//~ on en profite pour mettre à jour le elo du joueur
+				try_set_local('elo', j[i].elo);
+			}
 			var p = "onclick=invite(" + j[i].id + ",'" + j[i].nom + "');";
 			e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " " + p + ">  " + j[i].nom + " ( " + j[i].elo + " )</div><div></div>";
 		}
