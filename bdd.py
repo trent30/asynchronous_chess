@@ -76,7 +76,7 @@ class bdd():
 	
 	def login_exist(self, login):
 		r = self.con.query("select login from users \
-			where date_deleted is NULL and login='%s'" % login).getresult()
+			where date_deleted is NULL and lower(login)=lower('%s')" % login).getresult()
 		if len(r) == 0:
 			return False
 		else:
@@ -84,7 +84,7 @@ class bdd():
 	
 	def login_exist_all(self, login):
 		r = self.con.query("select login from users \
-			where login='%s'" % login).getresult()
+			where lower(login)=lower('%s')" % login).getresult()
 		if len(r) == 0:
 			return False
 		else:
