@@ -47,6 +47,11 @@ if __name__ == "__main__":
 	
 	login = b.session_to_login(s)
 	white = b.login_to_id(login)
+	
+	if white == int(uid):
+		print "Vous êtes combien dans votre tête ? (On ne peut pas créer une partie contre soi-même)."
+		exit(0)
+	
 	gid = b.add_game(white, uid)
 	
 	import mail

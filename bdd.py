@@ -206,9 +206,9 @@ class bdd():
 		self.con.query("UPDATE users SET date_deleted='now()' \
 			WHERE id='%s'" % id)
 	
-	def users_list(self, uid):
+	def users_list(self):
 		return self.con.query("SELECT u.id, u.login, u.elo FROM users u WHERE \
-			u.date_deleted is NULL AND u.confirmed=TRUE and u.id!='%s'" % uid).getresult()
+			u.date_deleted is NULL AND u.confirmed=TRUE").getresult()
 	
 	def add_move(self, game_id, coup, s):
 		id = self.session_to_user_id(s)

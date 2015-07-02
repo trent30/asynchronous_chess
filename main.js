@@ -1267,7 +1267,8 @@ function players_return(r) {
 		e += "<p>Aucun joueur<p/>";
 	} else {
 		for (var i in j) {
-			e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " onclick='invite(" + j[i].id + ")'>  " + j[i].nom + " ( " + j[i].elo + " )</div><div></div>";
+			var p = "onclick=invite(" + j[i].id + ",'" + j[i].nom + "');";
+			e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " " + p + ">  " + j[i].nom + " ( " + j[i].elo + " )</div><div></div>";
 		}
 	}
 	l.innerHTML = e;
@@ -1389,7 +1390,11 @@ function invite_return(r) {
 	}
 }
 
-function invite(id) {
+function invite(id, joueur) {
+	if ( joueur == user_ID) {
+		alert('Vous ne pouvez pas créer une partie contre vous-même.');
+		return;
+	}
 	history.pushState(null, null, "/");
 	get_page('/invite.py?id=' + id, 'invite_return');
 }
