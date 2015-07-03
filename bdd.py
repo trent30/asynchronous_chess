@@ -212,8 +212,9 @@ class bdd():
 	
 	def add_move(self, game_id, coup, s):
 		id = self.session_to_user_id(s)
-		self.con.query("INSERT INTO historique (game_id, coup, joueur) \
-		VALUES ('%s', '%s', '%s')" % (game_id, pg.escape_string(coup), id) )
+		self.con.query("INSERT INTO historique (game_id, coup, joueur, date) \
+		VALUES ('%s', '%s', '%s', '%s')" \
+		% (game_id, pg.escape_string(coup), id, 'now()') )
 		self.update_game_token(game_id, '')
 	
 	def add_game(self, white, black):
@@ -294,6 +295,9 @@ class bdd():
 	
 	def get_history(self, game_id):
 		return self.con.query("SELECT coup FROM historique WHERE game_id='%s' order by id asc" % game_id).getresult()
+	
+	def get_history_date(self, game_id):
+		return self.con.query("SELECT timestamptz(date) FROM historique WHERE game_id='%s' order by id asc" % game_id).getresult()
 	
 	def	add_com(self, com, gid, s):
 		id = self.session_to_user_id(s)

@@ -2,7 +2,7 @@ player_color = 'white';
 players = '';
 DATE = '';
 position = {};
-prefs = ['ccn', 'ccb', 'pieces', 'size'];
+prefs = ['ccn', 'ccb', 'pieces', 'size', 'date_move'];
 historique = [];
 selectColor = "#FF0000";
 try_get_local_login();
@@ -479,8 +479,21 @@ function historique2log(h) {
 	var i = 0;
 	var com = false;
 	var llog = '';
+	try {
+		var dates = h.date;
+	} catch (e) {
+		var dates = null;
+	}
+	if (string_to_bool(try_get_local("date_move")) == false) {
+		var dates = null;
+	}
 	for (i = 0; i < h.h.length; i++) {
-		t = "<div class='order' onclick=select_one_move(" + i + ") id=coup_" + i + ">" + piece_to_image(h.h[i]) + "</div>" + t;
+		if (dates != null) {
+			var date = dates[i];
+		} else {
+			var date = '';
+		}
+		t = "<div class='order' onclick=select_one_move(" + i + ") id=coup_" + i + " title='" + date + "'>" + piece_to_image(h.h[i]) + "</div>" + t;
 		if (l[i] == true) {
 			com = true;
 		}
@@ -512,7 +525,6 @@ function historique2log(h) {
 	if ( h.r == null && !CHESS.in_draw() && check_trait()) {
 		add_log("<br/>C'est à vous de jouer");
 	}
-	
 }
 
 function remove_nulle_message() {
@@ -891,7 +903,11 @@ function f_reload() {
 	}
 	check_rotate();
 	DISPLAY_ALL_MESSAGES = false;
-	get_page('/history.py?g=' + game_ID + '&c=1', 'f_reload_return');
+	var param = '&c=1';
+	if (string_to_bool(try_get_local("date_move"))) {
+		param += '&date=1';
+	}
+	get_page('/history.py?g=' + game_ID + param, 'f_reload_return');
 }
 
 function f_rotate() {
@@ -1417,14 +1433,22 @@ function aff_prefs() {
 	}
 	var range = $('range');
 	range.min = min_size() * -1;
+	$("prefs_date_move").checked = string_to_bool(try_get_local("date_move"));
+}
+
+function string_to_bool (t) {
+	if (t == 'false') {
+		return false;
+	}
+	return true;
 }
 
 function test_prefs() {
 	var old = {};
 	for (var i in prefs) { // on sauvegarde les valeurs actuelles
 		old[prefs[i]] = try_get_local(prefs[i]);
-		try_set_local(prefs[i] , $("prefs_" + prefs[i]).value);
 	}
+	save_prefs_in_localStorage(prefs);
 	// on applique les valeurs de test
 	draw_pieces(position);
 	draw_color_case();
@@ -1436,10 +1460,20 @@ function test_prefs() {
 	}
 }
 
-function save_prefs() {
-	for (var i in prefs) {
-		try_set_local(prefs[i] , $("prefs_" + prefs[i]).value);
+function save_prefs_in_localStorage(d) {
+	for (var i in d) {
+		var elt = $("prefs_" + d[i]);
+		if (elt.type == 'checkbox') {
+			var valeur = elt.checked;
+		} else {
+			var valeur = elt.value;
+		}
+		try_set_local(d[i] , valeur);
 	}
+}
+
+function save_prefs() {
+	save_prefs_in_localStorage(prefs);
 	draw_pieces(position);
 	draw_color_case();
 	resize();
