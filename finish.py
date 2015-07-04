@@ -75,7 +75,7 @@ if __name__ == "__main__":
 	msg = 'La partie est nulle.'
 	b.update_game_token(game, '')
 	
-	sujet = config.get('smtp', 'subject_finish').replace('Partie', 'Partie #' + str(game))
+	sujet = config.get('smtp', 'subject_prefix') + ' ' + config.get('smtp', 'subject_finish').replace('Partie', 'Partie #' + str(game))
 	r1 = mail.send_mail(b.login_to_mail(b.session_to_login(s)), sujet, msg)
 	r0 = mail.send_mail(b.login_to_mail(b.uid_to_login(adversaire)), sujet, msg)
 	

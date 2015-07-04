@@ -56,7 +56,7 @@ if __name__ == "__main__":
 	config = ConfigParser.RawConfigParser()
 	config.read('conf/main.conf')
 	url = config.get('site', 'url')
-	sujet = config.get('smtp', 'subject_confirm')
+	sujet = config.get('smtp', 'subject_prefix') + ' ' + config.get('smtp', 'subject_confirm')
 	msg = open('conf/mail_confirm_account.txt').read() % (url, url, t)
 	r = mail.send_mail(email, sujet, msg )
 	#~ test local

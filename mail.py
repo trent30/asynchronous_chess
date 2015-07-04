@@ -50,10 +50,10 @@ def send_mail(MAIL_TO, subject, msg):
 	return 'ok'
 
 def send_confirm(MAIL_TO, msg):
-	send_mail(MAIL_TO, config.get('smtp', 'subject_confirm'), msg)
+	send_mail(MAIL_TO, config.get('smtp', 'subject_prefix') + ' ' + config.get('smtp', 'subject_confirm'), msg)
 	
 def send_notif(MAIL_TO, msg):
-	send_mail(MAIL_TO, config.get('smtp', 'subject_notify'), msg)
+	send_mail(MAIL_TO, config.get('smtp', 'subject_prefix') + ' ' + config.get('smtp', 'subject_notify'), msg)
 
 if __name__ == "__main__":
 	pass

@@ -134,9 +134,7 @@ if __name__ == "__main__":
 	logging.debug('email adversaire : ' + email)
 	
 	url = config.get('site', 'url') + '/?gid=' + str(dico_params['gid'])
-	sujet = config.get('smtp', 'subject_notify') + ' par ' + login + \
-		' (#' + str(dico_params['gid']) + ')'
-	logging.debug('sujet : ' + sujet)
+	sujet = config.get('smtp', 'subject_prefix') + ' '
 	
 	com = dico_params['com']
 	if com != '':
@@ -169,7 +167,10 @@ if __name__ == "__main__":
 			ne1, ne2 = elo.new_elo(joueur_id, adversaire, 1 )
 			msg2 += msg_elo(e1, ne1)
 			msg += msg_elo(e2, ne2)
-			r = mail.send_mail(b.login_to_mail(login), sujet, msg2 )
+			sujet2 = sujet + 'Vous avez gagné (#' + str(dico_params['gid']) + ')'
+			sujet += 'Vous avez perdu (#' + str(dico_params['gid']) + ')'
+			r = mail.send_mail(b.login_to_mail(login), sujet2, msg2 )
+			logging.debug('sujet du mail au gagnant : ' + sujet2)
 			logging.debug('mail au gagnant : ' + r)
 			logging.debug('ELO : ' + str(e1) + ',' + str(ne1) + '(gagnant) / ' + str(e2) + ',' + str(ne2) )
 		
@@ -183,8 +184,12 @@ if __name__ == "__main__":
 		ne1, ne2 = elo.new_elo( adversaire, joueur_id, 1 )
 		msg += msg_elo(e1, ne1)
 		msg2 += msg_elo(e2, ne2)
-		r = mail.send_mail(b.login_to_mail(login), sujet, msg2 )
-		logging.debug('mail au perdant : ' + r)
+		sujet2 = sujet + 'Vous avez abandonné (#' + str(dico_params['gid']) + ')'
+		sujet += 'Vous avez gagné (#' + str(dico_params['gid']) + ')'
+		r = mail.send_mail(b.login_to_mail(login), sujet2, msg2 )
+		logging.debug('sujet du mail au perdant : ' + sujet2)
+		logging.debug('mail au perdant : ' + msg2)
+		logging.debug(r)
 		logging.debug('ELO : ' + str(e1) + ',' + str(ne1) + '(gagnant) / ' + str(e2) + ',' + str(ne2) )
 		
 	if dico_params['flag'] == 'D':
@@ -196,6 +201,7 @@ if __name__ == "__main__":
 			e2 = b.get_elo(adversaire)
 			ne1, ne2 = elo.new_elo( joueur_id, adversaire, 0.5 )
 			msg += msg_elo(e1, ne1)
+			sujet += 'Partie nulle (#' + str(dico_params['gid']) + ')'
 			r = mail.send_mail(b.login_to_mail(login), sujet, msg )
 			logging.debug('ELO : ' + str(e1) + ',' + str(ne1) + '(gagnant) / ' + str(e2) + ',' + str(ne2) )
 		else :
@@ -203,7 +209,9 @@ if __name__ == "__main__":
 			exit(0)
 		
 	if dico_params['flag'] == 'N':
-		msg += '<br/>Votre adversaire vous propose la nulle.'
+		tmp = '%s vous propose la nulle.' % login
+		sujet += tmp
+		msg += '<br/>' + tmp
 		b.update_game_token(dico_params['gid'], str(joueur_id) + '_' + token())
 		com_nulle = '%s propose la nulle à %s.' % (login, login_adversaire)
 		b.add_com(com_nulle, dico_params['gid'], None)
@@ -211,10 +219,17 @@ if __name__ == "__main__":
 	if dico_params['com'] != '':
 		b.add_com(dico_params['com'], dico_params['gid'], s)
 	
+	if dico_params['flag'] not in ['A', 'N', 'D'] and dico_params['c'] != None and dico_params['c'][-1:] != '#':
+		sujet += config.get('smtp', 'subject_notify') + ' par ' + login + ' (#' + str(dico_params['gid']) + ')'
+		
+	if dico_params['flag'] not in ['A', 'N', 'D'] and dico_params['c'] == None and dico_params['com'] != '':
+		sujet += 'Commentaire de ' + login + ' (#' + str(dico_params['gid']) + ')'
+		
 	r = mail.send_mail(email, sujet, msg )
 	#~ test local
 	#~ r = 'ok'
 	print r
+	logging.debug('sujet : ' + sujet)
 	logging.debug(msg)
 	logging.debug(r)
 	logging.debug('EOF')

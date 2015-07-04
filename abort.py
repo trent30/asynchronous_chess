@@ -88,7 +88,7 @@ if __name__ == "__main__":
 		adversaire = players[1]
 	
 	msg = 'La partie a été annulée par %s.' % joueur
-	sujet = config.get('smtp', 'subject_abort').replace('Partie', 'Partie #' + str(game))
+	sujet = config.get('smtp', 'subject_prefix') + ' ' + config.get('smtp', 'subject_abort').replace('Partie', 'Partie #' + str(game))
 	r1 = mail.send_mail(b.login_to_mail(joueur), sujet, msg)
 	r0 = mail.send_mail(b.login_to_mail(b.uid_to_login(adversaire)), sujet, msg)
 	
