@@ -44,6 +44,13 @@ if __name__ == "__main__":
 			coup.append(i[0])
 	r['h'] = coup
 	
+	if parametres.get("date", -1) == '1':
+		dates = b.get_history_date(game)
+		ldate = []
+		for i in dates:
+			ldate.append(i[0].split('+')[0].split('.')[0] + ' UTC' + i[0][-3:])
+		r['date'] = ldate
+	
 	token = b.get_game_token(game)
 	if token != '' and token != None:
 		if b.session_to_user_id(s) != int(token.split('_')[0]):

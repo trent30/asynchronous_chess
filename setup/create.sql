@@ -149,7 +149,8 @@ ALTER SEQUENCE games_id_seq OWNED BY games.id;
 CREATE TABLE historique (
     game_id integer NOT NULL,
     id integer NOT NULL,
-    coup text
+    coup text,
+    date timestamp NOT NULL default '2000-01-01 00:00:00.000000+02'
 );
 
 

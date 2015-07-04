@@ -1049,8 +1049,8 @@ var Chess = function(fen) {
 		case 'q' : p = 'D';
 		break;
 	}
-	if (color == 'b') { color = 'n' };
-	if (color == 'w') { color = 'b' };
+	if (color == 'b') { color = 'n'; }
+	if (color == 'w') { color = 'b'; }
 	return p + color;
   }
 	
@@ -1261,7 +1261,7 @@ var Chess = function(fen) {
       return generate_fen();
     },
 
-    pgn: function(options) {
+    pgn: function(options, dates) {
       /* using the specification from http://www.chessclub.com/help/PGN-spec
        * example for html usage: .pgn({ max_width: 72, newline_char: "<br />" })
        */
@@ -1296,6 +1296,7 @@ var Chess = function(fen) {
       var moves = [];
       var move_string = '';
       var pgn_move_number = 1;
+      var cpt_date = 0;
 
       /* build the list of moves.  a move_string looks like: "3. e3 e6" */
       while (reversed_history.length > 0) {
@@ -1313,8 +1314,12 @@ var Chess = function(fen) {
           move_string = pgn_move_number + '.';
           pgn_move_number++;
         }
-
-        move_string = move_string + ' ' + move_to_san(move);
+		var date = '';
+		try {
+			date =  ' [%date ' + dates[cpt_date] + ']';
+		} catch (e) {}
+        move_string = move_string + ' ' + move_to_san(move) + date;
+        cpt_date++;
         make_move(move);
       }
 
