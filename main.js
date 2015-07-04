@@ -490,6 +490,9 @@ function historique2log(h) {
 	for (i = 0; i < h.h.length; i++) {
 		if (dates != null) {
 			var date = dates[i];
+			if (date == null) {
+				date = '';
+			}
 		} else {
 			var date = '';
 		}
