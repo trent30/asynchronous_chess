@@ -1250,7 +1250,7 @@ function get_all_pgn_return(r, param) {
 		if (ALL_HISTORY[i].h.r != null) {
 			pgn_chess.header('Result', ALL_HISTORY[i].h.r);
 		}
-		pgn += pgn_chess.pgn().replace(/\n/g, '<br/>');
+		pgn += pgn_chess.pgn({}, ALL_HISTORY[i].h.date).replace(/\n/g, '<br/>');
 		pgn += '<br/><br/><hr/><br/>';
 	}
 	clean_log( pgn + '</div>' );
@@ -1259,9 +1259,13 @@ function get_all_pgn_return(r, param) {
 function get_all_pgn(liste) {
 	ALL_HISTORY = {};
 	var max = liste.length;
+	var param = '';
+	if ( string_to_bool(try_get_local('date_move') ) ) {
+		param = '&date=1';
+	}
 	for (var i = 0; i < max; i++) {
 		liste[i].max = max;
-		get_page('./history.py?g=' + liste[i].id, 'get_all_pgn_return', liste[i]);
+		get_page('./history.py?g=' + liste[i].id + param, 'get_all_pgn_return', liste[i]);
 	}
 }
 	
@@ -1669,7 +1673,7 @@ function pgn() {
 	t += '<b>Position :</b><br/><br/>';
 	t += CHESS.fen();
 	t += '<br/><br/><hr/><b>PGN :</b><br/><br/>';
-	t += CHESS.pgn().replace(/\n/g, '<br/>');
+	t += CHESS.pgn({}, INITIAL_POSITION.date).replace(/\n/g, '<br/>');
 	t += "<div class='stats' onclick='f_init()'><p>← Revenir à la liste des coups</p></div>";
 	clean_log(t + '</div>');
 }
