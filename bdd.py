@@ -305,12 +305,12 @@ class bdd():
 			id = 0
 		num_coup = self.requete_0(\
 			"select count(*) from historique where game_id='%s'" % gid)
-		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur) \
-			VALUES ('%s', '%s', '%s', '%s')" \
+		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur, date) \
+			VALUES ('%s', '%s', '%s', '%s', 'now()')" \
 			% (gid, pg.escape_string(com), num_coup, id))
 		
 	def	get_coms(self, gid):
-		return self.con.query("""SELECT c.text, u.login, c.num_coup 
+		return self.con.query("""SELECT c.text, u.login, c.num_coup, date
 		FROM com c, users u
 		WHERE game_id='%s' 
 		and u.id = c.joueur 

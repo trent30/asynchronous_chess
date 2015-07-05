@@ -201,6 +201,13 @@ body {
 	background : #E5E6E6;
 	padding-bottom: 5px;
 	border-radius: 50px 50px 50px 50px;
+	text-indent: 8px;
+}
+
+.com_date {
+	display: inline;
+	margin-right: 10px;
+	float: right;
 }
 
 .color_input {

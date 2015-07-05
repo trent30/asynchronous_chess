@@ -64,6 +64,7 @@ if __name__ == "__main__":
 			dico['t'] = i[0].replace('\n', '<br/>')		# le texte
 			dico['j'] = i[1]							# le nom du joueur
 			dico['n'] = i[2] - 1						# le numéro
+			dico['d'] = i[3].split('.')[0][:-3]			# la date
 			if dico['n'] < 0:
 				dico['n'] = 0;
 			coms.append(dico)

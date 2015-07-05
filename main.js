@@ -1638,7 +1638,11 @@ function info(nt) {
 	for (var i = 0; i < INITIAL_POSITION.c.length; i++) {
 		if (INITIAL_POSITION.c[i].n == nt * 2 - 2 || 
 			INITIAL_POSITION.c[i].n == nt * 2 - 1) {
-			m += '<div class="com_auteur">Message de <b>' + INITIAL_POSITION.c[i].j + '</b> :</div>';
+			var date = '';
+			if (INITIAL_POSITION.c[i].d != null) {
+				date = INITIAL_POSITION.c[i].d;
+			}
+			m += '<div class="com_auteur">Message de <b>' + INITIAL_POSITION.c[i].j + '</b> :<div class="com_date">' + date + '</div></div>';
 			m += INITIAL_POSITION.c[i].t + '<br><br> ';
 		}
 	}

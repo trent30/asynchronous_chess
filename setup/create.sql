@@ -426,6 +426,7 @@ CREATE TABLE com
   joueur integer,
   num_coup integer,
   game_id integer,
+  date timestamp NOT NULL default '2000-01-01 00:00:00.000000+02',
   CONSTRAINT com_pkey PRIMARY KEY (id ),
   CONSTRAINT com_game_id_fkey FOREIGN KEY (game_id)
       REFERENCES games (id) MATCH SIMPLE
