@@ -591,7 +591,11 @@ function f_click(c) {
 		deselect();
 		return 3;
 	}
-	if (selection.coord == '' && selection.piece == '') {
+	if ((selection.coord == '' && selection.piece == '') || 
+		(getPieceFromHtml(e.innerHTML)[1] == selection.piece[1]) ) {
+		if (e2 != null) {
+			e2.style.background = selection.color;
+		}
 		selection.coord = c;
 		selection.color = e.style.background;
 		selection.html = e.innerHTML;
