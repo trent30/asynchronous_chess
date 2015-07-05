@@ -107,6 +107,12 @@ body {
 	margin-top: 10px;
 }
 
+.btn_search {
+	border-radius: 50px 50px 50px 50px;
+	float: right;
+}
+
+
 #menu {
 	width: 66%;
 	margin-left: 33%;
@@ -193,6 +199,8 @@ body {
 	font-style: italic;
 	text-align: left;
 	background : #E5E6E6;
+	padding-bottom: 5px;
+	border-radius: 50px 50px 50px 50px;
 }
 
 .color_input {

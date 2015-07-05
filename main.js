@@ -1756,6 +1756,22 @@ function restore_prefs_server() {
 	get_page('/restore_conf.py', 'restore_prefs_server_return');
 }
 
+function f_search_players(reverse) {
+	if (reverse == null) {
+		reverse = true;
+	}
+	var txt = $('search_player').value;
+	if (!window.find(txt, false, reverse)) {
+		$("list_players_header").focus();
+	}
+}
+
+function searchEnter(e) {
+	if (e.keyCode == 13) {
+		f_search_players(false);
+	}
+}
+
 window.onload = on_load ; 
 window.onresize = resize ;
 document.onkeydown = checkKey ;
