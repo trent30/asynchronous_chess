@@ -427,12 +427,16 @@ CREATE TABLE com
   num_coup integer,
   game_id integer,
   date timestamp NOT NULL default '2000-01-01 00:00:00.000000+02',
+  status_id integer NOT NULL DEFAULT 0,
   CONSTRAINT com_pkey PRIMARY KEY (id ),
   CONSTRAINT com_game_id_fkey FOREIGN KEY (game_id)
       REFERENCES games (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT com_joueur_fkey FOREIGN KEY (joueur)
       REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT com_status_id_fkey FOREIGN KEY (status_id)
+      REFERENCES com_status (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
@@ -441,6 +445,26 @@ WITH (
 ALTER TABLE com
   OWNER TO chess;
 
+-- Table: com_status
+
+-- DROP TABLE com_status;
+
+CREATE TABLE com_status
+(
+  id serial NOT NULL,
+  text text,
+  CONSTRAINT com_status_pkey PRIMARY KEY (id )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE com_status
+  OWNER TO chess;
+  
+INSERT INTO com_status(id, text) VALUES (0, 'message');
+INSERT INTO com_status(id, text) VALUES (1, 'commentaire');
+INSERT INTO com_status(id, text) VALUES (2, 'bug');
+INSERT INTO com_status(id, text) VALUES (3, 'bug fix');
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
