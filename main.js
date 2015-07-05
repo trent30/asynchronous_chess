@@ -2,7 +2,7 @@ player_color = 'white';
 players = '';
 DATE = '';
 position = {};
-prefs = ['ccn', 'ccb', 'pieces', 'size', 'date_move'];
+prefs = ['ccn', 'ccb', 'pieces', 'size', 'date_move', 'date_com'];
 historique = [];
 selectColor = "#FF0000";
 try_get_local_login();
@@ -914,6 +914,9 @@ function f_reload() {
 	if (string_to_bool(try_get_local("date_move"))) {
 		param += '&date=1';
 	}
+	if (string_to_bool(try_get_local("date_com"))) {
+		param += '&date_com=1';
+	}
 	get_page('/history.py?g=' + game_ID + param, 'f_reload_return');
 }
 
@@ -1445,6 +1448,7 @@ function aff_prefs() {
 	var range = $('range');
 	range.min = min_size() * -1;
 	$("prefs_date_move").checked = string_to_bool(try_get_local("date_move"));
+	$("prefs_date_com").checked = string_to_bool(try_get_local("date_com"));
 }
 
 function string_to_bool (t) {

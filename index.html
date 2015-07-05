@@ -155,7 +155,14 @@
 		</SELECT>
 		</div><div><hr/></div>
 		<FORM>
-		<INPUT id="prefs_date_move" class="flag" type="checkbox" name="group" value="true"><label for="date_move">Afficher la date des coups</label>
+		<div class="color_input">
+			<label for="date_move">Afficher la date des coups</label>
+			<INPUT id="prefs_date_move" class="flag" type="checkbox" name="group" value="false">
+		</div>
+		<div class="color_input">
+			<label for="date_com">Afficher la date des messages</label>
+			<INPUT id="prefs_date_com" class="flag" type="checkbox" name="group" value="false">
+		</div>
 		</FORM><hr/>
 		<div class="field"><input class="btn" id="btn_test_prefs" value="tester" type="submit" onclick="test_prefs()"/></div>
 		<div class="field"><input class="btn" id="btn_save_prefs" value="sauver (en local)" type="submit" onclick="save_prefs()"/></div>
