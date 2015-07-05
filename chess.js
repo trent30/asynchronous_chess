@@ -1316,7 +1316,7 @@ var Chess = function(fen) {
         }
 		var date = '';
 		try {
-			date =  ' [%date ' + dates[cpt_date] + ']';
+			date =  ' {[%date ' + dates[cpt_date] + ']}';
 		} catch (e) {}
         move_string = move_string + ' ' + move_to_san(move) + date;
         cpt_date++;
