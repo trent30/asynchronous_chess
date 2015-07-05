@@ -164,7 +164,18 @@ body {
 
 .player:hover {
 	background: #828282;
+	text-decoration: none;
 	text-align:left;
+}
+
+.player a:link {
+	color: black;
+	text-decoration: none;
+}
+
+.player a:visited {
+	color: black;
+	text-decoration: none;
 }
 
 .info {
