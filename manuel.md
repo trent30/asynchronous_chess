@@ -8,6 +8,8 @@
 
 Ce site fournit simplement un échiquier pour jouer à distance et être informé par mail lorsque votre adversaire a joué. Vous devez donc fournir une adresse mail valide lors de votre inscription, aucune pub ou spam ne sera envoyé dessus et elle ne sera communiqué à aucun tier, pas même à vos adversaire.
 
+Attention, ce site n'est pas prévu pour fonctionner avec Internet Explorer, utilisez un vrai navigateur à la place.
+
 
 ## Asynchrone jusqu'au plateau
 
