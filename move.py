@@ -138,7 +138,7 @@ if __name__ == "__main__":
 	
 	com = dico_params['com']
 	if com != '':
-		com = 'Commentaire de ' + login + ' :<br/>' + dico_params['com'].replace('\n', '<br/>')
+		com = 'Message de ' + login + ' :<br/>' + dico_params['com'].replace('\n', '<br/>')
 		
 	msg = open('conf/mail_notif.txt').read() % (login, coup, txt, com, url)
 	if coup == '':
@@ -223,7 +223,7 @@ if __name__ == "__main__":
 		sujet += config.get('smtp', 'subject_notify') + ' par ' + login + ' (#' + str(dico_params['gid']) + ')'
 		
 	if dico_params['flag'] not in ['A', 'N', 'D'] and dico_params['c'] == None and dico_params['com'] != '':
-		sujet += 'Commentaire de ' + login + ' (#' + str(dico_params['gid']) + ')'
+		sujet += 'Message de ' + login + ' (#' + str(dico_params['gid']) + ')'
 		
 	r = mail.send_mail(email, sujet, msg )
 	#~ test local

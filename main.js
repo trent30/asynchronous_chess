@@ -1638,7 +1638,7 @@ function info(nt) {
 	for (var i = 0; i < INITIAL_POSITION.c.length; i++) {
 		if (INITIAL_POSITION.c[i].n == nt * 2 - 2 || 
 			INITIAL_POSITION.c[i].n == nt * 2 - 1) {
-			m += '<div class="com_auteur">Commentaire de <b>' + INITIAL_POSITION.c[i].j + '</b> :</div>';
+			m += '<div class="com_auteur">Message de <b>' + INITIAL_POSITION.c[i].j + '</b> :</div>';
 			m += INITIAL_POSITION.c[i].t + '<br><br> ';
 		}
 	}
