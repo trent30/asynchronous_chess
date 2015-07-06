@@ -400,11 +400,13 @@ function select_one_move(n) {
 	set_game_info(true);
 }
 
-function list_check_com(h) {
-	var l = h.c;
+function list_check_com(h, l) {
 	var r = [];
 	for (var i = 0; i < h.h.length; i++) {
 		r[i] = false;
+	}
+	if (l == null) {
+		return r;
 	}
 	for (var i = 0; i < l.length; i++) {
 		r[ l[i].n ] = true;
@@ -412,11 +414,18 @@ function list_check_com(h) {
 	return r;
 }
 
-function message_or_not(b) {
-	if (b) {
-		return '<div onclick="info(_n_)" class="order" title="message"><img src="./img/msg16x16.png"></div>';
+function message_or_not(b, b2) {
+	if (!b && !b2) {
+		return '<div class="order hide">.</div>';
 	}
-	return '<div class="order hide">.</div>';
+	var txt = '<div class="order">';
+	if (b) {
+		txt += '<img src="./img/msg16x16.png" onclick="info(_n_)"  title="message">';
+	}
+	if (b2) {
+		txt += '<img style="margin-left : 3px" src="./img/msg_priv.png" onclick="note(_n_)"  title="commentaire">';
+	}
+	return txt += '</div>';
 }
 
 function piece_to_image(p) {
@@ -474,10 +483,12 @@ function historique2log(h) {
 	clean_log('<div id="print_all" onclick="print_all_messages()" style="text-align: right;"><img src="./img/msg16x16.png" title="afficher/masquer tous les messages"></div>');
 	var numero = 0;
 	var t = '';
-	var l = list_check_com(h);
+	var l = list_check_com(h, h.c);
+	var ln = list_check_com(h, h.n);
 	var m = '';
 	var i = 0;
 	var com = false;
+	var note = false;
 	var llog = '';
 	try {
 		var dates = h.date;
@@ -497,27 +508,41 @@ function historique2log(h) {
 			var date = '';
 		}
 		t = "<div class='order' onclick=select_one_move(" + i + ") id=coup_" + i + " title='" + date + "'>" + piece_to_image(h.h[i]) + "</div>" + t;
-		if (l[i] == true) {
-			com = true;
+		if (l == null) {
+			com = false;
+		} else {
+			if (l[i] == true) {
+				com = true;
+			}
+		}
+		if (ln == null) {
+			note = false;
+		} else {
+			if (ln[i] == true) {
+				note = true;
+			}
 		}
 		if ( i % 2 == 0 ) {
 			numero = i / 2 + 1;
 		} else {
-			m = message_or_not(com);
-			llog += m.replace(/_n_/, numero) + t + '<div class="num">'+ numero + '</div>';
+			m = message_or_not(com, note);
+			llog += m.replace(/_n_/g, numero) + t + '<div id="num_' + numero + '" class="num" onclick=f_add_com(' + numero + '); title="Ajouter un commentaire">' + numero + '</div>';
 			llog += '<div class="msg" id="msg_' + numero + '"></div><div class="plate hide">.</div>';
+			llog += '<div class="msg" id="note_' + numero + '"></div><div class="plate hide">.</div>';
 			t = '';
 			com = false;
+			note = false;
 		}
 	}
 	if ( i % 2 == 1 ) {
-		m = message_or_not(l[i - 1]);
-		llog += m.replace(/_n_/, numero) + "<div class='order'>...</div>" + t + '<div class="num">'+ numero + '</div>';
+		m = message_or_not(l[i - 1], ln[i - 1]);
+		llog += m.replace(/_n_/g, numero) + "<div class='order'>...</div>" + t + '<div class="num" onclick=f_add_com(' + numero + '); title="Ajouter un commentaire">' + numero + '</div>';
 		llog += '<div class="msg" id="msg_' + numero + '"></div>';
+		llog += '<div class="msg" id="note_' + numero + '"></div>';
 	}
 	add_log(llog);
 	if ( h.nulle != null) {
-		add_log('<div id="nulle_message"><div class="msg">Votre adversaire vous propose la nulle.</div><div onclick="finish()" class="btn">Accepter</a></div><div onclick="remove_nulle_message();" class="btn">Refuser</a></div></div>');
+		add_log('<div id="nulle_message"><div class="msg">Votre adversaire vous propose la nulle.</div><div onclick="finish()" class="btn">Accepter</div><div onclick="remove_nulle_message();" class="btn">Refuser</div></div>');
 	}
 	if ( h.r != null) {
 		add_log("<b>" + h.r + "</b>");
@@ -528,6 +553,50 @@ function historique2log(h) {
 	if ( h.r == null && !CHESS.in_draw() && check_trait()) {
 		add_log("<br/>C'est à vous de jouer");
 	}
+}
+
+function f_add_com(n) {
+	if ($("add_com" + n) == null) {
+		$("msg_" + n).innerHTML += '</div><div id="add_com' + n + '">' + $("add_com").innerHTML.replace(/param/g, "'add_com" + n + "'") + "</div>";
+	}
+}
+
+function f_send_note_return(r, t) {
+	if (r == 'ok') {
+		if (INITIAL_POSITION.n == null) {
+			INITIAL_POSITION.n = [];
+		}
+		INITIAL_POSITION.n.push(t);
+		f_init();
+		return;
+	}
+	if (r == "déco") {
+		menu_login('menu_login');
+		return;
+	}
+	clean_log(r);
+}
+
+function f_send_note(param) {
+	var t = clean_text($(param).getElementsByTagName('textarea')[0].value);
+	if (t.length == 0) {
+		alert("Vous n'avez saisie aucun texte.");
+		return;
+	}
+	var url = '/add_com.py?g=' + game_ID;
+	url += '&com=' + t;
+	var dico = {};
+	dico.j = user_ID;
+	dico.d = '';
+	dico.t = t;
+	dico.n = parseInt(param.replace(/add_com/g, '')) * 2 - 1;
+	url += '&n=' + dico.n;
+	get_page(url, 'f_send_note_return', dico);
+}
+
+function f_cancel_note(e) {
+	var i = $(e);
+	i.parentNode.removeChild(i);
 }
 
 function remove_nulle_message() {
@@ -1563,14 +1632,19 @@ function check_player_in_game() {
 	} return false;
 }
 
+function clean_text(t) {
+	t = t.replace(/;/g, "%3B");
+	t = t.replace(/\?/g, "%3F");
+	t = t.replace(/&/g, "%26");
+	t = t.replace(/\+/g, "%2B");
+	t = t.replace(/\n/g, "%0A");
+	return t;
+}
+
 function send() {
 	com1 = $('com').value;
 	com = com1;
-	com = com.replace(/;/g, "%3B");
-	com = com.replace(/\?/g, "%3F");
-	com = com.replace(/&/g, "%26");
-	com = com.replace(/\+/g, "%2B");
-	com = com.replace(/\n/g, "%0A");
+	com = clean_text(com);
 	form = $('send_form');
 	var flag = form.getElementsByClassName('flag');
 	var flag_value = '';
@@ -1629,6 +1703,28 @@ function print_all_messages() {
 			info(i);
 		}
 	}
+}
+
+function note(nt) {
+	var m = '';
+	var t = $('note_' + nt);
+	if (t == null) { return; }
+	if (t.innerHTML != '') {
+		t.innerHTML = '';
+		return;
+	}
+	for (var i = 0; i < INITIAL_POSITION.n.length; i++) {
+		if (INITIAL_POSITION.n[i].n == nt * 2 - 2 || 
+			INITIAL_POSITION.n[i].n == nt * 2 - 1) {
+			var date = '';
+			if (INITIAL_POSITION.n[i].d != null) {
+				date = INITIAL_POSITION.n[i].d;
+			}
+			m += '<div class="com_auteur">Commentaire de <b>' + INITIAL_POSITION.n[i].j + '</b> :<div class="com_date">' + date + '</div></div>';
+			m += INITIAL_POSITION.n[i].t + '<br><br> ';
+		}
+	}
+	t.innerHTML = m;
 }
 
 function info(nt) {

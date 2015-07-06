@@ -316,6 +316,35 @@ class bdd():
 		and u.id = c.joueur
 		and c.status_id = 0
 		order by c.id asc""" % gid).getresult()
+	
+	def	add_note(self, com, gid, s, n):
+		id = self.session_to_user_id(s)
+		if id == None:
+			id = 0
+		num_coup = self.requete_0(\
+			"select count(*) from historique where game_id='%s'" % gid)
+		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur, date, status_id) \
+			VALUES ('%s', '%s', '%s', '%s', 'now()', 1)" \
+			% (gid, pg.escape_string(com), n, id))
+		
+	def	get_notes(self, gid, joueur_id):
+		if self.get_winner(gid)[0][2] == None:
+			#~ commentaires privés (la partie n'est pas finie)
+			return self.con.query("""SELECT c.text, u.login, c.num_coup, date
+			FROM com c, users u
+			WHERE game_id='%s' 
+			and u.id = c.joueur
+			and c.status_id = 1
+			and c.joueur = '%s' 
+			order by c.id asc""" % (gid, joueur_id)).getresult()
+		else:
+			#~ commentaires de tout le monde
+			return self.con.query("""SELECT c.text, u.login, c.num_coup, date
+			FROM com c, users u
+			WHERE game_id='%s' 
+			and u.id = c.joueur
+			and c.status_id = 1
+			order by c.id asc""" % gid).getresult()
 		
 	def	check_gid_uid(self, gid, s):
 		id = self.session_to_user_id(s)

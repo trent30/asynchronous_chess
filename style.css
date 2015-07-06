@@ -102,7 +102,7 @@ body {
 	width: 190px;
 	border-radius: 5px 5px 5px 5px;
 	font-weight: bold;
-	color: #FFF!important;
+	color: #FFFFFF;
 	cursor: pointer;
 	margin-top: 10px;
 }
@@ -112,6 +112,22 @@ body {
 	float: right;
 }
 
+.btn_com {
+	background: #3C3C3C;
+	text-align: center;
+	border: 0;
+	height: 25px;
+	width: 190px;
+	border-radius: 5px 5px 5px 5px;
+	font-weight: bold;
+	color: #FFF;
+	cursor: pointer;
+	margin-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 1px;
+	padding-bottom: 3px;
+}
 
 #menu {
 	width: 66%;
@@ -167,6 +183,11 @@ body {
 #com{
 	width: 100%;
 }
+
+.com{
+	width: 100%;
+}
+
 
 .player:hover {
 	background: #828282;
