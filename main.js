@@ -1102,6 +1102,15 @@ function get_page(name, fonction, add) {
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			window[fonction](xhr.responseText.replace(/\n/g, ''), add);
+		}	
+		if (xhr.readyState == 4 && xhr.status != 200) {
+			clean_log("Erreur " + xhr.status);
+		}	
+		if (xhr.readyState == 4 && xhr.status == 404) {
+			clean_log('Erreur 404 : la page « ' + url + " » n'a pas pu être chargée.");
+		}
+		if (xhr.readyState == 4 && xhr.status == 0) {
+			clean_log("Le serveur semble être injoignable.");
 		}
 	};
 }
