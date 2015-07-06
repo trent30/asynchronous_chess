@@ -25,6 +25,7 @@ INITIAL_POSITION = {'h' : [], 'c' : []};
 MODE_PATRON = false;
 com1 = '';
 DISPLAY_ALL_MESSAGES = false;
+DISPLAY_ALL_COM = false;
 VITESSE_MENU_DELAY = 10;
 VITESSE_MENU_PAS = 0.05;
 
@@ -480,7 +481,7 @@ function check_trait() {
 }
 
 function historique2log(h) {
-	clean_log('<div id="print_all" onclick="print_all_messages()" style="text-align: right;"><img src="./img/msg16x16.png" title="afficher/masquer tous les messages"></div>');
+	clean_log('<div id="print_all" style="text-align: right;"><img src="./img/msg16x16.png" title="afficher/masquer tous les messages" onclick="print_all_messages()"><img style="margin-left:3px;"src="./img/msg_priv.png" title="afficher/masquer tous les commentaires" onclick="print_all_com()"></div>');
 	var numero = 0;
 	var t = '';
 	var l = list_check_com(h, h.c);
@@ -906,6 +907,7 @@ function f_init() {
 	deselect();
 	set_game_info(true);
 	DISPLAY_ALL_MESSAGES = false;
+	DISPLAY_ALL_COM = false;
 }
 
 function nothing_return(x) {
@@ -979,6 +981,7 @@ function f_reload() {
 	}
 	check_rotate();
 	DISPLAY_ALL_MESSAGES = false;
+	DISPLAY_ALL_COM = false;
 	var param = '&c=1';
 	if (string_to_bool(try_get_local("date_move"))) {
 		param += '&date=1';
@@ -1685,6 +1688,24 @@ function send() {
 		return 2;
 	}
 	get_page(url, 'send_return');
+}
+
+function print_all_com() {
+	var longueur = INITIAL_POSITION.h.length;
+	for (var i = 0; i <= longueur; i++) {
+		var t = $('note_' + i);
+		if (t != null) {
+			t.innerHTML = '';
+		}
+	}
+	if (DISPLAY_ALL_COM) {
+		DISPLAY_ALL_COM = false;
+	} else {
+		DISPLAY_ALL_COM = true;
+		for (var i = 0; i <= longueur; i++) {
+			note(i);
+		}
+	}
 }
 
 function print_all_messages() {
