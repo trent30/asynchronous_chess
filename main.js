@@ -28,6 +28,8 @@ DISPLAY_ALL_MESSAGES = false;
 DISPLAY_ALL_COM = false;
 VITESSE_MENU_DELAY = 10;
 VITESSE_MENU_PAS = 0.05;
+ERROR_COUNT = 0;
+ERROR_MAX = 10;
 
 function $(x) {
 	return document.getElementById(x);
@@ -911,6 +913,7 @@ function f_init() {
 }
 
 function nothing_return(x) {
+	console.log(x);
 	return;
 }
 
@@ -1112,7 +1115,18 @@ function get_page(name, fonction, add) {
 		if (xhr.readyState == 4 && xhr.status == 0) {
 			clean_log("Le serveur semble être injoignable.");
 		}
+		var et = xhr.status.toString()[0];
+		if (xhr.readyState == 4 && ERROR_COUNT < ERROR_MAX) {
+			if (et == '4' || et == '5') {
+				ERROR_COUNT++;
+				get_page('./add_com.py?bug=1&com=' + xhr.status, 'error_return', xhr.status);
+			}
+		}
 	};
+}
+
+function error_return(r, add) {
+	clean_log('Erreur ' + add);
 }
 
 function get_login_return(r) {

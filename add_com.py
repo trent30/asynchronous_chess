@@ -35,14 +35,22 @@ if __name__ == "__main__":
 		s = c["session"].value
 	except:
 		s = None
-		print "déco"
-		exit(0)
-		
+	
 	b = bdd.bdd()
 	parametres = input()
 	game = parametres.get("g", -1)
 	com = parametres.get("com", -1)
 	num_coup = parametres.get("n", 0)
+	
+	if parametres.get("bug", -1) == "1":
+		mail.send_mail(config.get('smtp', 'admin_mail'), \
+			config.get('smtp', 'subject_prefix') + ' Erreur', \
+			'login : %s  Erreur : %s' % (b.session_to_login(s), com))
+		exit(0)
+	
+	if s == None:
+		print "déco"
+		exit(0)
 	
 	if com == -1:
 		m = 'Commentaire vide.'
@@ -70,8 +78,6 @@ if __name__ == "__main__":
 		if coup == 0:
 			coup = 1
 		msg = '<p>Coup %s, commentaire de %s :</p>%s' % (coup, b.uid_to_login(joueur_id), com.replace('\n', '<br/>')) + url
-		print '<p>%s</p>' % sujet
-		print msg
 		if joueur_id != blanc and joueur_id != noir:
 			#~ Envoi du mail aux deux joueurs
 			r = mail.send_mail(b.login_to_mail(b.uid_to_login(blanc)), sujet, msg)
