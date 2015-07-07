@@ -1364,74 +1364,27 @@ function back_stats() {
 
 function sort_players(key, asc) {
 	add_log('tri en cours...');
-	liste = [];
-	//~ création d'une liste des 'key'
-	for (var i in ALL_PLAYERS) {
-		if (key == 'nom') {
-			//~ mettre en minuscule permet de ne pas avoir 'S' avant 'a'
-			liste.push(ALL_PLAYERS[i][key].toLowerCase());
-		} else {
-			liste.push(ALL_PLAYERS[i][key]);
+	ALL_PLAYERS.sort(function (i, j) {
+		var a = i[key].toString().toLowerCase();
+		var b = j[key].toString().toLowerCase();
+		if (a == b) {
+			return 0;
 		}
-	}
-	if (key == 'nom') { // tri alphabétique
-		liste.sort();
-	} else {			// tri numérique
-		liste.sort(function (a, b) {
-			if (a < b) {
+		if (a < b) {
+			if (asc) {
 				return -1;
-			} else if (a > b) {
+			} else {
+				return 1;
+			}
+		} else if (a > b) {
+			if (asc) {
 				return 1;
 			} else {
-				return 0;
+				return -1;
 			}
-			});
-	}
-	//~ inversion du tri si nécessaire
-	if (asc == false) {
-		var max = liste.length;
-		var tmp = [];
-		for (var i = 0; i < max; i++ ) {
-			tmp.push(liste.pop());
 		}
-		liste = tmp;
-	}
-	//~ création d'une liste 'tmp' dans l'ordre de 'liste' (trié ci-dessus)
-	//~ contenant les éléments de ALL_PLAYERS
-	var tmp = [];
-	COPY_ALL_PLAYERS = ALL_PLAYERS;
-	for ( var i in liste ) {
-		tmp.push(one_of_all_players(key, liste[i]));
-	}
-	//~ on obtient finalement une liste de dictionnaires triée
-	//~ suivant une valeur (key) du dictionnaire
-	all_players_to_html(tmp);
-}
-
-function pop_one(l, index) {
-	var tmp = [];
-	for (var i in l) {
-		if ( i != index ) {
-			tmp.push(l[i]);
-		}
-	}
-	return tmp;
-}
-
-function one_of_all_players(key, elt) {
-	for ( var i in COPY_ALL_PLAYERS ) {
-		var cle = COPY_ALL_PLAYERS[i][key];
-		if (key == 'nom') {
-			//~ vu qu'on a mis en minuscule pour le tri
-			//~ il faut comparer en minuscule aussi
-			cle = cle.toLowerCase();
-		}
-		if (cle == elt) {
-			var r = COPY_ALL_PLAYERS[i];
-			COPY_ALL_PLAYERS = pop_one(COPY_ALL_PLAYERS, i);
-			return r;
-		}
-	}
+		});
+	all_players_to_html(ALL_PLAYERS);
 }
 
 function all_players_to_html(j) {
