@@ -70,9 +70,7 @@ if __name__ == "__main__":
 				dico['n'] = 0;
 			coms.append(dico)
 		r['c'] = coms
-		
-		
-		
+	
 	n = b.get_notes(game, b.session_to_user_id(s))
 	notes = []
 	for i in n:

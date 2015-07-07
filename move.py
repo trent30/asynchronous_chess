@@ -23,6 +23,20 @@ logging.basicConfig(filename=config.get('log', 'file'), \
 logging.debug('-'*20)
 b = bdd.bdd()
 
+def get_com(game_id, joueur_id):
+	n = b.get_other_notes(game_id, joueur_id)
+	notes = '<p>Ci-dessous, les commentaires : </p>'
+	for i in n:
+		num_coup = i[2] / 2 + 1	
+		if num_coup < 0:
+			num_coup = 0
+		notes += 'Coup %s, commentaire de %s (%s) :<br/>%s<br/><br/>' % (\
+			num_coup, \
+			i[1], \
+			i[3].split('.')[0][:-3], \
+			i[0].replace('\n', '<br/>'))
+	return notes
+	
 def msg_elo(old, new):
 	diff = new - old
 	if diff > 0:
@@ -167,6 +181,8 @@ if __name__ == "__main__":
 			ne1, ne2 = elo.new_elo(joueur_id, adversaire, 1 )
 			msg2 += msg_elo(e1, ne1)
 			msg += msg_elo(e2, ne2)
+			msg2 += get_com(dico_params['gid'], joueur_id)
+			msg += get_com(dico_params['gid'], adversaire)
 			sujet2 = sujet + 'Vous avez gagné (#' + str(dico_params['gid']) + ')'
 			sujet += 'Vous avez perdu (#' + str(dico_params['gid']) + ')'
 			r = mail.send_mail(b.login_to_mail(login), sujet2, msg2 )
@@ -184,6 +200,8 @@ if __name__ == "__main__":
 		ne1, ne2 = elo.new_elo( adversaire, joueur_id, 1 )
 		msg += msg_elo(e1, ne1)
 		msg2 += msg_elo(e2, ne2)
+		msg2 += get_com(dico_params['gid'], joueur_id)
+		msg += get_com(dico_params['gid'], adversaire)
 		sujet2 = sujet + 'Vous avez abandonné (#' + str(dico_params['gid']) + ')'
 		sujet += 'Vous avez gagné (#' + str(dico_params['gid']) + ')'
 		r = mail.send_mail(b.login_to_mail(login), sujet2, msg2 )
@@ -201,6 +219,8 @@ if __name__ == "__main__":
 			e2 = b.get_elo(adversaire)
 			ne1, ne2 = elo.new_elo( joueur_id, adversaire, 0.5 )
 			msg += msg_elo(e1, ne1)
+			msg += get_com(dico_params['gid'], joueur_id)
+			msg2 += get_com(dico_params['gid'], adversaire)
 			sujet += 'Partie nulle (#' + str(dico_params['gid']) + ')'
 			r = mail.send_mail(b.login_to_mail(login), sujet, msg )
 			logging.debug('ELO : ' + str(e1) + ',' + str(ne1) + '(gagnant) / ' + str(e2) + ',' + str(ne2) )
@@ -211,7 +231,7 @@ if __name__ == "__main__":
 	if dico_params['flag'] == 'N':
 		tmp = '%s vous propose la nulle.' % login
 		sujet += tmp
-		msg += '<br/>' + tmp
+		msg += '<p>' + tmp + '</p>'
 		b.update_game_token(dico_params['gid'], str(joueur_id) + '_' + token())
 		com_nulle = '%s propose la nulle à %s.' % (login, login_adversaire)
 		b.add_com(com_nulle, dico_params['gid'], None)
