@@ -1760,6 +1760,7 @@ function on_load() {
 function UpdateSizeBoardValue(s) {
 	var t = $('prefs_size');
 	t.value = s;
+	test_prefs();
 }
 
 function checkEnter(e) {
