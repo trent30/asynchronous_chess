@@ -390,13 +390,17 @@ function dselect_one_move(id) {
 }
 	
 function select_one_move(n) {
-	dselect_one_move(old_one_move);
-	var e = $( 'coup_' + n );
-	e.style.background = '#D4D4D4';
-	old_one_move = e;
-	init_position();
-	for (var i = 0; i <= n; i++) {
-		CHESS.move(historique[i]);
+	if (n < 0) {
+		init_position();
+	} else {
+		dselect_one_move(old_one_move);
+		var e = $( 'coup_' + n );
+		e.style.background = '#D4D4D4';
+		old_one_move = e;
+		init_position();
+		for (var i = 0; i <= n; i++) {
+			CHESS.move(historique[i]);
+		}
 	}
 	position = CHESS.position();
 	draw_pieces(position);
