@@ -77,7 +77,7 @@ if __name__ == "__main__":
 		dico = {}
 		dico['t'] = i[0].replace('\n', '<br/>')		# le texte
 		dico['j'] = i[1]							# le nom du joueur
-		dico['n'] = i[2] - 1						# le numéro
+		dico['n'] = i[2]							# le numéro
 		if parametres.get("date_com", -1) == '1':	# la date
 			dico['d'] = i[3].split('.')[0][:-3]
 		if dico['n'] < 0:

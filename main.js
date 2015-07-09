@@ -592,7 +592,7 @@ function f_send_note(param) {
 	dico.j = user_ID;
 	dico.d = '';
 	dico.t = t;
-	dico.n = parseInt(param.replace(/add_com/g, '')) * 2 - 1;
+	dico.n = parseInt(param.replace(/add_com/g, '')) * 2 - 2;
 	url += '&n=' + dico.n;
 	get_page(url, 'f_send_note_return', dico);
 }
