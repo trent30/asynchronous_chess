@@ -98,6 +98,10 @@ if __name__ == "__main__":
 			logging.debug(i + ' : ' + dico_params[i])
 		except:
 			pass
+		
+	if dico_params['gid'] == None:
+		print "Aucune partie sélectionnée."
+		exit(0)
 	
 	dico_params['c'] = parametres.get('c', None)
 	coup = parametres.get('c', '')
