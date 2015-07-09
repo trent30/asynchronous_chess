@@ -678,6 +678,16 @@ function f_click(c) {
 		selection.piece = getPieceFromHtml(e.innerHTML);
 		e.style.background = selectColor;
 	} else {
+		//~ "retour manuel'"
+		var last = CHESS.history({ verbose: true }).pop();
+		if (last != null) {
+			if (c == last.from && selection.coord == last.to) {
+				CHESS.undo();
+				select_one_move(CHESS.history().length - 1);
+				deselect();
+				return;
+			}
+		}
 		coup.p1 = selection.piece;
 		coup.c1 = selection.coord;
 		coup.p2 = '';
