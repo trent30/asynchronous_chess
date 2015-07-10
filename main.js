@@ -850,9 +850,17 @@ function try_get_local_login() {
 }
 
 function checknews() {
-	var nb_news = try_get_local("news");
-	if (nb_news == null) {
+	var l_news = try_get_local("news");
+	if (l_news == null) {
+		l_news = 0;
+	}
+	try {
+		var nb_news = MY_NEWS;
+	} catch (e) {
 		nb_news = 0;
+	}
+	if (l_news > nb_news) {
+		nb_news = l_news;
 	}
 	try {
 		if (nb_news < BREAKING_NEWS) {
@@ -1491,7 +1499,7 @@ function f_menu(m) {
 		return;
 	}
 	if (m == 'news') {
-		get_page('news.html', 'news_return');
+		get_page('news.py?html=1', 'news_return');
 		return;
 	}
 	if (e !== null) {

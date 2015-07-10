@@ -210,6 +210,14 @@ class bdd():
 		return self.con.query("SELECT u.id, u.login, u.elo FROM users u WHERE \
 			u.date_deleted is NULL AND u.confirmed=TRUE").getresult()
 	
+	def get_news(self, uid):
+		return self.requete_0("SELECT u.nb_news FROM users u WHERE \
+			u.id='%s'" % uid)
+			
+	def set_news(self, uid, nb):
+		self.con.query("UPDATE users SET nb_news='%s' WHERE id='%s'" \
+			% (nb, uid))
+	
 	def add_move(self, game_id, coup, s):
 		id = self.session_to_user_id(s)
 		self.con.query("INSERT INTO historique (game_id, coup, joueur, date) \
