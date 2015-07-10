@@ -317,6 +317,20 @@ class bdd():
 		and c.status_id = 0
 		order by c.id asc""" % gid).getresult()
 	
+	def list_bug_id(self):
+		r = []
+		for i in self.con.query("""select id from com where status_id in (2,3)""").getresult():
+			r.append(i[0])
+		return r
+		
+	def	add_bug(self, com, s, n):
+		id = self.session_to_user_id(s)
+		if id == None:
+			id = 0
+		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur, date, status_id) \
+			VALUES (0, '%s', '%s', '%s', 'now()', 2)" \
+			% (pg.escape_string(com), n, id))
+		
 	def	add_note(self, com, gid, s, n):
 		id = self.session_to_user_id(s)
 		if id == None:

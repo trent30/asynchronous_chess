@@ -31,6 +31,8 @@
 		<p>Ce site fournit simplement un échiquier pour jouer à distance et être informé par mail lorsque votre adversaire a joué. L'avantage est d'avoir un historique commun entre les 2 joueurs sans que l'un des échiquiers se «&nbsp;désynchronise&nbsp;» (errare humanum est).</p>
 		<p>Ce site n'est pas prévu pour fonctionner avec Internet Explorer, utilisez un vrai navigateur à la place.</p>
 		
+		<p onclick=f_menu("bug_report");><a href="#">Signaler un bug</a></p>
+		
 		<p>contact : chess+dev@trent.homelinux.org</p>
 		<div style="font-size: small;text-align: left;">
 			<p>version 0.b</p>
@@ -175,6 +177,13 @@
 		<div class="field"><input class="btn" id="btn_save_prefs" value="sauver (en local)" type="submit" onclick="save_prefs()"/></div>
 		<div class="field"><input class="btn" id="btn_save_prefs_server" value="sauver sur le serveur" type="submit" onclick="save_prefs_server()"/></div>
 		<div class="field"><input class="btn" id="btn_restore_prefs_server" value="restaurer depuis le serveur" type="submit" onclick="restore_prefs_server()"/></div>
+	</div>
+	
+	<div id="bug_report" style='display:none'>
+		<h3 class="ta_left">Rapport de bug</h3>
+		<p class="ta_left">Si vous avez trouvé un bug où que vous voulez proposer une amélioration, utilisez le formulaire ci-dessous. Avant de soumettre votre proposition pensez à regarder si le bug n'a pas déjà été rapporté.</p>
+		<textarea class="com" name="bug_text" id="bug_text"></textarea>
+		<div onclick="f_send_bug(0);" class="btn_com inline">Envoyer</div>
 	</div>
 	
 	<div id="account" style='display:none'>

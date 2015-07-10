@@ -41,11 +41,29 @@ if __name__ == "__main__":
 	game = parametres.get("g", -1)
 	com = parametres.get("com", -1)
 	num_coup = parametres.get("n", 0)
+	login = b.session_to_login(s)
 	
 	if parametres.get("bug", -1) == "1":
-		mail.send_mail(config.get('smtp', 'admin_mail'), \
-			config.get('smtp', 'subject_prefix') + ' Erreur', \
-			'login : %s  Erreur : %s' % (b.session_to_login(s), com))
+		if parametres.get("status", -1) == -1:
+			mail.send_mail(config.get('smtp', 'admin_mail'), \
+				config.get('smtp', 'subject_prefix') + ' Erreur', \
+				'login : %s  Erreur : %s' % (login, com))
+		
+		if login == None:
+			print "Vous devez être connecté pour rapporter un bug."
+			exit(0)
+		
+		if parametres.get("status", -1) == "2":
+			rep = int(parametres.get("rep", 0))
+			if rep != 0:
+				if rep not in b.list_bug_id():
+					print "Votre réponse doit être rattachée à un numéro de bug."
+					exit(0)
+			
+			b.add_bug( com, s, rep )
+			mail.send_mail(config.get('smtp', 'admin_mail'), \
+				config.get('smtp', 'subject_prefix') + ' Bug report %i de %s' % (rep, login), com)
+			print 'ok'
 		exit(0)
 	
 	if s == None:

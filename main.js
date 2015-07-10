@@ -584,6 +584,22 @@ function f_send_note_return(r, t) {
 	clean_log(r);
 }
 
+function f_send_bug_return(r) {
+	if (r == 'ok') {
+		clean_log('Votre rapport a bien été enregistré.');
+		return;
+	}
+	clean_log(r);
+}
+
+function f_send_bug(rep) {
+	var t = clean_text($('bug_text').value);
+	var url = './add_com.py?bug=1&status=2';
+	url += '&rep=' + rep;
+	url += '&com=' + t;
+	get_page(url, 'f_send_bug_return');
+}
+
 function f_send_note(param) {
 	var t = clean_text($(param).getElementsByTagName('textarea')[0].value);
 	if (t.length == 0) {

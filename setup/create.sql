@@ -480,4 +480,5 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 -- PostgreSQL database dump complete
 --
 
-insert into users(login, date_create, confirmed) values ('admin', now(), true);
+insert into users(id, login, date_create, confirmed) values (0, 'admin', now(), true);
+INSERT INTO games (white, black, winner, date, id) values(0,0,0, now(), 0);
