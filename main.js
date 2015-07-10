@@ -715,8 +715,7 @@ function f_click(c) {
 		var m = { 'from' : selection.coord, 'to' : c };
 		if (CHESS.move(m) == null) {
 			if ((((c[1] == 8) && (selection.piece == 'pb')) || 
-				((c[1] == 1) && (selection.piece == 'pn'))) &&
-				(CHESS.in_check() == false) ) { // promotion
+				((c[1] == 1) && (selection.piece == 'pn'))) ) { // promotion
 					if (((c[1] == 1) && (CHESS.history().length % 2 == 0)) || 
 					((c[1] == 8) && (CHESS.history().length % 2 == 1))) {
 						alert("Ce n'est pas à votre tour de jouer");
