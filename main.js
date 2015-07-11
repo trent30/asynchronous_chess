@@ -1649,7 +1649,7 @@ function select_game(id) {
 	l.scrollTop = l.scrollHeight;
 }
 
-function send_return(r) {
+function send_return(r, flag) {
 	if (r == 'ok') {
 		var diff = diff_historique();
 		var l = $('log');
@@ -1663,6 +1663,9 @@ function send_return(r) {
 			c.n = INITIAL_POSITION.h.length - 1;
 			c.t = com1;
 			INITIAL_POSITION.c.push(c);
+		}
+		if (flag == 'A') {
+			INITIAL_POSITION.r = 'Vous avez abandonné';
 		}
 		l.innerHTML = '';
 		historique2log(INITIAL_POSITION);
@@ -1735,7 +1738,7 @@ function send() {
 		alert("Vous n'avez rien à envoyer.");
 		return 2;
 	}
-	get_page(url, 'send_return');
+	get_page(url, 'send_return', flag_value);
 }
 
 function print_all_com() {
