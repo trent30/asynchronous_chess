@@ -316,7 +316,7 @@ class bdd():
 		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur, date, status_id) \
 			VALUES ('%s', '%s', '%s', '%s', 'now()', 0)" \
 			% (gid, pg.escape_string(com), num_coup, id))
-		
+	
 	def	get_coms(self, gid):
 		return self.con.query("""SELECT c.text, u.login, c.num_coup, date
 		FROM com c, users u
@@ -330,15 +330,19 @@ class bdd():
 		for i in self.con.query("""select id from com where status_id in (2,3)""").getresult():
 			r.append(i[0])
 		return r
-		
+	
+	def get_bugs(self):
+		return self.con.query("""select c.id, c.text, c.date, u.login, c.status_id \
+			from com c, users u where c.joueur = u.id and status_id in (2,3) order by date desc""").getresult()
+	
 	def	add_bug(self, com, s, n):
 		id = self.session_to_user_id(s)
 		if id == None:
 			id = 0
-		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur, date, status_id) \
-			VALUES (0, '%s', '%s', '%s', 'now()', 2)" \
+		return self.requete_0("INSERT INTO com (game_id, text, num_coup, joueur, date, status_id) \
+			VALUES (0, '%s', '%s', '%s', 'now()', 2) RETURNING id; " \
 			% (pg.escape_string(com), n, id))
-		
+	
 	def	add_note(self, com, gid, s, n):
 		id = self.session_to_user_id(s)
 		if id == None:
@@ -348,7 +352,7 @@ class bdd():
 		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur, date, status_id) \
 			VALUES ('%s', '%s', '%s', '%s', 'now()', 1)" \
 			% (gid, pg.escape_string(com), n, id))
-		
+	
 	def	get_other_notes(self, gid, joueur_id):
 		return self.con.query("""SELECT c.text, u.login, c.num_coup, c.date
 		FROM com c, users u

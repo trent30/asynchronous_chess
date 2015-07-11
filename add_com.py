@@ -60,7 +60,9 @@ if __name__ == "__main__":
 					print "Votre réponse doit être rattachée à un numéro de bug."
 					exit(0)
 			
-			b.add_bug( com, s, rep )
+			r = b.add_bug( com, s, rep )
+			if rep == 0:
+				rep = r
 			mail.send_mail(config.get('smtp', 'admin_mail'), \
 				config.get('smtp', 'subject_prefix') + ' Bug report %i de %s' % (rep, login), com)
 			print 'ok'

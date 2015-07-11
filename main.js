@@ -600,6 +600,29 @@ function f_send_bug(rep) {
 	get_page(url, 'f_send_bug_return');
 }
 
+function f_list_bugs_return(r, p) {
+	var t = '<h3 class="ta_left" onclick=f_list_bugs("?fixed=2")>Liste des bugs en cours</h3>';
+	t += '<div class="ta_left" onclick=f_list_bugs("?fixed=3")><p>Cliquez ici pour afficher les bugs résolus<p></div>';
+	if ( p == '?fixed=3') {
+		t = '<h3 class="ta_left" onclick=f_list_bugs("?fixed=3")>Liste des bugs résolus</h3>';
+		t += '<div class="ta_left" onclick=f_list_bugs("?fixed=2")><p>Cliquez ici pour afficher les bugs en cours<p></div>';
+	}
+	var j = JSON.parse(r);
+	for (var i in j) {
+		t += '<div class="com_auteur">Rapport de <b>' + j[i]['login'] + '</b> :<div class="com_date">' + j[i]['date'] + '</div></div>';
+		t += '<div class="msg">' + j[i]['text'] + '</div><br/><br/>';
+	}
+	clean_log(t);
+	if (j.length == 0) {
+		add_log('La liste est vide');
+	}
+	$('log').scrollTop = 0;
+}
+
+function f_list_bugs(param) {
+	get_page('./get_bugs.py' + param, 'f_list_bugs_return', param);
+}
+
 function f_send_note(param) {
 	var t = clean_text($(param).getElementsByTagName('textarea')[0].value);
 	if (t.length == 0) {
