@@ -487,9 +487,21 @@ function check_trait() {
 }
 
 function historique2log(h) {
-	clean_log('<div id="print_all" style="text-align: right;"><img src="./img/msg16x16.png" title="afficher/masquer tous les messages" onclick="print_all_messages()"><img style="margin-left:3px;"src="./img/msg_priv.png" title="afficher/masquer tous les commentaires" onclick="print_all_com()"></div>');
+	var t = '<div id="print_all" style="text-align: right;">';
+	if (h.c != null) {
+		if (h.c.length > 0) {
+			t += '<img src="./img/msg16x16.png" title="afficher/masquer tous les messages" onclick="print_all_messages()">';
+		}
+	}
+	if (h.n != null) {
+		if (h.n.length > 0) {
+			t += '<img style="margin-left:3px;"src="./img/msg_priv.png" title="afficher/masquer tous les commentaires" onclick="print_all_com()">';
+		}
+	}
+	t += '</div>';
+	clean_log(t);
+	t = '';
 	var numero = 0;
-	var t = '';
 	var l = list_check_com(h, h.c);
 	var ln = list_check_com(h, h.n);
 	var m = '';
