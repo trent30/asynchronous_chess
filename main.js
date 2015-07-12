@@ -1581,20 +1581,10 @@ function string_to_bool (t) {
 }
 
 function test_prefs() {
-	var old = {};
-	for (var i in prefs) { // on sauvegarde les valeurs actuelles
-		old[prefs[i]] = try_get_local(prefs[i]);
-	}
 	save_prefs_in_localStorage(prefs);
-	// on applique les valeurs de test
 	draw_pieces(position);
 	draw_color_case();
 	resize();
-	for (i in prefs) { // on restaure les valeurs de départ
-		if (old[prefs[i]] != null) {
-			try_set_local(prefs[i], old[prefs[i]]);
-		}
-	}
 }
 
 function save_prefs_in_localStorage(d) {
@@ -1607,16 +1597,6 @@ function save_prefs_in_localStorage(d) {
 		}
 		try_set_local(d[i] , valeur);
 	}
-}
-
-function save_prefs() {
-	save_prefs_in_localStorage(prefs);
-	draw_pieces(position);
-	draw_color_case();
-	resize();
-	f_menu('preferences');
-	add_log('<div class="center"><br/>La configuration est sauvegardée en local.</div>');
-	aff_prefs();
 }
 
 function invite_return(r) {
@@ -1912,7 +1892,6 @@ function save_prefs_server_return(r) {
 }
 
 function save_prefs_server() {
-	save_prefs();
 	var data = JSON.stringify(localStorage);
 	get_page('/save_conf.py?d=' + data, 'save_prefs_server_return');
 }

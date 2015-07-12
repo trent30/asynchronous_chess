@@ -126,16 +126,16 @@
 
 	<div id="preferences" style='display:none'><br/>
 		<div class="color_input">
-		     couleur des cases noires : <input class="width_text_input" name="prefs_ccn" id="prefs_ccn" type="color"/>
+		     couleur des cases noires : <input onchange="test_prefs();" class="width_text_input" name="prefs_ccn" id="prefs_ccn" type="color"/>
 		</div>
 		<div class="color_input">
-		couleur des cases blanches : <input class="width_text_input" name="prefs_ccb" id="prefs_ccb" type="color"/><br/>
+		couleur des cases blanches : <input onchange="test_prefs();" class="width_text_input" name="prefs_ccb" id="prefs_ccb" type="color"/><br/>
 		</div><hr/>
 		<div class="color_input">taille de l'échiquier : 
 		<input id="range" type="range" min="-2048" max="100" value="0" width="100%" onchange="UpdateSizeBoardValue(this.value)"/>
 		<input onchange="UpdateSizeBoardValue(this.value)" class="width_text_input" name="prefs_size" id="prefs_size" type="text" />
 		</div><hr/>
-		<div>type de pièces : <SELECT id="prefs_pieces" name="pieces" size="1">
+		<div>type de pièces : <SELECT onchange="test_prefs();" id="prefs_pieces" name="pieces" size="1">
 		<option>classic
 		<option>Usual
 		<option>Leipzig
@@ -166,15 +166,13 @@
 		<FORM>
 		<div class="color_input">
 			<label for="date_move">Afficher la date des coups</label>
-			<INPUT id="prefs_date_move" class="flag" type="checkbox" name="group" value="false">
+			<INPUT onchange="test_prefs();" id="prefs_date_move" class="flag" type="checkbox" name="group" value="false">
 		</div>
 		<div class="color_input">
 			<label for="date_com">Afficher la date des messages</label>
-			<INPUT id="prefs_date_com" class="flag" type="checkbox" name="group" value="false">
+			<INPUT onchange="test_prefs();" id="prefs_date_com" class="flag" type="checkbox" name="group" value="false">
 		</div>
 		</FORM><hr/>
-		<div class="field"><input class="btn" id="btn_test_prefs" value="tester" type="submit" onclick="test_prefs()"/></div>
-		<div class="field"><input class="btn" id="btn_save_prefs" value="sauver (en local)" type="submit" onclick="save_prefs()"/></div>
 		<div class="field"><input class="btn" id="btn_save_prefs_server" value="sauver sur le serveur" type="submit" onclick="save_prefs_server()"/></div>
 		<div class="field"><input class="btn" id="btn_restore_prefs_server" value="restaurer depuis le serveur" type="submit" onclick="restore_prefs_server()"/></div>
 	</div>
