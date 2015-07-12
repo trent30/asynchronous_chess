@@ -498,7 +498,7 @@ function historique2log(h) {
 			t += '<img style="margin-left:3px;"src="./img/msg_priv.png" title="afficher/masquer tous les commentaires" onclick="print_all_com()">';
 		}
 	}
-	t += '</div>';
+	t += '</div><div class="msg" id="msg_0"></div>';
 	clean_log(t);
 	t = '';
 	var numero = 0;
@@ -531,7 +531,9 @@ function historique2log(h) {
 			com = false;
 		} else {
 			if (l[i] == true) {
-				com = true;
+				if ( i != 0) {
+					com = true;
+				}
 			}
 		}
 		if (ln == null) {
@@ -1808,8 +1810,7 @@ function info(nt) {
 		return;
 	}
 	for (var i = 0; i < INITIAL_POSITION.c.length; i++) {
-		if (INITIAL_POSITION.c[i].n == nt * 2 - 2 || 
-			INITIAL_POSITION.c[i].n == nt * 2 - 1) {
+		if (parseInt((INITIAL_POSITION.c[i].n + 1) / 2) == nt ) {
 			var date = '';
 			if (INITIAL_POSITION.c[i].d != null) {
 				date = INITIAL_POSITION.c[i].d;
