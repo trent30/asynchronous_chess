@@ -82,11 +82,6 @@ if __name__ == "__main__":
 		logging.debug('pas de cookie')
 		print "déco"
 		exit(0)
-	
-	if not b.autorized(s):
-		logging.debug('pas autorisé')
-		print "Vous n'êtes pas autorisé à jouer dans cette partie."
-		exit(0)
 		
 	parametres = input()
 	dico_params = {}
@@ -98,13 +93,18 @@ if __name__ == "__main__":
 			logging.debug(i + ' : ' + dico_params[i])
 		except:
 			pass
+	
+	dico_params['c'] = parametres.get('c', None)
+	coup = parametres.get('c', '')
+	
+	if not b.autorized(s):
+		logging.debug('pas autorisé')
+		print "Vous n'êtes pas connecté."
+		exit(0)
 		
 	if dico_params['gid'] == None:
 		print "Aucune partie sélectionnée."
 		exit(0)
-	
-	dico_params['c'] = parametres.get('c', None)
-	coup = parametres.get('c', '')
 	
 	if b.get_dernier_joueur(int(dico_params['gid'])) == \
 		b.session_to_login(s) and dico_params['flag'] != 'A' \
@@ -122,13 +122,19 @@ if __name__ == "__main__":
 		print "Aucune partie n'est sélectionnée."
 		exit(0)
 	
-	if not b.check_gid_uid(dico_params['gid'], s):
+	login = b.session_to_login(s).encode('UTF-8', 'ascci')
+	joueur_id = b.session_to_user_id(s)
+	
+	if joueur_id not in b.players_from_game(dico_params['gid'])[0]:
+		logging.debug("Vous êtes simple spectateur.")
+		print "Vous êtes simple spectateur."
+		exit(0)
+	
+	if (not b.check_gid_uid(dico_params['gid'], s)) and dico_params['flag'] != None :
 		logging.debug("Vous n'êtes pas autorisé à jouer dans cette partie.")
 		print "Vous n'êtes pas autorisé à jouer dans cette partie."
 		exit(0)
 	
-	login = b.session_to_login(s).encode('UTF-8', 'ascci')
-	joueur_id = b.session_to_user_id(s)
 	logging.debug('login : ' + login)
 	txt = ''
 	if dico_params['flag'] != None:
