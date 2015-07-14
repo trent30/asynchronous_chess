@@ -27,7 +27,7 @@ if __name__ == "__main__":
 		if int(fixed) == i[4]:
 			d= {}
 			d['id'] = i[0]
-			d['text'] = i[1]
+			d['text'] = i[1].replace('\n', '<br/>').replace('<', '&lt;').replace('>', '&gt;')
 			d['date'] = i[2].split('.')[0][:-3]
 			d['login'] = i[3]
 			d['status'] = i[4]

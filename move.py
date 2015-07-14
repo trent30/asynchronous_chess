@@ -34,7 +34,7 @@ def get_com(game_id, joueur_id):
 			num_coup, \
 			i[1], \
 			i[3].split('.')[0][:-3], \
-			i[0].replace('\n', '<br/>'))
+			i[0].replace('\n', '<br/>').replace('<', '&lt;').replace('>', '&gt;'))
 	return notes
 	
 def msg_elo(old, new):
