@@ -530,7 +530,7 @@ function historique2log(h) {
 		if (l == null) {
 			com = false;
 		} else {
-			if (l[i] == true) {
+			if (l[i + 1] == true) {
 				if ( i != 0) {
 					com = true;
 				}
@@ -556,7 +556,7 @@ function historique2log(h) {
 		}
 	}
 	if ( i % 2 == 1 ) {
-		m = message_or_not(l[i - 1], ln[i - 1]);
+		m = message_or_not(l[i], ln[i - 1]);
 		llog += m.replace(/_n_/g, numero) + "<div class='order'>...</div>" + t + '<div class="num" onclick=f_add_com(' + numero + '); title="Ajouter un commentaire">' + numero + '</div>';
 		llog += '<div class="msg" id="msg_' + numero + '"></div>';
 		llog += '<div class="msg" id="note_' + numero + '"></div>';
