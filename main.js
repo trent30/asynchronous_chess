@@ -1602,7 +1602,7 @@ function save_prefs_in_localStorage(d) {
 function invite_return(r) {
 	var m = r.split('-')[0];
 	if (m == 'ok') {
-		alert("La partie est créée, un mail a été envoyé à votre adversaire. C'est à vous de commencer !");
+		alert("La partie est créée, un mail a été envoyé à votre adversaire.");
 		game_ID = r.split('-')[1];
 		player_color = 'white';
 		log = '';
@@ -1612,13 +1612,25 @@ function invite_return(r) {
 	}
 }
 
+function f_invite(id) {
+	if ($('choix_couleur').value == 'noir') {
+		id += '&couleur=noir';
+	}
+	get_page('/invite.py?id=' + id, 'invite_return');
+}
+
 function invite(id, joueur) {
 	if ( joueur == user_ID) {
 		alert('Vous ne pouvez pas créer une partie contre vous-même.');
 		return;
 	}
+	var t = $('invite').innerHTML;
+	t = t.replace(/\$0/g, joueur);
+	t = t.replace(/\$1/g, id );
 	history.pushState(null, null, "/");
-	get_page('/invite.py?id=' + id, 'invite_return');
+	clean_log(t);
+	var l = $('log');
+	l.style.textAlign = "center";
 }
 
 function select_game(id) {

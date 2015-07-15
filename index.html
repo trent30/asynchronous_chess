@@ -177,6 +177,18 @@
 		<div class="field"><input class="btn" id="btn_restore_prefs_server" value="restaurer depuis le serveur" type="submit" onclick="restore_prefs_server()"/></div>
 	</div>
 	
+	
+	<div id="invite" style='display:none'>
+		<h3>Proposition de partie contre $0.</h3>
+		<div>Votre couleur : <SELECT id="choix_couleur" name="couleurs" size="1">
+		<option>blanc
+		<option>noir
+		</SELECT>
+		</div>
+		<div class='stats' onclick='all_players_to_html(ALL_PLAYERS)'><p>← Retour à la liste des joueurs</p></div>
+		<div class="field"><input class="btn" id="btn_invite" value="commencer" type="submit" onclick=f_invite($1);></div>
+	</div>
+	
 	<div id="bug_report" style='display:none'>
 		<h3 class="ta_left">Rapport de bug</h3>
 		<p class="ta_left">Si vous avez trouvé un bug où que vous voulez proposer une amélioration, utilisez le formulaire ci-dessous. Avant de soumettre votre proposition pensez à regarder si le bug n'a pas déjà été rapporté <a onclick=f_list_bugs("?fixed=2"); href="#">ici</a>.</p>
