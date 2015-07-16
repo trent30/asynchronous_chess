@@ -1223,8 +1223,8 @@ function login_return(r, l) {
 
 function login() {
 	var vlogin = $("l_l").value;
-	var vpass = $("l_p").value;
-	get_page('./login.py?l=' + vlogin + '&p=' + vpass, 'login_return', vlogin);
+	var vpass = clean_text($("l_p").value);
+	get_page('./login.py?l=' + clean_text(vlogin) + '&p=' + vpass, 'login_return', vlogin);
 }
 
 function aff_return(r) {
@@ -1250,21 +1250,21 @@ function create_account_return(r) {
 }
 
 function create_account(){
-	var vlogin = $("ca_l");
-	var vpass = $("ca_p");
-	var vmail = $("ca_mail");
+	var vlogin = clean_text($("ca_l").value);
+	var vpass = clean_text($("ca_p").value);
+	var vmail = clean_text($("ca_mail").value);
 	error = false;
-	if (vmail.value.split('@').length != 2) {
+	if (vmail.split('@').length != 2) {
 		error = 'adresse mail non valide';
 	}
-	if (vlogin.value.length < 3) {
+	if (vlogin.length < 3) {
 		error = 'La longueur du login doit faire au moins 3 caractères';
 	}
-	if (vpass.value.length < 8) {
+	if (vpass.length < 8) {
 		error = 'La longueur du mot de passe doit faire au moins 8 caractères';
 	}
 	if (!error) {
-		get_page('/create_account.py?l=' + vlogin.value + '&p=' + vpass.value + '&mail=' + vmail.value, 'create_account_return');
+		get_page('/create_account.py?l=' + vlogin + '&p=' + vpass + '&mail=' + vmail, 'create_account_return');
 	} else {
 		alert(error);
 	}
