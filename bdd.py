@@ -331,9 +331,17 @@ class bdd():
 			r.append(i[0])
 		return r
 	
+	def count_answer_bug(self, n):
+		return self.requete_0("""select count(*) \
+			from com c where status_id in (2,3) and num_coup='%s'""" % n)
+	
+	def get_thread_bugs(self, n):
+		return self.con.query("""select c.id, c.text, c.date, u.login, c.status_id \
+			from com c, users u where c.joueur = u.id and status_id in (2,3) and num_coup='%s' order by date asc""" % n).getresult()
+	
 	def get_bugs(self):
 		return self.con.query("""select c.id, c.text, c.date, u.login, c.status_id \
-			from com c, users u where c.joueur = u.id and status_id in (2,3) order by date desc""").getresult()
+			from com c, users u where c.joueur = u.id and status_id in (2,3) and num_coup = '0' order by date desc""").getresult()
 	
 	def	add_bug(self, com, s, n):
 		id = self.session_to_user_id(s)

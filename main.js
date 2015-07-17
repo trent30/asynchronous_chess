@@ -599,19 +599,58 @@ function f_send_note_return(r, t) {
 }
 
 function f_send_bug_return(r) {
+	clean_log('');
 	if (r == 'ok') {
-		clean_log('Votre rapport a bien été enregistré.');
+		add_log('<div style="text-align : center;">Votre rapport a bien été enregistré.<div><a onclick="f_list_bugs(&quot;?fixed=2&quot;);" href="#">Voir la liste</a></div></div>');
 		return;
 	}
 	clean_log(r);
 }
 
 function f_send_bug(rep) {
-	var t = clean_text($('bug_text').value);
+	var t = clean_text($('bug_text_' + rep).value);
 	var url = './add_com.py?bug=1&status=2';
 	url += '&rep=' + rep;
 	url += '&com=' + t;
 	get_page(url, 'f_send_bug_return');
+}
+
+function reponse_html(id) {
+	return 'Réponse : <textarea class="com" name="bug_text" id="bug_text_$"></textarea><div onclick="f_send_bug($);" class="btn_com inline">Envoyer</div><br/><br/>'.replace(/\$/g, id);
+}
+
+function f_repondre_bug_return(r, data) {
+	$('log').innerHTML = data[0];
+	var j = JSON.parse(r);
+	var t = '';
+	for (var i in j) {
+		t += list_bugs_to_html(j[i], true);
+	}
+	t += reponse_html(data[1]);
+	$('bug_' + data[1]).innerHTML = t;
+}
+
+function f_repondre_bug(nb, id) {
+	if (parseInt(nb) != 0) {
+		get_page('./get_bugs.py?rep=' + id, 'f_repondre_bug_return', [$('log').innerHTML, id]);
+	} else {
+		$("bug_" + id).innerHTML = reponse_html(id);
+	}
+}
+
+function list_bugs_to_html(dico, rep) {
+	var t = '<div class="com_auteur">Rapport de <b>' + dico['login'] + '</b> :<div class="com_date">' + dico['date'] + '</div></div>';
+	if (rep) {
+		t = t.replace(/Rapport/, 'Réponse');
+	}
+	t += '<div class="msg">' + dico['text'] + '</div><br/><hr/>';
+	t += '<div id="bug_$1">'.replace(/\$1/, dico['id']);
+	if (!rep) {
+		t += '<div style="float : left;" class="ta_left inline">Nombre de réponse(s) : ' + dico['nrep'] + '</div>';
+		t += '<div class="inline btn_com" style="float: right;" onclick="f_repondre_bug($0,$1)">voir la discussion / répondre</div><br/><br/><hr/><br/><br/>'.replace(/\$0/, dico['nrep']).replace(/\$1/, dico['id']);
+	}
+	t += '</div>';
+	return t;
 }
 
 function f_list_bugs_return(r, p) {
@@ -623,8 +662,7 @@ function f_list_bugs_return(r, p) {
 	}
 	var j = JSON.parse(r);
 	for (var i in j) {
-		t += '<div class="com_auteur">Rapport de <b>' + j[i]['login'] + '</b> :<div class="com_date">' + j[i]['date'] + '</div></div>';
-		t += '<div class="msg">' + j[i]['text'] + '</div><br/><br/>';
+		t += list_bugs_to_html(j[i], false);
 	}
 	clean_log(t);
 	if (j.length == 0) {
