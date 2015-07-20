@@ -272,3 +272,24 @@ body {
 .ml50 {
 	margin-left: 50px;
 }
+
+.order span {
+	display: none;
+}
+
+.order:hover span {
+	display: inline;
+	position: absolute;
+	float: center;
+	background: #3C3C3C;
+	color: #FFF;
+	text-decoration: none;
+	border-radius: 5px;
+	font-size: small;
+	margin-left: -150px;
+	margin-top: 20px;
+}
+
+.order:hover {
+	cursor: pointer;
+}
