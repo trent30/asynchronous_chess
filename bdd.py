@@ -226,10 +226,8 @@ class bdd():
 		self.update_game_token(game_id, '')
 	
 	def add_game(self, white, black):
-		self.con.query("INSERT INTO games (white, black, date) \
-		VALUES ('%s', '%s', NOW())" % (white, black))
-		return self.requete_0("select max(id) from games where \
-		white='%s' and black='%s'" % (white, black))
+		return self.requete_0("INSERT INTO games (white, black, date) \
+		VALUES ('%s', '%s', NOW()) RETURNING id;" % (white, black) )
 	
 	def list_finish_games(self):
 		return self.con.query("select white, black, winner from games where winner is not null order by date;").getresult()
