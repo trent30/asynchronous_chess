@@ -1656,6 +1656,9 @@ function f_invite(id) {
 	if ($('choix_couleur').value == 'noir') {
 		id += '&couleur=noir';
 	}
+	if ($('choix_couleur').value == 'au hasard') {
+		id += '&couleur=pif';
+	}
 	get_page('/invite.py?id=' + id, 'invite_return');
 }
 

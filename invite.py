@@ -5,6 +5,7 @@ import os
 import cgi
 import bdd
 from cookie_check import get_cookie
+import random
 
 def input():
 	form = cgi.FieldStorage()
@@ -47,6 +48,10 @@ if __name__ == "__main__":
 		exit(0)
 	
 	joueur_id = b.session_to_user_id(s)
+	
+	if couleur == 'pif':
+		couleur = random.choice(['noir', 'blanc'])
+	
 	if couleur == 'blanc':
 		white = joueur_id
 		black = uid
