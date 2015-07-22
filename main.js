@@ -1694,7 +1694,7 @@ function send_return(r, flag) {
 		if (com1 != '') {
 			var c = {};
 			c.j = user_ID;
-			c.n = INITIAL_POSITION.h.length - 1;
+			c.n = INITIAL_POSITION.h.length;
 			c.t = com1;
 			INITIAL_POSITION.c.push(c);
 		}
