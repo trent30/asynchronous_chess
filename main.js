@@ -313,10 +313,6 @@ function init() {
 	} else {
 		f_option();
 	}
-	//~ if (player_color == 'black') {
-		//~ draw_board();
-		//~ draw_pieces(position);
-	//~ }
 	draw_board();
 	init_position();
 	draw_pieces(position);
@@ -513,6 +509,8 @@ function historique2log(h) {
 	var com = false;
 	var note = false;
 	var llog = '';
+	var div_msg = '<div class="msg" id="msg_';
+	var div_note = '<div class="msg" id="note_';
 	try {
 		var dates = h.date;
 	} catch (e) {
@@ -552,8 +550,8 @@ function historique2log(h) {
 		} else {
 			m = message_or_not(com, note);
 			llog += m.replace(/_n_/g, numero) + t + '<div id="num_' + numero + '" class="num order" onclick=f_add_com(' + numero + ');>' + numero + span("Ajouter un commentaire") + '</div>';
-			llog += '<div class="msg" id="msg_' + numero + '"></div><div class="plate hide">.</div>';
-			llog += '<div class="msg" id="note_' + numero + '"></div><div class="plate hide">.</div>';
+			llog += div_msg + numero + '"></div><div class="plate hide">.</div>';
+			llog += div_note + numero + '"></div><div class="plate hide">.</div>';
 			t = '';
 			com = false;
 			note = false;
@@ -562,8 +560,8 @@ function historique2log(h) {
 	if ( i % 2 == 1 ) {
 		m = message_or_not(l[i], ln[i - 1]);
 		llog += m.replace(/_n_/g, numero) + "<div class='order'>...</div>" + t + '<div class="num order" onclick=f_add_com(' + numero + ');>' + numero + span("Ajouter un commentaire") + '</div>';
-		llog += '<div class="msg" id="msg_' + numero + '"></div>';
-		llog += '<div class="msg" id="note_' + numero + '"></div>';
+		llog += div_msg + numero + '"></div>';
+		llog += div_note + numero + '"></div>';
 	}
 	add_log(llog);
 	if ( h.nulle != null) {
@@ -773,7 +771,7 @@ function f_click(c) {
 		selection.piece = getPieceFromHtml(e.innerHTML);
 		e.style.background = selectColor;
 	} else {
-		//~ "retour manuel'"
+		//~ "retour manuel"
 		var last = CHESS.history({ verbose: true }).pop();
 		if (last != null) {
 			if (c == last.from && selection.coord == last.to) {
@@ -868,6 +866,7 @@ function f_click_add(p) {
 
 function transpose_piece_to_promotion(piece) {
 	piece = piece[0];
+	var p = '';
 	switch(piece) {
 		case 'T' : p = 'r';
 		break;
@@ -1518,7 +1517,6 @@ function sort_players(key, asc) {
 }
 
 function all_players_to_html(j) {
-	//~ message
 	e = $('btn_tri').innerHTML;
 	for (var i in j) {
 		var p = "onclick=invite(" + j[i].id + ",'" + j[i].nom + "');";
