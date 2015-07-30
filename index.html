@@ -132,7 +132,7 @@
 		couleur des cases blanches : <input onchange="test_prefs();" class="width_text_input" name="prefs_ccb" id="prefs_ccb" type="color"/><br/>
 		</div><hr/>
 		<div class="color_input">taille de l'échiquier : 
-		<input id="range" type="range" min="-2048" max="100" value="0" width="100%" onchange="UpdateSizeBoardValue(this.value)" oninput="UpdateSizeBoardValue(this.value)"/>
+		<input id="range" type="range" min="-2048" max="100" value="0" width="100%" onchange="UpdateSizeBoardValue(this.value)" oninput="UpdateTextSizeBoardValue(this.value)"/>
 		<input oninput="UpdateSizeBoardValue(this.value)" onchange="UpdateSizeBoardValue(this.value)" class="width_text_input" name="prefs_size" id="prefs_size" type="text" />
 		</div><hr/>
 		<div>type de pièces : <SELECT onchange="test_prefs();" id="prefs_pieces" name="pieces" size="1">

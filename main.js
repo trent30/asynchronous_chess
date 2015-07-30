@@ -1892,9 +1892,13 @@ function on_load() {
 	init();
 }
 
-function UpdateSizeBoardValue(s) {
+function UpdateTextSizeBoardValue(s) {
 	var t = $('prefs_size');
 	t.value = s;
+}
+
+function UpdateSizeBoardValue(s) {
+	UpdateTextSizeBoardValue(s);
 	test_prefs();
 }
 
