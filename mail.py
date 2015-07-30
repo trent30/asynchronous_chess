@@ -19,7 +19,7 @@ def send_sms(MAIL_TO, subject):
 			urllib.urlencode({'user' : b.get_free_user(id_),
 							'pass' : b.get_free_pass(id_), \
 			'msg' : subject}))
-		os.system('wget "%s"' % url)
+		os.system('curl "%s"' % url)
 	
 def send_mail(MAIL_TO, subject, msg):
 	send_sms(MAIL_TO, subject)
