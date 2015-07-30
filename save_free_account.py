@@ -49,7 +49,7 @@ if __name__ == "__main__":
 	if active == 'true':
 		msg = 'Alerte SMS activée'.replace(' ', '%20')
 		url = "https://smsapi.free-mobile.fr/sendmsg?user=%s&pass=%s&msg=%s" % (user, passwd, msg)
-		if os.system('curl "%s" -' % url) == 0:
+		if os.system('wget -O - "%s" > /dev/null' % url) == 0:
 			print 'ok';
 		else:
 			print "Erreur lors de la récupération de smsapi.free-mobile.fr"
