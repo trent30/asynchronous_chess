@@ -5,7 +5,6 @@ import os
 import cgi
 import bdd
 from cookie_check import get_cookie
-import json
 
 def input():
 	form = cgi.FieldStorage()
