@@ -1391,9 +1391,7 @@ function account_return(r) {
 	var l = $('log');
 	try {
 		var j = JSON.parse(r);
-		e = 'Bonjour ' + j.login + 
-		'<br/><br/>Votre adresse mail est ' + j.mail + 
-		'<br/><br/>Votre classement ELO est : ' + j.elo + e;
+		e = e.replace(/\$login/, j.login).replace(/\$mail/, j.mail).replace(/\$ELO/,j.elo);
 		user_ID = j.login;
 		try_set_local('user_ID', j.login);
 		try_set_local('elo', j.elo);
