@@ -30,10 +30,14 @@ if __name__ == "__main__":
 		print "Votre session a expirée. Veuillez vous reconnecter (pensez à autoriser les cookies si ce n'est pas le cas)."
 		exit(0)
 	
+	id = b.session_to_user_id(s)
 	r = {}
 	r['login'] = b.session_to_login(s)
 	r['mail'] = b.login_to_mail(r['login'])
-	r['elo'] = int(round(b.get_elo(b.session_to_user_id(s))))
+	r['elo'] = int(round(b.get_elo(id)))
+	r['free_alert'] = b.get_free_sms_state(id)
+	r['free_user'] = b.get_free_user(id)
+	r['free_pass'] = b.get_free_pass(id)
 	
 	print json.dumps(r);
 

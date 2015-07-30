@@ -197,6 +197,11 @@
 		<div onclick="f_send_bug(0);" class="btn_com inline">Envoyer</div>
 	</div>
 	
+	<div id="save_free_account_return" style='display:none'>
+		<p>Vos identifiants ont été enregistrés et vous devriez recevoir un texto d'ici quelques instants.</p>
+		<p>Si ce n'est pas le cas, retourner sur <a onclick="get_page('account.py','account_return');" href='#'>votre compte</a> pour ressaisir vos identifiants Free.</p>
+	</div>
+	
 	<div id="account" style='display:none'>
 		<p>Bonjour $login,</p>
 		<p>Votre adresse mail est $mail<p>
@@ -209,6 +214,16 @@
 			<input class='btn' id="btn_login" value="Modifier" type="submit"  onclick="change_password()"/>
 		</div><br/>
 		<hr/>
+		<h3>Alerte SMS</h3>
+		<p>Si vous êtes chez Free, vous pouvez recevoir les alertes par SMS.</p>
+		<div class="field">
+		  <div class="color_input">Activer <input id="free_alert" class="flag" type="checkbox" name="group" value="false"></div>
+		<div class="color_input">identifiant<input name="user" id="free_user" type="text"></div>
+		<div class="color_input">code<input name="passwd" id="free_passwd" type="password"></div>
+		<div class="color_input"><input class="btn" id="btn_login" value="tester" type="submit" onclick="save_free_account()"></div>
+				</div><br><br>
+				
+		<hr>
 		<div class='field'>
 			Vous pouvez supprimer votre compte en cliquant sur 
 			<input class='btn' id="btn_login" value="Supprimer" type="submit"  onclick="delete_account()"/>

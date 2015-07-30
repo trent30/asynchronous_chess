@@ -1386,20 +1386,46 @@ function f_menu_return(r) {
 	clean_log(r);
 }
 
+function save_free_account_return(r) {
+	if (r == 'ok') {
+		clean_log($('save_free_account_return').innerHTML);
+		return 0;
+	}
+	clean_log(r);
+}
+
+function save_free_account() {
+	var url = '/save_free_account.py?user=';
+	url += $('free_user').value;
+	url += '&pass=';
+	url += $('free_passwd').value;
+	url += '&active=';
+	url += $('free_alert').checked;
+	get_page(url, 'save_free_account_return');
+}
+
 function account_return(r) {
 	var e = $('account').innerHTML;
 	var l = $('log');
 	try {
 		var j = JSON.parse(r);
-		e = e.replace(/\$login/, j.login).replace(/\$mail/, j.mail).replace(/\$ELO/,j.elo);
-		user_ID = j.login;
-		try_set_local('user_ID', j.login);
-		try_set_local('elo', j.elo);
 	} catch (err) {
 		e = r;
+		l.innerHTML = e;
+		l.style.textAlign = 'left';
+		return ;
 	}
+	e = e.replace(/\$login/, j.login).replace(/\$mail/, j.mail).replace(/\$ELO/,j.elo);
+	user_ID = j.login;
+	try_set_local('user_ID', j.login);
+	try_set_local('elo', j.elo);
 	l.innerHTML = e;
 	l.style.textAlign = 'left';
+	if (j.free_alert == "t") {
+		$('free_alert').checked = true;
+	}
+	$('free_user').value = j.free_user;
+	$('free_passwd').value = j.free_pass;
 }
 
 function games_return(r, title) {

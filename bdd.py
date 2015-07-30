@@ -191,6 +191,18 @@ class bdd():
 			u.date_deleted IS NULL AND concat(m.mail, '@', d.name) = '%s'" \
 			% mail)
 	
+	def update_free_id(self, id, user, passwd, active):
+		return self.con.query("UPDATE users set free_user='%s', free_code='%s', alerte_free=%s where id=%s" % ( user, passwd, active, id))
+	
+	def get_free_sms_state(self, id):
+		return self.requete_0("SELECT alerte_free FROM users WHERE id='%s'" % id)
+	
+	def get_free_user(self, id):
+		return self.requete_0("SELECT free_user FROM users WHERE id='%s'" % id)
+	
+	def get_free_pass(self, id):
+		return self.requete_0("SELECT free_code FROM users WHERE id='%s'" % id)
+	
 	def login_to_mail(self, login):
 		return self.requete_0("SELECT email FROM emails where login='%s'" % login)
 	

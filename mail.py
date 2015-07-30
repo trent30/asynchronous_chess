@@ -3,12 +3,26 @@
 
 import smtplib
 import ConfigParser
+import os
+import bdd
+import urllib
 from time import strftime
 
 config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
 
+def send_sms(MAIL_TO, subject):
+	b = bdd.bdd()
+	id_ = b.login_to_id(b.email_to_login(MAIL_TO))
+	if b.get_free_sms_state(id_) == "t":
+		url = "https://smsapi.free-mobile.fr/sendmsg?%s" % (\
+			urllib.urlencode({'user' : b.get_free_user(id_),
+							'pass' : b.get_free_pass(id_), \
+			'msg' : subject}))
+		os.system('wget "%s"' % url)
+	
 def send_mail(MAIL_TO, subject, msg):
+	send_sms(MAIL_TO, subject)
 	MAIL_FROM = config.get('smtp', 'from')
 	corps = "Date: %s" % strftime("%a, %d %b %Y %H:%M:%S %z")
 	corps += "\nFrom: " + MAIL_FROM

@@ -90,7 +90,10 @@ CREATE TABLE users (
     date_create timestamp without time zone NOT NULL,
     confirmed boolean DEFAULT false NOT NULL,
     elo real NOT NULL DEFAULT 1200,
-    nb_news int NOT NULL DEFAULT 0
+    nb_news int NOT NULL DEFAULT 0,
+    alerte_free boolean default false,
+	free_user text,
+	free_code text
 );
 
 
