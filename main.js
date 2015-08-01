@@ -1080,7 +1080,7 @@ function f_reload_return(j) {
 		var r = JSON.parse(j);
 	} catch (err) {
 		bug_report(game_ID);
-		alert('La récupération de la liste des coups a échoué');
+		clean_log('La récupération de la liste des coups a échoué');
 		console.log(j);
 		return 4;
 	}
