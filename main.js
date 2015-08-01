@@ -1195,7 +1195,7 @@ function set_position(h) {
 }
 
 function get_page(name, fonction, add) {
-	clean_log('Chargement en cours...');
+	clean_log('<div class="center"><img src="./img/wait.gif"></div>');
 	var xhr = new XMLHttpRequest();
 	var url = name.split('?')[0];
 	var params = name.split('?')[1];
