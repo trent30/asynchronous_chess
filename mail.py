@@ -12,8 +12,6 @@ config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
 
 def send_sms(MAIL_TO, subject):
-	if MAIL_TO == config.get('smtp', 'admin_mail'):
-		return
 	b = bdd.bdd()
 	id_ = b.login_to_id(b.email_to_login(MAIL_TO))
 	if id_ == None:
