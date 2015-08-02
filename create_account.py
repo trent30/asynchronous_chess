@@ -59,6 +59,7 @@ if __name__ == "__main__":
 	sujet = config.get('smtp', 'subject_prefix') + ' ' + config.get('smtp', 'subject_confirm')
 	msg = open('conf/mail_confirm_account.txt').read() % (url, url, t)
 	r = mail.send_mail(email, sujet, msg )
+
 	#~ test local
 	#~ r = 'ok'
 	
@@ -69,5 +70,10 @@ if __name__ == "__main__":
 		b.insert_mail(email, login)
 		
 	print r
+
+	# envoi d'un mail à l'admin
+	sujet = config.get('smtp', 'subject_prefix') + ' nouveau compte, login : ' + login
+	msg = 'login : ' + login
+	mail.send_mail(config.get('smtp', 'admin_mail'), sujet, msg )
 		
 		
