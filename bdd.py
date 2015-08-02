@@ -444,6 +444,8 @@ class bdd():
 		self.con.query("INSERT INTO error (game_id, login_id, texte, date) \
 		VALUES ('%s', '%s','%s', NOW())" % (game_id, login_id, texte))
 	
+	def max_news(self):
+		return self.requete_0("select max(nb_news) + 1 from users")
 
 if __name__ == "__main__":
 	a = bdd()
