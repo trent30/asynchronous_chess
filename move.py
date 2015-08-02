@@ -105,6 +105,10 @@ if __name__ == "__main__":
 	if dico_params['gid'] == None:
 		print "Aucune partie sélectionnée."
 		exit(0)
+		
+	if b.get_winner(dico_params['gid'])[0][2] != None:
+		print "Cette partie est terminée."
+		exit(0)
 	
 	if b.get_dernier_joueur(int(dico_params['gid'])) == \
 		b.session_to_login(s) and dico_params['flag'] != 'A' \
@@ -116,11 +120,6 @@ if __name__ == "__main__":
 	
 	if dico_params['com'] == None:
 		dico_params['com'] = ''
-	
-	if dico_params['gid'] == None:
-		logging.debug("Aucune partie n'est sélectionnée.")
-		print "Aucune partie n'est sélectionnée."
-		exit(0)
 	
 	login = b.session_to_login(s).encode('UTF-8', 'ascci')
 	joueur_id = b.session_to_user_id(s)
