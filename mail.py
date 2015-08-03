@@ -7,6 +7,7 @@ import os
 import bdd
 import urllib
 from time import strftime
+import sms_free
 
 config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
@@ -17,11 +18,7 @@ def send_sms(MAIL_TO, subject):
 	if id_ == None:
 		return
 	if b.get_free_sms_state(id_) == "t":
-		url = "https://smsapi.free-mobile.fr/sendmsg?%s" % (\
-			urllib.urlencode({'user' : b.get_free_user(id_),
-							'pass' : b.get_free_pass(id_), \
-			'msg' : subject}))
-		os.system('wget -O - "%s" > /dev/null' % url)
+		sms_free.send(b.get_free_user(id_), b.get_free_pass(id_), subject)
 	
 def send_mail(MAIL_TO, subject, msg):
 	send_sms(MAIL_TO, subject)

@@ -6,6 +6,7 @@ import cgi
 import bdd
 from cookie_check import get_cookie
 import re
+import sms_free
 
 def input():
 	form = cgi.FieldStorage()
@@ -59,12 +60,11 @@ if __name__ == "__main__":
 	b.update_free_id(b.session_to_user_id(s), user, passwd, active)
 	
 	if active == 'true':
-		msg = 'Alerte SMS activée'.replace(' ', '%20')
-		url = "https://smsapi.free-mobile.fr/sendmsg?user=%s&pass=%s&msg=%s" % (user, passwd, msg)
-		if os.system('wget -O - "%s" > /dev/null' % url) == 0:
+		r = sms_free.send(user, passwd, 'Alerte SMS activée') 
+		if r == 200:
 			print 'ok';
 		else:
-			print "Erreur lors de la récupération de smsapi.free-mobile.fr"
+			print "Erreur lors de la récupération de smsapi.free-mobile.fr (erreur : %i)" % r
 	else:
 		print 'Les alertes sont maintenant désactivées.'
 
