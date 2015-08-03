@@ -2,7 +2,7 @@ player_color = 'white';
 players = '';
 DATE = '';
 position = {};
-prefs = ['ccn', 'ccb', 'pieces', 'size', 'date_move', 'date_com'];
+prefs = ['ccn', 'ccb', 'pieces', 'size', 'date_move', 'date_com', 'couleur_plateau'];
 historique = [];
 selectColor = "#FF0000";
 try_get_local_login();
@@ -223,12 +223,23 @@ function draw_color_case() {
 	var ec = ['white', 'black'];
 	for (var j = 0; j < 2; j++ ) {
 		var case_color = try_get_local(cc[j]);
-		if (case_color != '' ||case_color != null) {
+		if (case_color != '' || case_color != null) {
 			var e = document.getElementsByClassName(ec[j]);
 			for ( i = 0; i < e.length ; i++) { 
 				e[i].style.backgroundColor = case_color;
 			}
 		}
+	}
+	var case_color = try_get_local('couleur_plateau');
+	var classes = ['rien', 'coord'];
+	if (case_color != '' || case_color != null) {
+		for (var j = 0 ; j < 2; j++ ) {
+			var e = document.getElementsByClassName(classes[j]);
+			for ( var i = 0; i < e.length ; i++) {
+				e[i].style.backgroundColor = case_color;
+			}
+		}
+		$('board').style.backgroundColor = case_color;
 	}
 }
 	
