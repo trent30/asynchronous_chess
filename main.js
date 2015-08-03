@@ -1396,9 +1396,19 @@ function save_free_account_return(r) {
 
 function save_free_account() {
 	var url = '/save_free_account.py?user=';
-	url += $('free_user').value;
+	var free_user = $('free_user').value;
+	if (free_user.search(/^[a-zA-Z0-9]*$/) == -1) {
+		alert('Identifiant invalide.');
+		return;
+	}
+	var free_passwd = $('free_passwd').value;
+	if (free_passwd.search(/^[a-zA-Z0-9]*$/) == -1) {
+		alert('Code invalide.');
+		return;
+	}
+	url += free_user;
 	url += '&pass=';
-	url += $('free_passwd').value;
+	url += free_passwd;
 	url += '&active=';
 	url += $('free_alert').checked;
 	get_page(url, 'save_free_account_return');

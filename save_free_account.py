@@ -5,6 +5,7 @@ import os
 import cgi
 import bdd
 from cookie_check import get_cookie
+import re
 
 def input():
 	form = cgi.FieldStorage()
@@ -42,6 +43,18 @@ if __name__ == "__main__":
 	user = parametres.get("user", None)
 	passwd = parametres.get("pass", None)
 	active = parametres.get("active", None)
+	
+	if re.match('^[a-zA-Z0-9]*$', user) == None:
+		print "Identifiant invalide."
+		exit(0)
+		
+	if re.match('^[a-zA-Z0-9]*$', passwd) == None:
+		print "Code invalide."
+		exit(0)
+	
+	if active not in ['true', 'false']:
+		print "Checkbox invalide."
+		exit(0)
 	
 	b.update_free_id(b.session_to_user_id(s), user, passwd, active)
 	
