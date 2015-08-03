@@ -6,7 +6,7 @@ Modifier tout ce qui est nécessaire dans le fichier conf/main.conf
 
 DÉPENDANCES
  
-$ apt-get install python-pygresql libapache2-mod-python
+$ apt-get install python-pygresql libapache2-mod-python nodejs
 $ pip install bcrypt
 
 

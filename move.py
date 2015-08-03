@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# apt-get install nodejs
+
 import os
 import cgi
 import bdd
