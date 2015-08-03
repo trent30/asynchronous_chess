@@ -419,6 +419,28 @@ ALTER TABLE v_list_games
   OWNER TO chess;
   
 
+-- Table: com_status
+
+-- DROP TABLE com_status;
+
+CREATE TABLE com_status
+(
+  id serial NOT NULL,
+  text text,
+  CONSTRAINT com_status_pkey PRIMARY KEY (id )
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE com_status
+  OWNER TO chess;
+  
+INSERT INTO com_status(id, text) VALUES (0, 'message');
+INSERT INTO com_status(id, text) VALUES (1, 'commentaire');
+INSERT INTO com_status(id, text) VALUES (2, 'bug');
+INSERT INTO com_status(id, text) VALUES (3, 'bug fix');
+
+
 -- Table: com
 
 -- DROP TABLE com;
@@ -448,27 +470,6 @@ WITH (
 );
 ALTER TABLE com
   OWNER TO chess;
-
--- Table: com_status
-
--- DROP TABLE com_status;
-
-CREATE TABLE com_status
-(
-  id serial NOT NULL,
-  text text,
-  CONSTRAINT com_status_pkey PRIMARY KEY (id )
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE com_status
-  OWNER TO chess;
-  
-INSERT INTO com_status(id, text) VALUES (0, 'message');
-INSERT INTO com_status(id, text) VALUES (1, 'commentaire');
-INSERT INTO com_status(id, text) VALUES (2, 'bug');
-INSERT INTO com_status(id, text) VALUES (3, 'bug fix');
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
