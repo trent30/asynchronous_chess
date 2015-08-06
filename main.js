@@ -829,7 +829,7 @@ function f_click(c) {
 		}
 		position[c] = selection.piece;
 		historique = CHESS.history();
-		historique2log({'h' : CHESS.history(), 'c' : INITIAL_POSITION.c});
+		historique2log({'h' : CHESS.history(), 'c' : INITIAL_POSITION.c, 'n' : INITIAL_POSITION.n});
 		try {
 			e2.style.background = selection.color;
 			e2.innerHTML = '';
@@ -865,7 +865,7 @@ function f_click_add(p) {
 			}
 			position[COUP_PROMOTION.c2] = p;
 			historique.push(CHESS.history().pop());
-			historique2log({"h" : historique, "c" : INITIAL_POSITION.c});
+			historique2log({'h' : CHESS.history(), 'c' : INITIAL_POSITION.c, 'n' : INITIAL_POSITION.n});
 			deselect();
 			set_game_info(true);
 			draw_pieces(position);
