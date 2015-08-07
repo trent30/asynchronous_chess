@@ -409,6 +409,7 @@ function select_one_move(n) {
 			CHESS.move(historique[i]);
 		}
 	}
+	deselect();
 	position = CHESS.position();
 	draw_pieces(position);
 	set_game_info(true);
