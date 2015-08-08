@@ -293,3 +293,26 @@ body {
 .order:hover {
 	cursor: pointer;
 }
+
+.free_info span {
+	display: none;
+}
+
+.free_info:hover span {
+	display: inline;
+	position: relative;
+	float: right;
+	background: #D6C9C9;
+	color: #000;
+	text-decoration: none;
+	border-radius: 5px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-top: 7px;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+}
+
+.free_info:hover {
+	cursor: help;
+}
