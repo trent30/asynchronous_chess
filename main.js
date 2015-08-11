@@ -1409,11 +1409,19 @@ function save_free_account_return(r) {
 function save_free_account() {
 	var url = '/save_free_account.py?user=';
 	var free_user = $('free_user').value;
+	if (free_user == "") {
+		alert('Veuillez saisir un identifiant.');
+		return;
+	}
 	if (free_user.search(/^[a-zA-Z0-9]*$/) == -1) {
 		alert('Identifiant invalide.');
 		return;
 	}
 	var free_passwd = $('free_passwd').value;
+	if (free_passwd == "") {
+		alert('Veuillez saisir un code.');
+		return;
+	}
 	if (free_passwd.search(/^[a-zA-Z0-9]*$/) == -1) {
 		alert('Code invalide.');
 		return;
