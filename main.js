@@ -668,11 +668,11 @@ function list_bugs_to_html(dico, rep) {
 }
 
 function f_list_bugs_return(r, p) {
-	var t = '<h3 class="ta_left" onclick=f_list_bugs("?fixed=2")>Liste des bugs en cours</h3>';
-	t += '<div class="ta_left" onclick=f_list_bugs("?fixed=3")><p>Cliquez ici pour afficher les bugs résolus<p></div>';
+	var t = '<h3 class="ta_left pointer" onclick=f_list_bugs("?fixed=2")>Liste des bugs en cours</h3>';
+	t += '<div class="ta_left pointer" onclick=f_list_bugs("?fixed=3")><p>Cliquez ici pour afficher les bugs résolus<p></div>';
 	if ( p == '?fixed=3') {
-		t = '<h3 class="ta_left" onclick=f_list_bugs("?fixed=3")>Liste des bugs résolus</h3>';
-		t += '<div class="ta_left" onclick=f_list_bugs("?fixed=2")><p>Cliquez ici pour afficher les bugs en cours<p></div>';
+		t = '<h3 class="ta_left pointer" onclick=f_list_bugs("?fixed=3")>Liste des bugs résolus</h3>';
+		t += '<div class="ta_left pointer" onclick=f_list_bugs("?fixed=2")><p>Cliquez ici pour afficher les bugs en cours<p></div>';
 	}
 	var j = JSON.parse(r);
 	for (var i in j) {
