@@ -1469,7 +1469,6 @@ function games_return(r, title) {
 	var e = '';
 	if (j.length == 0) {
 		e += "<p>Aucune partie disponible.<p/>";
-		e += "<p>Si vous devez avoir des parties en cours, déconnectez-vous puis reconnectez-vous.<p/>";
 	} else {
 		e = '<h3>' + title + '</h3>';
 		if (title == 'parties en cours ') {
