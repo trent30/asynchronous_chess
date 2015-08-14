@@ -1497,12 +1497,16 @@ function games_return(r, title) {
 }
 
 function get_all_pgn_return(r, param) {
-	clean_log('génération du PGN ' + param.id + ' en cours...');
 	ALL_HISTORY[param.id] = {};
 	ALL_HISTORY[param.id].date = param.date;
 	ALL_HISTORY[param.id].joueurs = param.joueurs;
 	ALL_HISTORY[param.id].h = JSON.parse(r);
-	if (Object.keys(ALL_HISTORY).length < param.max) { 
+	var l = Object.keys(ALL_HISTORY).length;
+	var pct = parseInt(l * 100 / param.max);
+	var pb = '<progress id="pb" value="$0" max="$1">$2%</progress>'.replace(/\$0/, l).replace(/\$1/, param.max).replace(/\$2/, pct);
+	clean_log('génération du PGN ' + param.id + ' en cours...(' + pct + '%)<br/>' + pb);
+	$('log').style.textAlign = 'center';
+	if ( l < param.max) { 
 		//~ Si tout n'est pas encore récupéré
 		return ;
 	}
