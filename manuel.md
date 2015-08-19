@@ -56,7 +56,7 @@ Avec le bouton « revenir à la position initiale » si votre adversaire a joué
 
 ## Informations complémentaires
 
-Toutes les parties sont publiques, cela implique que tous vos messages pourront être lus (faites attention à ce qui vous écrivez). Pour partager une partie avec un spectateur il suffit de lui donner le lien que vous recevez dans le mail (il se termine par "?gid=" suivi du numéro de la partie).
+Toutes les parties sont publiques, cela implique que tous vos messages pourront être lus (faites attention à ce que vous écrivez). Pour partager une partie avec un spectateur il suffit de lui donner le lien que vous recevez dans le mail (il se termine par "?gid=" suivi du numéro de la partie).
 
 [Retour](./)
 </body>
