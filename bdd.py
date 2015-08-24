@@ -53,6 +53,13 @@ class bdd():
 			WHERE h.joueur = u.id and game_id='%s' 
 			order by h.id desc limit 1;""" % game_id)
 			
+	def get_uid_dernier_joueur(self, game_id):
+		return self.requete_0("""
+			SELECT joueur
+			FROM historique h
+			WHERE game_id='%s' 
+			order by h.id desc limit 1;""" % game_id)
+			
 	def get_date(self, game_id):
 		return self.requete_0("SELECT date FROM games WHERE id='%s';" % game_id)
 			
@@ -446,7 +453,48 @@ class bdd():
 	
 	def max_news(self):
 		return self.requete_0("select max(nb_news) + 1 from users")
+	
+	def parties_en_cours(self):
+		return self.con.query("select id from games where winner is null").getresult()
 
+	def list_rappels(self, joueur_id, game_id):
+		return self.con.query("""
+			select id from rappel as t1
+			left join (
+				select date, game_id 
+				from historique 
+				order by date desc limit 1)
+				as t2 
+			on t2.game_id = t1.game_id where EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM date) > limite * 3600 and t1.joueur_id=%s and t1.game_id=%s
+			""" % (joueur_id, game_id)).getresult()
+	
+	def check_rappels(self, _id):
+		return self.con.query("""
+			select * from rappel as t1
+			left join (
+				select date, game_id 
+				from historique 
+				order by date desc limit 1)
+				as t2 
+			on t2.game_id = t1.game_id where EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM dernier_rappel) > limite * 3600 and t1.id = %s
+			""" % _id).getresult()
+			
+	def update_rappels(self, _id):
+		self.con.query('update rappel set dernier_rappel=now() where id=%s;' % _id)
+		
+	def set_interval_rappel(self, interval, joueur_id, game_id):
+		r = self.con.query("""update rappel set limite=%s 
+						where joueur_id=%s and game_id=%s;""" \
+			% (interval, joueur_id, game_id))
+		if r == "0":
+			self.con.query("""INSERT INTO rappel (limite, 
+						joueur_id, game_id) values(%s, %s, %s);""" \
+			% (interval, joueur_id, game_id))
+			
+	def get_interval_rappel(self, joueur_id, game_id):
+		return self.requete_0("""select limite from rappel
+			where joueur_id=%s and game_id=%s""" % (joueur_id, game_id))
+	
 if __name__ == "__main__":
 	a = bdd()
 	print a.get_dernier_joueur(89)

@@ -64,6 +64,8 @@ if __name__ == "__main__":
 		exit(0)
 	
 	gid = b.add_game(white, black)
+	b.set_interval_rappel(48, white, gid)
+	b.set_interval_rappel(48, black, gid)
 	
 	import mail
 	import ConfigParser

@@ -1077,7 +1077,29 @@ function set_game_info(aff) {
 		p[1] = 'noirs';
 	}
 	var s = scores();
-	e.innerHTML = 'partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')' ;
+	e.innerHTML = '<div class="game_info" onclick=pgn()>partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')</div><div id="game_prefs" onclick=game_prefs()><img src="./img/chronometer.png"></div>' ;
+}
+
+function game_prefs_return(r) {
+	try {
+		var j = JSON.parse(r);
+	} catch (err) {
+		clean_log('Vous devez jouer dans cette partie pour modifier ce paramètre.');
+		return;
+	}
+	var r = $('rappel_html');
+	clean_log(r.innerHTML);
+	$("rappel_interval").value = j.rappel;
+}
+
+function game_prefs() {
+	get_page('/game_prefs.py?g=' + game_ID, 'game_prefs_return');
+}
+
+function save_rappel() {
+	var param = '&set=';
+	param += $('rappel_interval').value;
+	get_page('/game_prefs.py?g=' + game_ID + param, 'game_prefs_return');
 }
 
 function f_reload_return(j) {

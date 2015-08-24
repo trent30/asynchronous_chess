@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# vendredi 14 août 2015, 18:22:12 (UTC+0200)
+# Tue Aug 25 00:45:26 CEST 2015
 
 CACHE:
 style.css
@@ -25,6 +25,7 @@ index.html
 ./img/tri_down.png
 ./img/tri_up.png
 ./img/wait.gif
+./img/chronometer.png
 
 NETWORK:
 *

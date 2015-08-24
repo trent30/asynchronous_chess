@@ -22,7 +22,7 @@
 			<div id='rotate_btn' class="btn_gui" title="retourner l'échiquier" onclick="f_rotate()"><img src='./img/rotate.png'></div>
 			<div id='option_btn' class="btn_gui" title="manuel"><a href="./manuel.html" target="_blank"><img src='./img/help.png'></a></div>
 			<div id='option_btn' class="btn_gui" title="menu option" onclick="f_option()"><img src='./img/options.png'></div>
-			<div id='game_info' onclick='pgn()'></div>
+			<div id='game_info'></div>
 			<div id='log'></div>
 		</div>
 		
@@ -206,6 +206,30 @@
 	<div id="save_free_account_return" style='display:none'>
 		<p>Vos identifiants ont été enregistrés et vous devriez recevoir un texto d'ici quelques instants.</p>
 		<p>Si ce n'est pas le cas, retourner sur <a onclick="get_page('account.py','account_return');" href='#'>votre compte</a> pour ressaisir vos identifiants Free.</p>
+	</div>
+	
+	<div id="rappel_html" style='display:none'>
+	<p style='text-align:left'>Modifier la durée pour l'envoi des mails de rappel.</p>
+	<div>Intervalle de rappel : <SELECT onchange="save_rappel();" id="rappel_interval" name="interval" size="1">
+		<option value=1>1 heure</option>
+		<option value=2>2 heures</option>
+		<option value=4>4 heures</option>
+		<option value=8>8 heures</option>
+		<option value=12>12 heures</option>
+		<option value=24>1 jour</option>
+		<option value=36>1,5 jours</option>
+		<option value=48>2 jours</option>
+		<option value=72>3 jours</option>
+		<option value=96>4 jours</option>
+		<option value=120>5 jours</option>
+		<option value=144>6 jours</option>
+		<option value=168>1 semaine</option>
+		<option value=336>2 semaines</option>
+		<option value=504>3 semaines</option>
+		<option value=720>1 mois</option>
+		</SELECT>
+		</div>
+		<div class='stats' onclick='f_init()'><p>← Retour à la liste des coups</p></div>
 	</div>
 	
 	<div id="account" style='display:none'>
