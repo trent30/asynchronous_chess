@@ -71,19 +71,20 @@ if __name__ == "__main__":
 			coms.append(dico)
 		r['c'] = coms
 	
-	n = b.get_notes(game, b.session_to_user_id(s))
-	notes = []
-	for i in n:
-		dico = {}
-		dico['t'] = i[0].replace('\n', '<br/>').replace('<', '&lt;').replace('>', '&gt;')	# le texte
-		dico['j'] = i[1]							# le nom du joueur
-		dico['n'] = i[2]							# le numéro
-		if parametres.get("date_com", -1) == '1':	# la date
-			dico['d'] = i[3].split('.')[0][:-3]
-		if dico['n'] < 0:
-			dico['n'] = 0;
-		notes.append(dico)
-	r['n'] = notes
+	if b.session_to_user_id(s) != None:
+		n = b.get_notes(game, b.session_to_user_id(s))
+		notes = []
+		for i in n:
+			dico = {}
+			dico['t'] = i[0].replace('\n', '<br/>').replace('<', '&lt;').replace('>', '&gt;')	# le texte
+			dico['j'] = i[1]							# le nom du joueur
+			dico['n'] = i[2]							# le numéro
+			if parametres.get("date_com", -1) == '1':	# la date
+				dico['d'] = i[3].split('.')[0][:-3]
+			if dico['n'] < 0:
+				dico['n'] = 0;
+			notes.append(dico)
+		r['n'] = notes
 	
 	result = ''
 	w = b.get_winner(game)[0]
