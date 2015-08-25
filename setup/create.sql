@@ -487,3 +487,30 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 
 insert into users(id, login, date_create, confirmed) values (0, 'admin', now(), true);
 INSERT INTO games (white, black, winner, date, id) values(0,0,0, now(), 0);
+
+
+
+-- Table: rappel
+
+-- DROP TABLE rappel;
+
+CREATE TABLE rappel
+(
+  id serial NOT NULL,
+  game_id integer,
+  joueur_id integer,
+  limite integer,
+  dernier_rappel timestamp NOT NULL default '2000-01-01 00:00:00.000000+02',
+  CONSTRAINT rappel_pkey PRIMARY KEY (id ),
+  CONSTRAINT rappel_game_id_fkey FOREIGN KEY (game_id)
+      REFERENCES games (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT rappel_joueur_id_fkey FOREIGN KEY (joueur_id)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE rappel
+  OWNER TO chess;

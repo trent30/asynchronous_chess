@@ -156,12 +156,21 @@ body {
 
 #game_info {
 	text-align: right;
+}
+	
+.game_info {
 	font-size: small;
+	display: inline;
 }
 
-#game_info:hover {
+.game_info:hover {
 	text-decoration : underline;
 	font-style: italic;
+}
+
+#game_prefs {
+	display: inline;
+	margin-left: 10px;
 }
 
 .field {
