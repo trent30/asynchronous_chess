@@ -458,6 +458,14 @@ class bdd():
 		return self.con.query("select id from games where winner is null").getresult()
 
 	def list_rappels(self, joueur_id, game_id):
+		r = self.requete_0("""
+			select count(*)
+			from historique
+			where game_id=%s
+		""" % game_id)
+		if r == 0:
+			return [(game_id,)]
+		
 		return self.con.query("""
 			select id from rappel as t1
 			left join (

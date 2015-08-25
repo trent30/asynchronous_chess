@@ -32,7 +32,7 @@ for games in b.parties_en_cours() :
 		joueur_trait = joueurs[1]
 	else:
 		joueur_trait = joueurs[0]
-		
+	
 	for i in b.list_rappels(joueur_trait, game_id):
 		if len(b.check_rappels(i[0])) != 0:
 			send_rappel_mail(joueur_trait, game_id)
