@@ -500,7 +500,7 @@ CREATE TABLE rappel
   game_id integer,
   joueur_id integer,
   limite integer,
-  dernier_rappel timestamp NOT NULL default '2000-01-01 00:00:00.000000+02',
+  dernier_rappel timestamp NOT NULL default now(),
   CONSTRAINT rappel_pkey PRIMARY KEY (id ),
   CONSTRAINT rappel_game_id_fkey FOREIGN KEY (game_id)
       REFERENCES games (id) MATCH SIMPLE
