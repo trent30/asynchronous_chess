@@ -39,7 +39,7 @@ if __name__ == "__main__":
 	
 	if parametres.get("html", -1) == "1":
 		print open('news.html').read()
-		if uid == None:
+		if uid == False:
 			print 'no uid'
 			exit(0)
 		else:
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 	
 	print 'BREAKING_NEWS = %s;' % breaking_news
 	
-	if uid == None:
+	if uid == False:
 		print 'MY_NEWS = %i;' % (int(breaking_news) - 1)
 		exit(0)
 	
