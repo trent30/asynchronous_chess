@@ -33,7 +33,8 @@ if __name__ == "__main__":
 		s = None
 	
 	parametres = input()
-	game = parametres.get("g", -1)
+	game = parametres.get("g", None)
+	
 	b = bdd.bdd()
 	
 	r = {}

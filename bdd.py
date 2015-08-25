@@ -54,7 +54,7 @@ class bdd():
 			order by h.id desc limit 1;""" % game_id)
 			
 	def get_date(self, game_id):
-		return self.requete_0("SELECT date FROM games WHERE id='%s';" % game_id)
+		return self.requete_0("SELECT date FROM games WHERE id=%s" % game_id)
 			
 	def get_elo(self, joueur_id):
 		return self.requete_0("SELECT elo FROM users WHERE id='%s';" % joueur_id)
@@ -431,7 +431,7 @@ class bdd():
 		return self.requete_0("select login from users where id='%s'" % uid)
 	
 	def color(self, game, id):
-		white = self.requete_0("select white from games where id='%s'" % game)
+		white = self.requete_0("select white from games where id=%s" % game)
 		if white != id:
 			return 'black'
 		else:

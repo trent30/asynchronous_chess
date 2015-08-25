@@ -1234,13 +1234,13 @@ function get_page(name, fonction, add) {
 			window[fonction](xhr.responseText.replace(/\n/g, ''), add);
 		}	
 		if (xhr.readyState == 4 && xhr.status != 200) {
-			clean_log("Erreur " + xhr.status);
+			console.log("Erreur " + xhr.status + " pour la page : " + name);
 		}	
 		if (xhr.readyState == 4 && xhr.status == 404) {
 			clean_log('Erreur 404 : la page « ' + url + " » n'a pas pu être chargée.");
 		}
 		if (xhr.readyState == 4 && xhr.status == 0) {
-			clean_log("Le serveur semble être injoignable.");
+			console.log("Le serveur semble être injoignable pour la page : " + name);
 		}
 		var et = xhr.status.toString()[0];
 		if (xhr.readyState == 4 && ERROR_COUNT < ERROR_MAX) {
