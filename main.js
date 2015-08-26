@@ -1287,11 +1287,14 @@ function get_login() {
 }
 
 function login_return(r, l) {
-	if (r == 'Bonjour') {
+	try {
+		var j = JSON.parse(r);
+		try_set_local("news", j['MY_NEWS']);
+		BREAKING_NEWS = j['BREAKING_NEWS'];
 		user_ID = l;
 		try_set_local("login", user_ID);
 		f_option();
-	} else {
+	} catch(e) {
 		clean_log(r);
 	}
 }

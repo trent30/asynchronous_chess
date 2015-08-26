@@ -4,6 +4,7 @@
 import cgi
 import bdd
 from input import check_input
+import json
 
 def print_page(m):
 	print
@@ -41,7 +42,10 @@ if __name__ == "__main__":
 				b.update_cookie(cookie["session"].value, login)
 				print cookie.output()
 				print
-				print "Bonjour"
+				r = {}
+				r['BREAKING_NEWS'] = open('news_count.txt').read()
+				r['MY_NEWS'] = b.get_news(b.login_to_id(login))
+				print json.dumps(r)
 				exit(0)
 
 	error()
