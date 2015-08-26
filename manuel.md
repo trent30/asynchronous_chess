@@ -13,14 +13,11 @@ Attention, ce site n'est pas prévu pour fonctionner avec Internet Explorer, uti
 
 ## Asynchrone jusqu'au plateau
 
-![envoyer](./img/send.png 'envoyer') Envoyer le nouveau coup.
-
-![recharger](./img/refresh.png 'recharger') Télécharger la liste des coups depuis le serveur.
-
 Tous les coups que vous jouez sur le plateau ne sont pas envoyés directement. Cela vous permet de tester vos stratégies sur plusieurs coups, et aussi d'éviter d'envoyer une erreur ! (un mauvais clique est vite arrivé). Une fois que vous êtes sûr de votre coup vous pouvez cliquer sur le bouton « envoyer ».
 
-Le coup qui sera envoyé est indiqué, si vous constatez une erreur vous pouvez encore annuler en cliquant sur :
-![revenir à la position initiale](./img/init.png 'revenir à la position initiale')
+![envoyer](./img/send.png 'envoyer') Envoyer le nouveau coup.
+
+![recharger](./img/refresh.png 'recharger') Télécharger la liste des coups depuis le serveur (équivalent à rafraîchir la page mais sans tout retélécharger).
 
 
 ## Naviguer dans l'historique
@@ -29,11 +26,15 @@ Vous pouvez naviguer dans l'historique en cliquant directement sur le coup, puis
 
 ![revenir à la position initiale](./img/init.png 'revenir à la position initiale') Revenir à la position initiale (permet d'annuler tous les coups que vous avez fait depuis le dernier chargement et qui ne sont pas encore envoyés).
 
-Avec le bouton « revenir à la position initiale » si votre adversaire a joué entre temps vous n'en serez pas informez, pour cela il faut cliquer sur recharger (flèche vers le bas).
+Avec le bouton « revenir à la position initiale » si votre adversaire a joué entre temps vous n'en serez pas informez, pour cela il faut cliquer sur ![recharger](./img/refresh.png 'recharger')
 
 
 ## Les autres boutons
- 
+  
+ - Pour afficher le PGN, cliquez sur le numéro de la partie juste en dessous des boutons (avec le nom des joueurs).
+
+ - Cliquer sur le chronomètre ![ ](./img/chronometer.png 'préférences') pour changer l'intervalle de temps des mails de rappel.
+
  - Pour ajouter un commentaire, cliquez sur le numéro du coup.
 
     * Les commentaires sont privés tout durant que la partie n'est pas terminée.
@@ -47,12 +48,10 @@ Avec le bouton « revenir à la position initiale » si votre adversaire a joué
 	* Le message se place au niveau du dernier coup en cours (contrairement au commentaire où on choisit le coup).
  
  - La touche ECHAP permet de passer en mode « patron » : affiche l'échiquier en ASCII pour être plus discret au travail. Ce mode ne permet pas de sélectionner une pièce, il faut repasser en mode normal en appuyant de nouveau sur ECHAP pour jouer.
- 
- - Pour afficher le PGN, cliquez sur le numéro de la partie juste en dessous des boutons (avec le nom des joueurs).
 
  - ![](./img/rotate.png 'annuler') Retourner l'échiquier.
 
- - ![](./img/help.png 'annuler') Afficher l'aide.
+ - ![](./img/help.png 'aide') Afficher l'aide.
 
 ## Informations complémentaires
 
