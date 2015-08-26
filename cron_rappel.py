@@ -33,8 +33,11 @@ for games in b.parties_en_cours() :
 	else:
 		joueur_trait = joueurs[0]
 	
+	liste = []
 	for i in b.list_rappels(joueur_trait, game_id):
 		if len(b.check_rappels(i[0])) != 0:
-			send_rappel_mail(joueur_trait, game_id)
+			liste.append((joueur_trait, game_id))
 			b.update_rappels(i[0])
 	
+	for i in liste:
+		send_rappel_mail(i[0], i[1])
