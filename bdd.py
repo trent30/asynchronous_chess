@@ -482,7 +482,7 @@ class bdd():
 				from historique where game_id = %s
 				order by date desc limit 1)
 				as t2 
-			on t2.game_id = t1.game_id where EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM date) > limite * 3600 and t1.joueur_id=%s and t1.game_id=%s
+			on t2.game_id = t1.game_id where EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM date) + 60 > limite * 3600 and t1.joueur_id=%s and t1.game_id=%s
 			""" % (game_id, joueur_id, game_id)).getresult()
 	
 	def check_rappels(self, _id):
@@ -494,7 +494,7 @@ class bdd():
 				where game_id = %s
 				order by date desc limit 1)
 				as t2 
-			on t2.game_id = t1.game_id where EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM dernier_rappel) > limite * 3600 and t1.id = %s
+			on t2.game_id = t1.game_id where EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM dernier_rappel) + 60 > limite * 3600 and t1.id = %s
 			""" % (_id, _id)).getresult()
 			
 	def update_rappels(self, _id):
