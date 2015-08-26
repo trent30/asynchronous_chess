@@ -469,7 +469,11 @@ class bdd():
 		
 	def list_rappels(self, joueur_id, game_id):
 		if self.historique_vide(game_id):
-			return [(game_id,)]
+			return self.con.query("""
+			select id from rappel
+			where game_id = %s
+			and joueur_id=%s
+			""" % (game_id, joueur_id)).getresult()
 		
 		return self.con.query("""
 			select id from rappel as t1
@@ -482,9 +486,6 @@ class bdd():
 			""" % (game_id, joueur_id, game_id)).getresult()
 	
 	def check_rappels(self, _id):
-		if self.historique_vide(_id):
-			return [_id]
-		
 		return self.con.query("""
 			select * from rappel as t1
 			left join (
