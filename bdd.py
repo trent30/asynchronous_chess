@@ -457,35 +457,44 @@ class bdd():
 	def parties_en_cours(self):
 		return self.con.query("select id from games where winner is null").getresult()
 
-	def list_rappels(self, joueur_id, game_id):
+	def historique_vide(self, game_id):
 		r = self.requete_0("""
 			select count(*)
 			from historique
 			where game_id=%s
 		""" % game_id)
 		if r == 0:
+			return True
+		return False
+		
+	def list_rappels(self, joueur_id, game_id):
+		if self.historique_vide(game_id):
 			return [(game_id,)]
 		
 		return self.con.query("""
 			select id from rappel as t1
 			left join (
 				select date, game_id 
-				from historique 
+				from historique where game_id = %s
 				order by date desc limit 1)
 				as t2 
 			on t2.game_id = t1.game_id where EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM date) > limite * 3600 and t1.joueur_id=%s and t1.game_id=%s
-			""" % (joueur_id, game_id)).getresult()
+			""" % (game_id, joueur_id, game_id)).getresult()
 	
 	def check_rappels(self, _id):
+		if self.historique_vide(_id):
+			return [_id]
+		
 		return self.con.query("""
 			select * from rappel as t1
 			left join (
 				select date, game_id 
 				from historique 
+				where game_id = %s
 				order by date desc limit 1)
 				as t2 
 			on t2.game_id = t1.game_id where EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM dernier_rappel) > limite * 3600 and t1.id = %s
-			""" % _id).getresult()
+			""" % (_id, _id)).getresult()
 			
 	def update_rappels(self, _id):
 		self.con.query('update rappel set dernier_rappel=now() where id=%s;' % _id)
