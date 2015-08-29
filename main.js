@@ -18,7 +18,6 @@ selection = {
 	color : '',
 	html : '',
 	piece : ''};
-deselect();
 PROMOTION = null;
 COUP_PROMOTION = null;
 INITIAL_POSITION = {'h' : [], 'c' : []};
@@ -727,6 +726,7 @@ function deselect() {
 		html : '',
 		piece : ''
 		};
+	draw_color_case();
 }
 
 function anim_stop() {
@@ -839,6 +839,7 @@ function f_click(c) {
 		e.innerHTML = selection.html;
 		deselect();
 		anim_start();
+		draw_color_case();
 	}
 	set_game_info(true);
 	position = CHESS.position();
