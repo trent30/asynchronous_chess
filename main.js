@@ -1685,6 +1685,7 @@ function aff_prefs_color_case(variable, defaut, element) {
 function aff_prefs() {
 	aff_prefs_color_case("ccb", "#E6E6FA", 'prefs_ccb');
 	aff_prefs_color_case("ccn", "#707070", 'prefs_ccn');
+	aff_prefs_color_case("couleur_plateau", "#000000", 'prefs_couleur_plateau');
 	aff_prefs_color_case("size", "0", 'prefs_size');
 	var tp = try_get_local("pieces");
 	if (tp != '' && tp != null && tp != 'null') {
