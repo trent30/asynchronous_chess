@@ -27,6 +27,8 @@ b = bdd.bdd()
 
 def get_com(game_id, joueur_id):
 	n = b.get_other_notes(game_id, joueur_id)
+	if len(n) == 0:
+		return ''
 	notes = '<p>Ci-dessous, les commentaires : </p>'
 	for i in n:
 		num_coup = i[2] / 2 + 1	
