@@ -58,6 +58,8 @@ if __name__ == "__main__":
 		l = b.list_games_stats_not_finish(player_id)
 	if detail == 'total':
 		l = b.list_games_stats_total(player_id)
+	if detail == 'all':
+		l = b.list_all_games()
 	
 	if detail != -1 :	
 		r = []

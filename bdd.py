@@ -386,7 +386,15 @@ class bdd():
 		and c.status_id = 1
 		and c.joueur != '%s' 
 		order by c.num_coup, c.date asc""" % (gid, joueur_id)).getresult()
-		
+
+	def list_all_games(self):
+		return self.con.query("""
+		SELECT t.l_white, t.l_black, t.id, t.date
+		FROM v_list_games as t, games as g
+		WHERE t.white = g.white
+		and t.id = g.id
+		order by date""").getresult()
+	
 	def	get_notes(self, gid, joueur_id):
 		if self.get_winner(gid)[0][2] == None:
 			#~ commentaires privés (la partie n'est pas finie)

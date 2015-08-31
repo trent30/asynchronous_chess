@@ -1395,7 +1395,8 @@ function get_stats_return(r, id) {
 	if (j.login != user_ID) {
 		stats = "<p> Statistiques pour " + j.login + "</p>";
 	}
-	stats += "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p><hr/>";
+	stats += "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p>";
+	stats += '<p class="stats" onclick=get_page("stats.py?p=all","games_return","")>(toutes les parties de tous les joueurs)</p><hr/>';
 	for (var i in tr) {
 		if (i == 'total') {
 			stats += '<hr/>';
