@@ -1501,7 +1501,7 @@ function games_return(r, title) {
 		if (title == 'parties en cours ') {
 			e = "<div onclick=f_menu('games');><h3>" + title + "</h3></div>";
 		}
-		e += "<div id='game_info' onclick=get_all_pgn(LIST_STAT);>Récupérer en PGN</div>";
+		e += "<div id='game_info' class='pointer' onclick=get_all_pgn(LIST_STAT);>Récupérer en PGN</div>";
 		for (var i in j) {
 			var trait = '';
 			if (j[i].trait != null && 
