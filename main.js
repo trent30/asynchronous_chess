@@ -1969,7 +1969,7 @@ function checkEnter(e) {
 	}
 }
 
-function pgn() {
+function pgn(date) {
 	var t = '<div class="pgn">';
 	CHESS.header('Site', location.host);
 	CHESS.header('Event', 'game #' + game_ID);
@@ -1978,8 +1978,22 @@ function pgn() {
 	CHESS.header('Date', DATE.replace(/-/g, '.'));
 	t += '<b>Position :</b><br/><br/>';
 	t += CHESS.fen();
-	t += '<br/><br/><hr/><b>PGN :</b><br/><br/>';
-	t += CHESS.pgn({}, INITIAL_POSITION.date).replace(/\n/g, '<br/>');
+	t += '<br/><br/><hr/><b>PGN :</b>'
+	if (date == false) {
+		if (INITIAL_POSITION.date != null) {
+			t += '<div onclick=pgn() class="pointer">(afficher les dates)</div><br/>';
+		} else {
+			t += '<br/><br/>';
+		}
+		t += CHESS.pgn({}, null).replace(/\n/g, '<br/>');
+	} else {
+		if (INITIAL_POSITION.date != null) {
+			t += '<div onclick=pgn(false) class="pointer">(supprimer les dates)</div><br/>';
+		} else {
+			t += '<br/><br/>';
+		}
+		t += CHESS.pgn({}, INITIAL_POSITION.date).replace(/\n/g, '<br/>');
+	}
 	t += "<div class='stats' onclick='f_init()'><p>← Revenir à la liste des coups</p></div>";
 	clean_log(t + '</div>');
 }
