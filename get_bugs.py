@@ -18,7 +18,7 @@ def input():
 def result_to_dico(i):
 	d= {}
 	d['id'] = i[0]
-	d['text'] = i[1].replace('\n', '<br/>').replace('<', '&lt;').replace('>', '&gt;')
+	d['text'] = i[1].replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br/>')
 	d['date'] = i[2].split('.')[0][:-3]
 	d['login'] = i[3]
 	d['status'] = i[4]

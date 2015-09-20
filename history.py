@@ -61,7 +61,7 @@ if __name__ == "__main__":
 		coms = []
 		for i in c:
 			dico = {}
-			dico['t'] = i[0].replace('\n', '<br/>').replace('<', '&lt;').replace('>', '&gt;')		# le texte
+			dico['t'] = i[0].replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br/>')		# le texte
 			dico['j'] = i[1]							# le nom du joueur
 			dico['n'] = i[2]							# le numéro
 			if parametres.get("date_com", -1) == '1':	# la date
@@ -76,7 +76,7 @@ if __name__ == "__main__":
 		notes = []
 		for i in n:
 			dico = {}
-			dico['t'] = i[0].replace('\n', '<br/>').replace('<', '&lt;').replace('>', '&gt;')	# le texte
+			dico['t'] = i[0].replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br/>')	# le texte
 			dico['j'] = i[1]							# le nom du joueur
 			dico['n'] = i[2]							# le numéro
 			if parametres.get("date_com", -1) == '1':	# la date
