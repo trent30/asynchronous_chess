@@ -147,6 +147,8 @@ class bdd():
 			return True
 	
 	def session_to_user_id(self, s):
+		if s == None:
+			return None
 		return self.requete_0("select u.id from users u, sessions s \
 			where u.id = s.user_id and u.date_deleted is NULL and s.session='%s'" % s)
 	
@@ -230,6 +232,8 @@ class bdd():
 			u.date_deleted is NULL AND u.confirmed=TRUE").getresult()
 	
 	def get_news(self, uid):
+		if uid == None:
+			return None
 		return self.requete_0("SELECT u.nb_news FROM users u WHERE \
 			u.id='%s'" % uid)
 			
