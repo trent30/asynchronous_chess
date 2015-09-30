@@ -39,7 +39,7 @@ if __name__ == "__main__":
 		dico['date'] = l[0][3].split('.')[0]
 		dernier_joueur = b.get_dernier_joueur(l[0][0])
 		if dernier_joueur == None:
-			dico['trait'] = ''
+			dico['trait'] = b.get_players(dico['id'])[0][2]
 		else:
 			dico['trait'] = dernier_joueur
 		r.append(dico)
