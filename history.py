@@ -53,7 +53,7 @@ if __name__ == "__main__":
 	
 	token = b.get_game_token(game)
 	if token != '' and token != None:
-		if b.session_to_user_id(s) != int(token.split('_')[0]):
+		if b.session_to_user_id(s) != int(token.split('_')[0]) and b.session_to_user_id(s) != None:
 			r['nulle'] = token
 		
 	if parametres.get("c", -1) == '1':
