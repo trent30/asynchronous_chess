@@ -62,6 +62,10 @@ if __name__ == "__main__":
 	if game_token == None:
 		print "Cette action n'est plus disponible"
 		exit(0)
+		
+	if game_token != input_token:
+		print "Erreur de token"
+		exit(0)
 	
 	msg = ''
 	players = b.players_from_game(game)[0]
