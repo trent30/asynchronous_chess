@@ -525,6 +525,14 @@ class bdd():
 		return self.requete_0("""select limite from rappel
 			where joueur_id=%s and game_id=%s""" % (joueur_id, game_id))
 	
+	def players_in_game_with_id(self, _id):
+		if _id == None:
+			return []
+		return self.con.query("""
+		select white as players from games where winner is null and black=%s 
+		union 
+		select black as players from games where winner is null and white = %s""" % (_id, _id)).getresult()
+
 if __name__ == "__main__":
 	a = bdd()
 	print a.get_dernier_joueur(89)

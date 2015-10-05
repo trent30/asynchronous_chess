@@ -1603,8 +1603,13 @@ function sort_players(key, asc) {
 function all_players_to_html(j) {
 	e = $('btn_tri').innerHTML;
 	for (var i in j) {
+		var game_with = '';
+		if (j[i].game == 1) {
+			game_with = ' (*)';
+		}
 		var p = "onclick=invite(" + j[i].id + ",'" + j[i].nom + "');";
-		e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " " + p + ">  " + j[i].nom + " ( " + j[i].elo + " )</div><div></div>";
+		e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " " + p + ">  " + j[i].nom + " ( " + j[i].elo + " )$0</div><div></div>";
+		e = e.replace(/\$0/, game_with);
 	}
 	clean_log(e);
 	$('log').style.textAlign = 'left';
