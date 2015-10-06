@@ -871,6 +871,7 @@ function f_click_add(p) {
 			deselect();
 			set_game_info(true);
 			draw_pieces(position);
+			anim_start();
 		}
 	}
 	PROMOTION = null;
