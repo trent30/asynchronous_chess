@@ -1608,9 +1608,11 @@ function all_players_to_html(j) {
 			game_with = ' (*)';
 		}
 		var p = "onclick=invite(" + j[i].id + ",'" + j[i].nom + "');";
-		e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " " + p + ">  " + j[i].nom + " ( " + j[i].elo + " )$0</div><div></div>";
+		e += "<div class='lst_players'><img class='lst_players' src='./img/stats.png' onclick='get_stats(" + j[i].id + ")'></div><div class='player lst_players' id=" + j[i].id + " " + p + ">  " + j[i].nom + " ( " + j[i].elo + " ELO, $1 )$0</div><div></div>";
 		e = e.replace(/\$0/, game_with);
+		e = e.replace(/\$1/, j[i].stats);
 	}
+	e = e.replace('ELO,  )', 'ELO )');
 	clean_log(e);
 	$('log').style.textAlign = 'left';
 }
