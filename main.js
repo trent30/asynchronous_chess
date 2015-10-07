@@ -1862,6 +1862,11 @@ function send() {
 				return;
 			}
 		}
+		if (flag_value == 'N') {
+			if (!confirm('Attention ! Voulez-vous vraiment proposer la nulle à votre adversaire ?')) {
+				return;
+			}
+		}
 	}
 	/* vérification que tout n'est pas vide */
 	if (r == '' && com.length == 0 && flag_value.length == 0) {
