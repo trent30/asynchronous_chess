@@ -899,7 +899,7 @@ function transpose_piece_to_promotion(piece) {
 function f_add() {
 	var e = $('log');
 	e.style.textAlign = "left";
-	var piece = ['T', 'C', 'F', 'D', 'R', 'p'];
+	var piece = ['T', 'C', 'F', 'D', 'R'];
 	var c  ='';
 	if (CHESS.history().length % 2 == 0) {
 		c = 'b';
