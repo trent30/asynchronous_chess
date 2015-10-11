@@ -8,6 +8,7 @@ selectColor = "#FF0000";
 try_get_local_login();
 game_ID = try_get_session('gid');
 old_one_move = '';
+old_one_move_num = -1;
 tr = {'win' : 'parties gagnées',
 	'lose' : 'parties perdues',
 	'nul' : 'parties nulles',
@@ -398,11 +399,17 @@ function dselect_one_move(id) {
 function select_one_move(n) {
 	if (n < 0) {
 		init_position();
+		old_one_move_num = -1;
 	} else {
+		if ( n > historique.length) {
+			old_one_move_num = historique.length;
+			n = old_one_move_num;
+		}
 		dselect_one_move(old_one_move);
 		var e = $( 'coup_' + n );
 		e.style.background = '#D4D4D4';
 		old_one_move = e;
+		old_one_move_num = n;
 		init_position();
 		for (var i = 0; i <= n; i++) {
 			CHESS.move(historique[i]);
@@ -2029,11 +2036,6 @@ function checkKey(e) {
     }
     
     if ((e.keyCode == '38') || (e.keyCode == '40')) {
-		try {
-			var num = parseInt(old_one_move.id.split('_')[1]);
-		} catch (e) {
-			var num = INITIAL_POSITION.h.length; 
-		}
 		var operation = 0;
 		if (e.keyCode == '38') { // up arrow 
 			operation = -1;
@@ -2041,14 +2043,8 @@ function checkKey(e) {
 		if (e.keyCode == '40') { // down arrow
 			operation = 1;
 		}
-		num = num + operation;
-		while ( $('coup_' + num) == null ) {
-			num = num + operation;
-			if (num < 0 || num > INITIAL_POSITION.h.length) {
-				break;
-			}
-		}
-		select_one_move(num);
+		old_one_move_num = old_one_move_num + operation;
+		select_one_move(old_one_move_num);
 	}
 }
 
