@@ -318,17 +318,28 @@ function init() {
 	if (param == '?gid') {
 		game_ID = location.search.split('=')[1];
 		try_set_session("gid", game_ID);
-	} 
+	}
 	if (game_ID != '') {
 		get_page('/game_info.py?g=' + game_ID, 'init_return');
-	} else {
-		f_option();
 	}
 	draw_board();
 	init_position();
+	if (param == '?fen') {
+		var arg = location.search.split('=')[1].replace(/%20/g, ' ');
+		console.log(arg);
+		CHESS = new Chess(arg);
+		position = CHESS.position();
+		game_ID = '0';
+	}
 	draw_pieces(position);
 	historique = [];
 	log = '';
+	if (game_ID == '') {
+		f_option();
+	}
+	if (game_ID == '0') {
+		clean_log('<p><b>Position :</b></p>' + arg);
+	}
 }
 
 function min_size() {
