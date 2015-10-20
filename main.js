@@ -2008,7 +2008,7 @@ function pgn(date) {
 	CHESS.header('Black', players.split(' vs ')[1]);
 	CHESS.header('Date', DATE.replace(/-/g, '.'));
 	t += '<b>Position :</b><br/><br/>';
-	t += CHESS.fen();
+	t += '<a href="' + './?fen=' + CHESS.fen() + '">' + CHESS.fen() + '</a>';
 	t += '<br/><br/><hr/><b>PGN :</b>'
 	if (date == false) {
 		if (INITIAL_POSITION.date != null) {
