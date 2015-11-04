@@ -110,7 +110,7 @@ if __name__ == "__main__":
 		print "Aucune partie sélectionnée."
 		exit(0)
 		
-	if b.get_winner(dico_params['gid'])[0][2] != None:
+	if b.get_winner(dico_params['gid'])[0][2] != None and coup != '':
 		print "Cette partie est terminée."
 		exit(0)
 	
