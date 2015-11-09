@@ -403,6 +403,24 @@ class bdd():
 		WHERE t.white = g.white
 		and t.id = g.id
 		order by date""").getresult()
+		
+	def list_all_games_not_finish(self):
+		return self.con.query("""
+		SELECT t.l_white, t.l_black, t.id, t.date
+		FROM v_list_games as t, games as g
+		WHERE t.white = g.white
+		and t.id = g.id
+		and g.winner is null
+		order by date""").getresult()
+		
+	def list_all_games_finish(self):
+		return self.con.query("""
+		SELECT t.l_white, t.l_black, t.id, t.date
+		FROM v_list_games as t, games as g
+		WHERE t.white = g.white
+		and t.id = g.id
+		and g.winner is not null
+		order by date""").getresult()
 	
 	def	get_notes(self, gid, joueur_id):
 		if self.get_winner(gid)[0][2] == None:

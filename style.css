@@ -253,6 +253,15 @@ body {
 	width : 80px;
 }
 
+.stats_li {
+	text-align: left;
+}
+
+.stats_li:hover {
+	text-decoration : underline;
+	font-style: italic;
+}
+
 .stats {
 	text-align: center;
 }

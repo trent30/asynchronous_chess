@@ -60,6 +60,10 @@ if __name__ == "__main__":
 		l = b.list_games_stats_total(player_id)
 	if detail == 'all':
 		l = b.list_all_games()
+	if detail == 'all_not_finish':
+		l = b.list_all_games_not_finish()
+	if detail == 'all_finish':
+		l = b.list_all_games_finish()
 	
 	if detail != -1 :	
 		r = []
@@ -72,7 +76,8 @@ if __name__ == "__main__":
 				trait = b.get_dernier_joueur(i[2])
 				if trait != None:
 					dico['trait'] = trait
-			r.append(dico)
+			if i[2] != 0:
+				r.append(dico)
 	else:
 		r = {}
 		r['win'] = int(b.stats(player_id, player_id))
