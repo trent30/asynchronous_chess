@@ -47,11 +47,14 @@ class bdd():
 		return self.requete_0("select conf from users where id='%s'" % id)
 	
 	def get_dernier_joueur(self, game_id):
-		return self.requete_0("""
+		r = self.requete_0("""
 			SELECT u.login
 			FROM historique h, users u 
 			WHERE h.joueur = u.id and game_id='%s' 
 			order by h.id desc limit 1;""" % game_id)
+		if r == None:
+			r = self.uid_to_login(self.players_from_game(game_id)[0][1])
+		return r
 			
 	def get_uid_dernier_joueur(self, game_id):
 		return self.requete_0("""
