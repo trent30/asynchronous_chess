@@ -214,6 +214,7 @@ if __name__ == "__main__":
 		msg += msg_elo(e1, ne1)
 		msg2 += msg_elo(e2, ne2)
 		msg2 += get_com(dico_params['gid'], joueur_id)
+		msg2 += "<p><a href=%s>Cliquez ici</a> pour visualiser la partie.</p>" % url
 		msg += get_com(dico_params['gid'], adversaire)
 		sujet2 = sujet + 'Vous avez abandonné (#' + str(dico_params['gid']) + ')'
 		sujet += 'Vous avez gagné (#' + str(dico_params['gid']) + ')'
