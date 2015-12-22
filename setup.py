@@ -90,8 +90,9 @@ fd = open('/tmp/create.sql', 'w')
 fd.write(sql)
 fd.close()
 
-uid = int(user_to_uid('postgres'))
-if uid == None:
+try:
+	uid = int(user_to_uid('postgres'))
+except:
     print "L'utilisateur 'postgres' n'a pas pus être trouvé sur votre système. \
 Suivez les instructions du paragraphe 'Base de donées' du fichier setup/README \
 en remplaçant les valeurs si besoin pour faire l'installation manuellement."
@@ -141,5 +142,5 @@ cmd('a2enmod expires')
 
 
 print "Installation terminée."
-print "Lancez 'service apache2 reload' pour prendre en compte la modification"
+print "Lancez 'systemctl reload apache2' pour prendre en compte la modification"
 print "Vérifiez que %s/conf/main.conf n'est pas accessible." % config.get("site", "url")
