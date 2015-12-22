@@ -89,7 +89,7 @@ CREATE TABLE users (
     date_deleted timestamp without time zone,
     date_create timestamp without time zone NOT NULL,
     confirmed boolean DEFAULT false NOT NULL,
-    elo real NOT NULL DEFAULT 1200,
+    elo real NOT NULL DEFAULT 1500,
     nb_news int NOT NULL DEFAULT 0,
     alerte_free boolean default false,
 	free_user text,
