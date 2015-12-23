@@ -153,9 +153,14 @@ ALTER SEQUENCE games_id_seq OWNED BY games.id;
 CREATE TABLE historique (
     game_id integer NOT NULL,
     id integer NOT NULL,
+    joueur integer NOT NULL,
     coup text,
-    date timestamp NOT NULL default '2000-01-01 00:00:00.000000+02'
+    date timestamp NOT NULL default '2000-01-01 00:00:00.000000+02',
+	CONSTRAINT historique_joueur_id_fkey FOREIGN KEY (joueur)
+	REFERENCES users (id) MATCH SIMPLE
+	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
+
 
 
 ALTER TABLE public.historique OWNER TO chess;
