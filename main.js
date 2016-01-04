@@ -1425,6 +1425,7 @@ function get_stats_return(r, id) {
 		var params = i + ',' + id + ',' + j.login;
 		stats += '<p class="stats" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</p>';
 	}
+	stats += "<div class='stats' onclick=f_menu('players')><p>← Retour à la liste des joueurs</p></div>";
 	var l = $('log');
 	l.innerHTML = stats;
 	L_stats = stats;
