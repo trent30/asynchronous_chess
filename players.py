@@ -48,6 +48,8 @@ if __name__ == "__main__":
 	
 	r = []
 	for i in b.users_list():
+		if i[1] == 'admin':
+			continue
 		dico = {}
 		dico['id'] = i[0]
 		dico['nom'] = i[1]
