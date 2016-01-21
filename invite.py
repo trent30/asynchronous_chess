@@ -49,6 +49,9 @@ if __name__ == "__main__":
 	
 	joueur_id = b.session_to_user_id(s)
 	
+	if couleur == 'revanche':
+		couleur = b.get_futur_color(joueur_id, uid)
+	
 	if couleur == 'pif':
 		couleur = random.choice(['noir', 'blanc'])
 	

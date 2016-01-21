@@ -1773,6 +1773,9 @@ function f_invite(id) {
 	if ($('choix_couleur').value == 'au hasard') {
 		id += '&couleur=pif';
 	}
+	if ($('choix_couleur').value == "l'inverse de la partie précédente") {
+		id += '&couleur=revanche';
+	}
 	get_page('/invite.py?id=' + id, 'invite_return');
 }
 

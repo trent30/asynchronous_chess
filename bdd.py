@@ -558,6 +558,19 @@ class bdd():
 		select white as players from games where winner is null and black=%s 
 		union 
 		select black as players from games where winner is null and white = %s""" % (_id, _id)).getresult()
+	
+	def get_futur_color(self, id1, id2):
+		#~ return futur color of id1
+		last_white = self.requete_0("""
+		select white from (
+		select * from games where  white=%s and black=%s and winner is not null
+		union
+		select * from games where  white=%s and black=%s and winner is not null) as color
+		order by date desc limit 1
+		""" % ( id1, id2, id2, id1))
+		if last_white == id1:
+			return 'noir'
+		return 'blanc'
 
 if __name__ == "__main__":
 	a = bdd()
