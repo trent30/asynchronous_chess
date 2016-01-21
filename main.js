@@ -1097,7 +1097,7 @@ function set_game_info(aff) {
 		p[1] = 'noirs';
 	}
 	var s = scores();
-	e.innerHTML = '<div class="game_info" onclick=pgn()>partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')</div><div id="game_prefs" onclick=game_prefs()><img src="./img/chronometer.png"></div>' ;
+	e.innerHTML = '<div class="game_info" onclick=pgn()>partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')</div><div id="game_prefs" class="pointer" onclick=game_prefs()><img src="./img/chronometer.png"></div>' ;
 }
 
 function game_prefs_return(r) {
