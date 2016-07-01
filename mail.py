@@ -29,6 +29,7 @@ def send_mail(MAIL_TO, subject, msg):
 	corps += subject + '\n'
 	corps += 'Content-Type: text/html; charset=utf-8\n\n'
 	corps += msg
+	corps += config.get('smtp', 'footer')
 	host = config.get('smtp', 'host')
 	port = config.get('smtp', 'port')
 	try:
