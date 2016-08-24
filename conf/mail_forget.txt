@@ -3,3 +3,6 @@
 Vous recevez ce message car vous avez oublié votre mot de passe.
 Cliquez <a href="%s/change_passwd.py?t=%s">ici</a> pour le modifier.
 </p>
+<p>
+Votre login est : %s
+</p>
