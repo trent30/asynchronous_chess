@@ -15,7 +15,7 @@ logging.basicConfig(filename=config.get('log', 'file'), \
 
 b = bdd.bdd()
 
-def send_rappel_mail(joueur_id, game_id):
+def send_rappel_mail(_id, joueur_id, game_id):
 	mail_to = b.login_to_mail(b.uid_to_login(joueur_id))
 	sujet = config.get('smtp', 'subject_prefix') + ' Rappel #' + str(game_id)
 	url = config.get('site', 'url') + '/?gid=' + str(game_id)
@@ -25,7 +25,7 @@ def send_rappel_mail(joueur_id, game_id):
 	#~ print '-'*80
 	r = mail.send_mail(mail_to, sujet, msg)
 	if r == 'ok':
-		b.update_rappels(joueur_id)
+		b.update_rappels(_id)
 	else:
 		mail.send_mail(config.get('smtp', 'admin_mail'), '[chess]cron', r )
 	logging.debug('Mail de rappel à ' + mail_to + ' (partie ' +str(game_id) + '): ' + r)
@@ -41,7 +41,7 @@ for games in b.parties_en_cours() :
 	liste = []
 	for i in b.list_rappels(joueur_trait, game_id):
 		if len(b.check_rappels(i[0])) != 0:
-			liste.append((joueur_trait, game_id))
+			liste.append((i[0], joueur_trait, game_id))
 	
 	for i in liste:
-		send_rappel_mail(i[0], i[1])
+		send_rappel_mail(i[0], i[1], i[2])
