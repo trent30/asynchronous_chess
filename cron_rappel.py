@@ -26,7 +26,8 @@ def send_rappel_mail(joueur_id, game_id):
 	r = mail.send_mail(mail_to, sujet, msg)
 	if r == 'ok':
 		b.update_rappels(joueur_id)
-		
+	else:
+		mail.send_mail(config.get('smtp', 'admin_mail'), '[chess]cron', r )
 	logging.debug('Mail de rappel à ' + mail_to + ' (partie ' +str(game_id) + '): ' + r)
 	
 for games in b.parties_en_cours() :
