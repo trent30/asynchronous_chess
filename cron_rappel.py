@@ -23,7 +23,11 @@ def send_rappel_mail(joueur_id, game_id):
 	# test
 	#~ print mail_to, sujet, msg
 	#~ print '-'*80
-	logging.debug('Mail de rappel à ' + mail_to + ' (partie ' +str(game_id) + '): ' + mail.send_mail(mail_to, sujet, msg))
+	r = mail.send_mail(mail_to, sujet, msg)
+	if r == 'ok':
+		b.update_rappels(joueur_id)
+		
+	logging.debug('Mail de rappel à ' + mail_to + ' (partie ' +str(game_id) + '): ' + r)
 	
 for games in b.parties_en_cours() :
 	game_id = games[0]
@@ -37,7 +41,6 @@ for games in b.parties_en_cours() :
 	for i in b.list_rappels(joueur_trait, game_id):
 		if len(b.check_rappels(i[0])) != 0:
 			liste.append((joueur_trait, game_id))
-			b.update_rappels(i[0])
 	
 	for i in liste:
 		send_rappel_mail(i[0], i[1])
