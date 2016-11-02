@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# jeudi 21 janvier 2016, 18:55:49 (UTC+0100)
+# mercredi 2 novembre 2016, 21:56:14 (UTC+0100)
 
 CACHE:
 style.css
@@ -26,6 +26,7 @@ index.html
 ./img/tri_up.png
 ./img/wait.gif
 ./img/chronometer.png
+./img/rss.png
 
 NETWORK:
 *

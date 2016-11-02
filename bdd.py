@@ -333,6 +333,9 @@ class bdd():
 	def get_history(self, game_id):
 		return self.con.query("SELECT coup FROM historique WHERE game_id='%s' order by id asc" % game_id).getresult()
 	
+	def get_history_rss(self, game_id):
+		return self.con.query("SELECT coup, date, login FROM historique h, users u WHERE u.id = h.joueur and game_id='%s' order by h.id asc" % game_id).getresult()
+	
 	def get_history_date(self, game_id):
 		return self.con.query("SELECT timestamptz(date) FROM historique WHERE game_id='%s' order by id asc" % game_id).getresult()
 	
@@ -425,6 +428,14 @@ class bdd():
 		and g.winner is not null
 		order by date""").getresult()
 	
+	def	get_notes_all(self, gid):
+		return self.con.query("""SELECT c.text, u.login, c.num_coup, date
+		FROM com c, users u
+		WHERE game_id='%s' 
+		and u.id = c.joueur
+		and c.status_id = 1
+		order by c.id asc""" % gid).getresult()
+	
 	def	get_notes(self, gid, joueur_id):
 		if self.get_winner(gid)[0][2] == None:
 			#~ commentaires privés (la partie n'est pas finie)
@@ -437,12 +448,7 @@ class bdd():
 			order by c.id asc""" % (gid, joueur_id)).getresult()
 		else:
 			#~ commentaires de tout le monde
-			return self.con.query("""SELECT c.text, u.login, c.num_coup, date
-			FROM com c, users u
-			WHERE game_id='%s' 
-			and u.id = c.joueur
-			and c.status_id = 1
-			order by c.id asc""" % gid).getresult()
+			return self.get_notes_all(gid)
 		
 	def	check_gid_uid(self, gid, s):
 		id = self.session_to_user_id(s)
