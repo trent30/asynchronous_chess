@@ -4,6 +4,7 @@
 import cgi
 import bdd
 import ConfigParser
+from input import check_number
 
 config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
@@ -86,6 +87,10 @@ if __name__ == "__main__":
 	parametres = input()
 	game_id = parametres.get('game', None)
 	if game_id != None:
+		if not check_number(game_id):
+			print "Numéro de partie invalide"
+			exit(1)
+			
 		title = ", partie #%s" % str(game_id)
 		link = url + '/?gid=' + str(game_id)
 	
