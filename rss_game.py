@@ -41,6 +41,6 @@ if __name__ == "__main__":
 	
 	if game_id != None:
 		print r.header(url, title, link)
-		print r.flux_game(game_id)
+		print r.flux_game(game_id, True)
 		print r.footer()
 	

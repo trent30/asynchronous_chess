@@ -40,7 +40,8 @@ class Rss():
 	def mdate(self, date):
 		return date.split('.')[0].replace(' ', 'T') + 'Z'
 		
-	def flux_game(self, game_id):
+	def flux_game(self, game_id, just_one_game = False):
+		self.link = self.url + '/?gid=' + str(game_id)
 		move = 2
 		r = ''
 		for i in self.b.get_history_rss(game_id):
@@ -48,6 +49,8 @@ class Rss():
 			if move % 2 != 0:
 				title = str(move/2) + '...'
 			title += i[0]
+			if not just_one_game:
+				title = 'Partie #' + str(game_id) + ', ' + title
 			_id = 'urn:uuid:%s-%s' % (str(game_id), move - 2)
 			summary = i[0] + ' joué par ' + i[2] + '.'
 			r += self.entry(title, self.link, _id, self.mdate(i[1]), summary)
@@ -65,14 +68,13 @@ class Rss():
 		return r
 		
 	def footer(self):
-		print "</channel></rss>"
-		exit(0)
+		return "</channel></rss>"
 		
 	def header(self, url,title, link):
 		return """<?xml version="1.0" encoding="UTF-8"?>
 			<rss version="2.0">
 			<channel>
-			<title>%s%s</title>
+			<title>%s</title>
 			<description>%s</description>
 			<link>%s</link>
-			""" % (url,title, link, link)	
+			""" % (title, link, link)	
