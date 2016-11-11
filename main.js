@@ -1097,7 +1097,7 @@ function set_game_info(aff) {
 		p[1] = 'noirs';
 	}
 	var s = scores();
-	e.innerHTML = '<div class="game_info" onclick=pgn()>partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')</div><div id="game_prefs" class="pointer" onclick=game_prefs()><img src="./img/chronometer.png"></div><a href="./rss.py?game=' + game_ID + '" target="_blank"><img  style="margin-left : 10px;" src="./img/rss.png"/></a>' ;
+	e.innerHTML = '<div class="game_info" onclick=pgn()>partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')</div><div id="game_prefs" class="pointer" onclick=game_prefs()><img src="./img/chronometer.png"></div><a href="./rss_game.py?game=' + game_ID + '" target="_blank"><img  style="margin-left : 10px;" src="./img/rss.png"/></a>' ;
 }
 
 function game_prefs_return(r) {
