@@ -319,9 +319,6 @@ function init() {
 		game_ID = location.search.split('=')[1];
 		try_set_session("gid", game_ID);
 	}
-	if (game_ID != '') {
-		get_page('/game_info.py?g=' + game_ID, 'init_return');
-	}
 	draw_board();
 	init_position();
 	if (param == '?fen') {
@@ -330,6 +327,9 @@ function init() {
 		CHESS = new Chess(arg);
 		position = CHESS.position();
 		game_ID = '0';
+	}
+	if (game_ID != '' && game_ID != '0') {
+		get_page('/game_info.py?g=' + game_ID, 'init_return');
 	}
 	draw_pieces(position);
 	historique = [];
