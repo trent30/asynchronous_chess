@@ -37,4 +37,4 @@ if __name__ == "__main__":
 		fd.write(str(actual_time))
 		fd.close()
 
-	print open('rss.xml', 'r+').read()
+	print open('rss.xml', 'r').read()
