@@ -75,6 +75,18 @@ if __name__ == "__main__":
 	else:
 		adversaire = players[1]
 		
+	abort = parametres.get("abort", -1)
+	if abort == "True":
+		b.update_game_token(game, '')
+		com_nulle = '%s refuse la nulle' % (b.session_to_login(s))
+		b.add_com(com_nulle, game, None)
+		sujet = config.get('smtp', 'subject_prefix') + ' ' + config.get('smtp', 'subject_abort_null').replace('Partie', 'Partie #' + str(game))
+		url = url = config.get('site', 'url') + '/?gid=' + game
+		msg = open('conf/mail_abort_null.txt').read() % (adversaire, url)
+		r0 = mail.send_mail(b.login_to_mail(b.uid_to_login(adversaire)), sujet, msg)
+		print "ok"
+		exit(0)
+		
 	b.set_win(game, 0)
 	msg = 'La partie est nulle.'
 	b.update_game_token(game, '')
