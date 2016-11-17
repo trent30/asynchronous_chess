@@ -728,9 +728,19 @@ function f_cancel_note(e) {
 	i.parentNode.removeChild(i);
 }
 
+function remove_nulle_message_return(r) {
+	if ( r == 'ok') {
+		INITIAL_POSITION.nulle = null;
+		f_init();
+	} else {
+		clean_log(r);
+	}
+}
+
 function remove_nulle_message() {
 	var i = $('nulle_message');
 	i.parentNode.removeChild(i);
+	get_page('/finish.py?g=' + game_ID + '&token=' + INITIAL_POSITION.nulle + '&abort=True', 'remove_nulle_message_return'); 
 }
 
 function deselect() {

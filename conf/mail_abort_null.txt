@@ -1,0 +1,2 @@
+<p>Votre adversaire %s a refusé la proposition de nulle.</p>
+<p><a href="%s">Cliquez ici</a> pour visualiser la partie.</p>
