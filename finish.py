@@ -82,7 +82,7 @@ if __name__ == "__main__":
 		b.add_com(com_nulle, game, None)
 		sujet = config.get('smtp', 'subject_prefix') + ' ' + config.get('smtp', 'subject_abort_null').replace('Partie', 'Partie #' + str(game))
 		url = url = config.get('site', 'url') + '/?gid=' + game
-		msg = open('conf/mail_abort_null.txt').read() % (b.uid_to_login(adversaire), url)
+		msg = open('conf/mail_abort_null.txt').read() % (b.session_to_login(s), url)
 		r0 = mail.send_mail(b.login_to_mail(b.uid_to_login(adversaire)), sujet, msg)
 		print "ok"
 		exit(0)
