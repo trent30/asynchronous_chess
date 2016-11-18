@@ -44,4 +44,5 @@ for games in b.parties_en_cours() :
 			liste.append((i[0], joueur_trait, game_id))
 	
 	for i in liste:
-		send_rappel_mail(i[0], i[1], i[2])
+		if i[1] != None:
+			send_rappel_mail(i[0], i[1], i[2])
