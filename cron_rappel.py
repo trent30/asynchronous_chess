@@ -30,7 +30,9 @@ def send_rappel_mail(_id, joueur_id, game_id):
 		mail.send_mail(config.get('smtp', 'admin_mail'), '[chess]cron', r )
 	logging.debug('Mail de rappel à ' + mail_to + ' (partie ' +str(game_id) + '): ' + r)
 	
-users = b.users_list()
+users = []
+for i in b.users_list();
+	users.append(i[0])
 
 for games in b.parties_en_cours() :
 	game_id = games[0]
