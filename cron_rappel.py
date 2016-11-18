@@ -30,6 +30,8 @@ def send_rappel_mail(_id, joueur_id, game_id):
 		mail.send_mail(config.get('smtp', 'admin_mail'), '[chess]cron', r )
 	logging.debug('Mail de rappel à ' + mail_to + ' (partie ' +str(game_id) + '): ' + r)
 	
+users = b.users_list()
+
 for games in b.parties_en_cours() :
 	game_id = games[0]
 	joueurs = b.players_from_game(game_id)[0]
@@ -44,5 +46,5 @@ for games in b.parties_en_cours() :
 			liste.append((i[0], joueur_trait, game_id))
 	
 	for i in liste:
-		if i[1] != None:
+		if i[1] in users:
 			send_rappel_mail(i[0], i[1], i[2])
