@@ -540,6 +540,7 @@ function historique2log(h) {
 	var llog = '';
 	var div_msg = '<div class="msg" id="msg_';
 	var div_note = '<div class="msg" id="note_';
+	var classes = '';
 	try {
 		var dates = h.date;
 	} catch (e) {
@@ -557,7 +558,13 @@ function historique2log(h) {
 		} else {
 			var date = '';
 		}
-		t = "<div class='order' onclick=select_one_move(" + i + ") id=coup_" + i + ">" + piece_to_image(h.h[i]) + balise('span', date) + "</div>" + t;
+		if (i + 1 > INITIAL_POSITION.h.length) {
+			classes = "order grey";
+		} else {
+			classes = "order";
+		}
+		t = "<div class='" + classes + "' onclick=select_one_move(" + i + ") id=coup_" + i + ">" + piece_to_image(h.h[i]) + balise('span', date) + "</div>" + t;
+		
 		if (l == null) {
 			com = false;
 		} else {

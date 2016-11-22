@@ -290,6 +290,10 @@ body {
 	color: #FFFFFF;
 }
 
+.grey {
+	color: grey;
+}
+
 .plate {
 	height: 1px;
 }
