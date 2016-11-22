@@ -319,9 +319,6 @@ function init() {
 		game_ID = location.search.split('=')[1];
 		try_set_session("gid", game_ID);
 	}
-	if (game_ID != '') {
-		get_page('/game_info.py?g=' + game_ID, 'init_return');
-	}
 	draw_board();
 	init_position();
 	if (param == '?fen') {
@@ -330,6 +327,9 @@ function init() {
 		CHESS = new Chess(arg);
 		position = CHESS.position();
 		game_ID = '0';
+	}
+	if (game_ID != '' && game_ID != '0') {
+		get_page('/game_info.py?g=' + game_ID, 'init_return');
 	}
 	draw_pieces(position);
 	historique = [];
@@ -1107,7 +1107,7 @@ function set_game_info(aff) {
 		p[1] = 'noirs';
 	}
 	var s = scores();
-	e.innerHTML = '<div class="game_info" onclick=pgn()>partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')</div><div id="game_prefs" class="pointer" onclick=game_prefs()><img src="./img/chronometer.png"></div>' ;
+	e.innerHTML = '<div class="game_info" onclick=pgn()>partie #' + game_ID + ' : ' + p[0] + ' (' + s.b + ') - ' + p[1] +  ' (' + s.n + ')</div><div id="game_prefs" class="pointer" onclick=game_prefs()><img src="./img/chronometer.png"></div><a href="./rss_game.py?game=' + game_ID + '" target="_blank"><img  style="margin-left : 10px;" src="./img/rss.png"/></a>' ;
 }
 
 function game_prefs_return(r) {
@@ -2024,7 +2024,7 @@ function pgn(date) {
 	CHESS.header('Black', players.split(' vs ')[1]);
 	CHESS.header('Date', DATE.replace(/-/g, '.'));
 	t += '<b>Position :</b><br/><br/>';
-	t += '<a href="' + './?fen=' + CHESS.fen() + '">' + CHESS.fen() + '</a>';
+	t += '<a href="' + './?fen=' + CHESS.fen() + '" target="_blank">' + CHESS.fen() + '</a>';
 	t += '<br/><br/><hr/><b>PGN :</b>'
 	if (date == false) {
 		if (INITIAL_POSITION.date != null) {
