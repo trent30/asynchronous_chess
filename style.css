@@ -63,6 +63,12 @@ body {
 	text-align: center;
 }
 
+#send_btn_img {
+	display: inline-block;
+	text-align: center;
+	border-radius: 100px;
+}
+
 #log {
 	height : 100%;
 	width: 95%;

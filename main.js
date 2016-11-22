@@ -764,17 +764,16 @@ function anim_stop() {
 	try {
 		clearInterval(INTERVAL_ID);
 	} catch (err) {}
-	var img = $('send_btn');
-	img.style.opacity = 1;
+	var img = $('send_btn_img').style;
+	img.backgroundColor = "white";
 }
 
 function anim_send_btn() {
-	var img = $('send_btn');
-	var s = img.style;
-	if (s.opacity == 1) {
-		s.opacity = 0.4;
+	var img = $('send_btn_img').style;
+	if (img.backgroundColor == "white") {
+		img.backgroundColor = "orange";
 	} else {
-		s.opacity = 1;
+		img.backgroundColor = "white";
 	}
 }
 
