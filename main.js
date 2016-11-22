@@ -602,8 +602,11 @@ function historique2log(h) {
 	if ( h.r == null && CHESS.in_draw() ) {
 		add_log("<b>½-½</b>");
 	}
-	if ( h.r == null && !CHESS.in_draw() && check_trait()) {
+	if ( h.r == null && !CHESS.in_draw() && check_trait() ) {
 		add_log("<br/>C'est à vous de jouer");
+		YOUR_TURN = true;
+	} else {
+		YOUR_TURN = false;
 	}
 }
 
@@ -761,17 +764,16 @@ function anim_stop() {
 	try {
 		clearInterval(INTERVAL_ID);
 	} catch (err) {}
-	var img = $('send_btn');
-	img.style.opacity = 1;
+	var img = $('send_btn_img').style;
+	img.backgroundColor = "white";
 }
 
 function anim_send_btn() {
-	var img = $('send_btn');
-	var s = img.style;
-	if (s.opacity == 1) {
-		s.opacity = 0.4;
+	var img = $('send_btn_img').style;
+	if (img.backgroundColor == "white") {
+		img.backgroundColor = "orange";
 	} else {
-		s.opacity = 1;
+		img.backgroundColor = "white";
 	}
 }
 
@@ -853,6 +855,9 @@ function f_click(c) {
 			deselect();
 			return;
 		}
+		if (YOUR_TURN) {
+			anim_start();
+		}
 		if (coup.c1 !== '') {
 			position[coup.c1] = '';
 		}
@@ -866,7 +871,6 @@ function f_click(c) {
 		}
 		e.innerHTML = selection.html;
 		deselect();
-		anim_start();
 		draw_color_case();
 	}
 	set_game_info(true);
@@ -890,6 +894,9 @@ function f_click_add(p) {
 		if (CHESS.move(PROMOTION) == null) {
 			alert('Erreur lors de la promotion');
 		} else {
+			if (YOUR_TURN) {
+				anim_start();
+			}
 			if (COUP_PROMOTION.c1 !== '') {
 				position[COUP_PROMOTION.c1] = '';
 			}
@@ -899,7 +906,6 @@ function f_click_add(p) {
 			deselect();
 			set_game_info(true);
 			draw_pieces(position);
-			anim_start();
 		}
 	}
 	PROMOTION = null;
