@@ -251,6 +251,13 @@ class bdd():
 		% (game_id, pg.escape_string(coup), id, 'now()') )
 		self.update_game_token(game_id, '')
 	
+	def check_duplicate_move(self, game_id):
+		if self.requete_0("SELECT count(*) from historique where game_id='%s'" % game_id) > 1:
+			r = self.con.query("SELECT joueur, coup, id from historique where game_id='%s' order by id desc limit 2" % game_id).getresult()
+			if r[0][0] == r[1][0] and r[0][1] == r[1][1]:
+				id_ = max(r[0][2], r[1][2]) 
+				self.con.query("DELETE FROM historique where id='%s'" % id_)
+	
 	def add_game(self, white, black):
 		return self.requete_0("INSERT INTO games (white, black, date) \
 		VALUES ('%s', '%s', NOW()) RETURNING id;" % (white, black) )

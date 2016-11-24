@@ -35,8 +35,13 @@ if __name__ == "__main__":
 	
 	parametres = input()
 	b = bdd.bdd()
+	
+	gid = parametres.get('g', None)
+	if gid != None:
+		b.check_duplicate_move(gid)
+		
 	b.insert_error(\
-		parametres.get('g', None), \
+		gid, \
 		b.session_to_user_id(s), \
 		parametres.get('c', None))
 	print "Le bug est enregistré"
