@@ -38,7 +38,9 @@ if __name__ == "__main__":
 	
 	gid = parametres.get('g', None)
 	if gid != None:
-		b.check_duplicate_move(gid)
+		if b.check_duplicate_move(gid):
+			print "reload"
+			exit(0)
 		
 	b.insert_error(\
 		gid, \

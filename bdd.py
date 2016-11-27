@@ -257,6 +257,8 @@ class bdd():
 			if r[0][0] == r[1][0] and r[0][1] == r[1][1]:
 				id_ = max(r[0][2], r[1][2]) 
 				self.con.query("DELETE FROM historique where id='%s'" % id_)
+				return True
+		return False
 	
 	def add_game(self, white, black):
 		return self.requete_0("INSERT INTO games (white, black, date) \

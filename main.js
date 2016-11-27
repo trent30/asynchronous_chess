@@ -1087,6 +1087,13 @@ function nothing_return(x) {
 	return;
 }
 
+function bug_report_return(x) {
+	if (x == 'reload') {
+		console.log("coup en double détecté, rechargement de l'historique");
+		f_reload();
+	}
+}
+
 function bug_report(gid) {
 	get_page('/bug.py?g=' + gid, 'nothing_return');
 }
@@ -1261,7 +1268,7 @@ function set_position(h) {
 			console.log('Erreur ! coup  ' + coup + ' invalide');
 			coup = coup.replace(/\+/g, "%2B");
 			coup = coup.replace(/#/g, "%23");
-			get_page('/bug.py?g=' + game_ID + '&c=' + i + '%3D' + coup, 'nothing_return');
+			get_page('/bug.py?g=' + game_ID + '&c=' + i + '%3D' + coup, 'bug_report_return');
 		} else {
 			historique.push(h.h[i]);
 		}
