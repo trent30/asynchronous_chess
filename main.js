@@ -2073,21 +2073,20 @@ function checkKey(e) {
 			console.log('mode ascii OFF');
 			draw_board();
 			draw_pieces(position);
-			return;
 		} else {
 			MODE_PATRON = true;
 			console.log('mode ascii ON');
 			draw_board_ascii();
-			return;
 		}
+		return;
     }
     
-    if ((e.keyCode == '38') || (e.keyCode == '40')) {
+    if ((e.keyCode == '38') || (e.keyCode == '40') || (e.keyCode == '37') || (e.keyCode == '39')) {
 		var operation = 0;
-		if (e.keyCode == '38') { // up arrow 
+		if ((e.keyCode == '38') || (e.keyCode == '37')) { // up arrow 
 			operation = -1;
 		}
-		if (e.keyCode == '40') { // down arrow
+		if ((e.keyCode == '40') || (e.keyCode == '39')) { // down arrow
 			operation = 1;
 		}
 		old_one_move_num = old_one_move_num + operation;
