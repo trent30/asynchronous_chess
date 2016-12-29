@@ -169,10 +169,14 @@ class bdd():
 	def delete_com(self, g):
 		self.con.query("DELETE FROM com WHERE game_id='%s'" % g)
 		
+	def delete_rappel(self, g):
+		self.con.query("DELETE FROM rappel WHERE game_id='%s'" % g)
+		
 	def delete_historique(self, g):
 		self.con.query("DELETE FROM historique WHERE game_id='%s'" % g)
 		
 	def delete_game(self, g):
+		self.delete_rappel(g)
 		self.delete_com(g)
 		self.delete_historique(g)
 		self.con.query("DELETE FROM games WHERE id='%s'" % g)
