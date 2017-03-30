@@ -1783,6 +1783,21 @@ function save_prefs_in_localStorage(d) {
 	}
 }
 
+function test_theme() {
+	var v = $("prefs_theme").value;
+	if (v == 'gris') {
+		$("prefs_ccn").value = '#858585';
+		$("prefs_ccb").value = '#E6E6FA';
+		$("prefs_couleur_plateau").value = '#000000';
+	}
+	if (v == 'bleu') {
+		$("prefs_ccn").value = '#7389b6';
+		$("prefs_ccb").value = '#f3f3f3';
+		$("prefs_couleur_plateau").value = '#1B253B';
+	}
+	test_prefs();
+}
+
 function invite_return(r) {
 	var m = r.split('-')[0];
 	if (m == 'ok') {
