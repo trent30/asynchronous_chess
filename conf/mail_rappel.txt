@@ -2,4 +2,4 @@
 <p>C'est à votre tour de jouer sur la partie %s.</p>
 <p><a href="%s">Cliquez ici</a> pour visualiser la partie.</p>
 <p>Vous pouvez changer l'intervalle de temps des rappels automatiques dans les préférences de la partie.</p>
-<p>Si vous pensez avoir déjà joué c'est peut-être que vous n'avez pas cliqué sur le bouton « envoyé »</p>
+<p>Si vous pensez avoir déjà joué c'est peut-être que vous n'avez pas cliqué sur le bouton « envoyer »</p>
