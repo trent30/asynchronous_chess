@@ -1795,6 +1795,26 @@ function test_theme() {
 		$("prefs_ccb").value = '#f3f3f3';
 		$("prefs_couleur_plateau").value = '#1B253B';
 	}
+	if (v == 'rouge') {
+		$("prefs_ccn").value = '#BE6D6D';
+		$("prefs_ccb").value = '#F8F8F8';
+		$("prefs_couleur_plateau").value = '#000000';
+	}
+	if (v == 'vert') {
+		$("prefs_ccn").value = '#3C9742';
+		$("prefs_ccb").value = '#E8E8FC';
+		$("prefs_couleur_plateau").value = '#000000';
+	}
+	if (v == 'nuit') {
+		$("prefs_ccn").value = '#494B4B';
+		$("prefs_ccb").value = '#E1E1E1';
+		$("prefs_couleur_plateau").value = '#000000';
+	}
+	if (v == 'lsd') {
+		$("prefs_ccn").value = '#945197';
+		$("prefs_ccb").value = '#A2EF56';
+		$("prefs_couleur_plateau").value = '#000000';
+	}
 	test_prefs();
 }
 
