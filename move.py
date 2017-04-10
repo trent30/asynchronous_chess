@@ -125,7 +125,7 @@ if __name__ == "__main__":
 	if dico_params['com'] == None:
 		dico_params['com'] = ''
 	
-	login = b.session_to_login(s).encode('UTF-8', 'ascci')
+	login = b.session_to_login(s)
 	joueur_id = b.session_to_user_id(s)
 	
 	if joueur_id not in b.players_from_game(dico_params['gid'])[0]:
