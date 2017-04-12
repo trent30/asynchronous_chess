@@ -264,6 +264,10 @@ function draw_pieces(p) {
 		draw_board_ascii();
 		return;
 	}
+	var file_type = ".png";
+	if (get_type_pieces().substr(-3) == 'svg') {
+		file_type = ".svg";
+	}
 	for(var i in p) {
 		var id = i + '';
 		var e = $(id);
@@ -271,7 +275,7 @@ function draw_pieces(p) {
 			if (p[id] == '') {
 				e.innerHTML = '';
 			} else {
-				e.innerHTML = '<img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + p[id] + '.png"</>';
+				e.innerHTML = '<img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + p[id] + file_type + '"</>';
 			}
 		}
 	}
