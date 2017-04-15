@@ -1424,6 +1424,7 @@ function list_games(p) {
 	}
 	if (login != '') {
 		login = " (pour "+ login + ")";
+		login = login.replace('∞', ' ');
 	}
 	var url = 'stats.py?p=' + detail;
 	if (id != '') {
@@ -1456,7 +1457,7 @@ function get_stats_return(r, id) {
 		if (i == 'total') {
 			stats += '<hr/>';
 		}
-		var params = i + ',' + id + ',' + j.login;
+		var params = i + ',' + id + ',' + j.login.replace(' ', '∞');
 		stats += '<p class="stats" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</p>';
 	}
 	stats += "<div class='stats' onclick=f_menu('players')><p>← Retour à la liste des joueurs</p></div>";
