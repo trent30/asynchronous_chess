@@ -16,7 +16,7 @@ Tous les coups que vous jouez sur le plateau ne sont pas envoyés directement. C
 
 ## Naviguer dans l'historique
 
-Vous pouvez naviguer dans l'historique en cliquant directement sur le coup, puis en utilisant les flèches haut et bas du clavier.
+Vous pouvez naviguer dans l'historique en cliquant directement sur le coup, puis en utilisant les flèches haut et bas du clavier (respectivement gauche et droite).
 
 ![revenir à la position initiale](../img/init.png 'revenir à la position initiale') Revenir à la position initiale (permet d'annuler tous les coups que vous avez fait depuis le dernier chargement et qui ne sont pas encore envoyés).
 
