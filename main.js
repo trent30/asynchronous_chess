@@ -307,6 +307,12 @@ function init_return(v) {
 	f_reload();
 }
 
+function check_local_conf() {
+	if (try_get_local('ccn') == null) {
+		restore_prefs_server(false);
+	}
+}
+
 function init() {
 	var e = $('load');
 	if (e != null) {
@@ -1347,6 +1353,7 @@ function login_return(r, l) {
 		BREAKING_NEWS = j['BREAKING_NEWS'];
 		user_ID = l;
 		try_set_local("login", user_ID);
+		check_local_conf();
 		f_option();
 	} catch(e) {
 		clean_log(r);
@@ -2149,15 +2156,17 @@ function save_prefs_server() {
 	get_page('/save_conf.py?d=' + data, 'save_prefs_server_return');
 }
 
-function restore_prefs_server_return(r) {
+function restore_prefs_server_return(r, p) {
 	if (r != 'error') {
 		data = JSON.parse(r);
 		for (var i in data) {
 			try_set_local(i, data[i]);
 		}
-		f_menu('preferences');
-		add_log('<div class="center"><br/>La configuration est restaurée.</div>');
-		aff_prefs();
+		if (p) {
+			f_menu('preferences');
+			add_log('<div class="center"><br/>La configuration est restaurée.</div>');
+			aff_prefs();
+		}
 		draw_pieces(position);
 		draw_color_case();
 		resize();
@@ -2166,8 +2175,8 @@ function restore_prefs_server_return(r) {
 	}
 }
 
-function restore_prefs_server() {
-	get_page('/restore_conf.py', 'restore_prefs_server_return');
+function restore_prefs_server(p) {
+	get_page('/restore_conf.py', 'restore_prefs_server_return', p);
 }
 
 function f_search_players(reverse) {
