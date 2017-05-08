@@ -713,6 +713,7 @@ function f_list_bugs_return(r, p) {
 	if (j.length == 0) {
 		add_log('La liste est vide');
 	}
+	add_log('<p><div>Si le bug ou la demande de fonctionnalité n\'est pas déjà présente dans la liste : <div onclick=f_menu("bug_report");  class="btn_com inline">Nouveau rapport</div></div></p>');
 	$('log').scrollTop = 0;
 }
 
