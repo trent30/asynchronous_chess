@@ -139,6 +139,11 @@ body {
 	padding-bottom: 3px;
 }
 
+.btn_discuss {
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
 #menu {
 	width: 66%;
 	margin-left: 33%;
