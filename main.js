@@ -698,7 +698,7 @@ function list_bugs_to_html(dico, rep) {
 	t += '<div id="bug_$1">'.replace(/\$1/, dico['id']);
 	if (!rep) {
 		t += '<div style="float : left;" class="ta_left inline">Nombre de réponse(s) : ' + dico['nrep'] + '</div>';
-		t += '<div class="inline btn_com btn_discuss" style="float: right;" onclick="f_repondre_bug($0,$1)">voir la discussion / répondre</div><br/><br/><hr/><br/><br/>'.replace(/\$0/, dico['nrep']).replace(/\$1/, dico['id']);
+		t += '<div class="inline btn_com btn_discuss" style="float: right;" onclick="f_repondre_bug($0,$1)">voir la discussion /<br> répondre</div><br/><br/><hr/><br/><br/>'.replace(/\$0/, dico['nrep']).replace(/\$1/, dico['id']);
 	}
 	t += '</div>';
 	return t;
