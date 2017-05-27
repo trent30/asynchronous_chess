@@ -35,6 +35,7 @@ if __name__ == "__main__":
 	b = bdd.bdd()
 	parametres = input()
 	game = parametres.get("g", -1)
+	b.check_duplicate_move(game)
 	h = b.get_history(game)
 	
 	r = {}
