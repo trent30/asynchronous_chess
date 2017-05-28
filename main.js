@@ -387,8 +387,12 @@ function resize() {
 }
 
 function getPieceFromHtml(t) {
+	var file_type = ".png";
+	if (get_type_pieces().substr(-3) == 'svg') {
+		file_type = ".svg";
+	}
 	try {
-		return t.split('/pieces/')[1].split('/')[1].split('.png')[0];
+		return t.split('/pieces/')[1].split('/')[1].split(file_type)[0];
 	} catch (err) {
 		return '';
 	}
