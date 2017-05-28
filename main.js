@@ -259,14 +259,18 @@ function get_cdn() {
 	return cdn;
 }
 
+function get_file_type() {
+	var file_type = ".png";
+	if (get_type_pieces().substr(-3) == 'svg') {
+		file_type = ".svg";
+	}
+	return file_type;
+}
+
 function draw_pieces(p) {
 	if (MODE_PATRON == true) {
 		draw_board_ascii();
 		return;
-	}
-	var file_type = ".png";
-	if (get_type_pieces().substr(-3) == 'svg') {
-		file_type = ".svg";
 	}
 	for(var i in p) {
 		var id = i + '';
@@ -275,7 +279,7 @@ function draw_pieces(p) {
 			if (p[id] == '') {
 				e.innerHTML = '';
 			} else {
-				e.innerHTML = '<img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + p[id] + file_type + '"</>';
+				e.innerHTML = '<img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + p[id] + get_file_type() + '"</>';
 			}
 		}
 	}
@@ -387,12 +391,8 @@ function resize() {
 }
 
 function getPieceFromHtml(t) {
-	var file_type = ".png";
-	if (get_type_pieces().substr(-3) == 'svg') {
-		file_type = ".svg";
-	}
 	try {
-		return t.split('/pieces/')[1].split('/')[1].split(file_type)[0];
+		return t.split('/pieces/')[1].split('/')[1].split(get_file_type())[0];
 	} catch (err) {
 		return '';
 	}
@@ -963,13 +963,9 @@ function f_add() {
 		c = 'n';
 	}
 	var d = "<p>Promotion :</p>";
-	var file_type = ".png";
-	if (get_type_pieces().substr(-3) == 'svg') {
-		file_type = ".svg";
-	}
 	for (var p in piece) {
 		var nom = piece[p] + c;
-		d += '<div id="' + nom + '" onclick=f_click_add("' + nom + '") class="case add white"><img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + nom + file_type + '"</></div>';
+		d += '<div id="' + nom + '" onclick=f_click_add("' + nom + '") class="case add white"><img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + nom + get_file_type() + '"</></div>';
 	}
 	d += '<br/>';
 	e.innerHTML = d; 
