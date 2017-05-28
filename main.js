@@ -959,9 +959,13 @@ function f_add() {
 		c = 'n';
 	}
 	var d = "<p>Promotion :</p>";
+	var file_type = ".png";
+	if (get_type_pieces().substr(-3) == 'svg') {
+		file_type = ".svg";
+	}
 	for (var p in piece) {
 		var nom = piece[p] + c;
-		d += '<div id="' + nom + '" onclick=f_click_add("' + nom + '") class="case add white"><img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + nom + '.png"</></div>';
+		d += '<div id="' + nom + '" onclick=f_click_add("' + nom + '") class="case add white"><img class="pieces" src="' + get_cdn() + './pieces/' + get_type_pieces() + '/' + nom + file_type + '"</></div>';
 	}
 	d += '<br/>';
 	e.innerHTML = d; 
