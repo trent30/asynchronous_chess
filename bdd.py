@@ -414,6 +414,22 @@ class bdd():
 		and c.status_id = 1
 		and c.joueur != '%s' 
 		order by c.num_coup, c.date asc""" % (gid, joueur_id)).getresult()
+		
+	def get_com(self, game_id, joueur_id):
+		n = self.get_other_notes(game_id, joueur_id)
+		if len(n) == 0:
+			return ''
+		notes = '<p>Ci-dessous, les commentaires : </p>'
+		for i in n:
+			num_coup = i[2] / 2 + 1	
+			if num_coup < 0:
+				num_coup = 0
+			notes += 'Coup %s, commentaire de %s (%s) :<br/>%s<br/><br/>' % (\
+				num_coup, \
+				i[1], \
+				i[3].split('.')[0][:-3], \
+				i[0].replace('<', '&lt;').replace('>', '&gt;').replace('\n', '<br/>'))
+		return notes
 
 	def list_all_games(self):
 		return self.con.query("""

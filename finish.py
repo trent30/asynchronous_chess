@@ -67,7 +67,7 @@ if __name__ == "__main__":
 		print "Erreur de token"
 		exit(0)
 	
-	msg = ''
+	msg = 'La partie est nulle.'
 	players = b.players_from_game(game)[0]
 	adversaire = ''
 	if b.session_to_user_id(s) == players[1]:
@@ -88,12 +88,15 @@ if __name__ == "__main__":
 		exit(0)
 		
 	b.set_win(game, 0)
-	msg = 'La partie est nulle.'
 	b.update_game_token(game, '')
 	
 	sujet = config.get('smtp', 'subject_prefix') + ' ' + config.get('smtp', 'subject_finish').replace('Partie', 'Partie #' + str(game))
-	r1 = mail.send_mail(b.login_to_mail(b.session_to_login(s)), sujet, msg)
-	r0 = mail.send_mail(b.login_to_mail(b.uid_to_login(adversaire)), sujet, msg)
+	msg0 = msg + b.get_com(game, adversaire)
+	msg1 = msg + b.get_com(game, b.session_to_user_id(s))
+	r1 = mail.send_mail(b.login_to_mail(b.session_to_login(s)), sujet, msg1)
+	r0 = mail.send_mail(b.login_to_mail(b.uid_to_login(adversaire)), sujet, msg0)
+	logging.debug("mail to %s : %s" % (b.session_to_login(s), msg1) )
+	logging.debug("mail to %s : %s" % (b.uid_to_login(adversaire), msg0) )
 	
 	if r0 == 'ok' and r1 == 'ok':
 		print "Cette partie est terminée."
