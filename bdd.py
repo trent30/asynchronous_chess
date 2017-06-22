@@ -71,6 +71,7 @@ class bdd():
 			
 	def set_elo(self, joueur_id, elo):
 		self.con.query("UPDATE users SET elo=%s WHERE id='%s'" % (elo, joueur_id))
+		#~ self.con.query("INSERT INTO elo (elo, user_id, date) VALUES ('%s', '%s', '%s')" % (elo, joueur_id, 'now()'))
 	
 	def session_to_login(self, s):
 		return self.requete_0("select login from users u, sessions s\

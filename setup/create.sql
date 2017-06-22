@@ -519,3 +519,17 @@ WITH (
 );
 ALTER TABLE rappel
   OWNER TO chess;
+
+
+
+CREATE TABLE elo (
+    id serial NOT NULL,
+    user_id integer NOT NULL,
+    date timestamp without time zone NOT NULL,
+    elo real NOT NULL
+);
+
+ALTER TABLE public.elo OWNER TO chess;
+
+ALTER TABLE ONLY elo
+    ADD CONSTRAINT elo_user_id_fkey FOREIGN KEY (user_id) REFERENCES users (id);
