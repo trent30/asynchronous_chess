@@ -1,10 +1,12 @@
 CACHE MANIFEST
-# dimanche 28 mai 2017, 22:02:28 (UTC+0200)
+# jeudi 22 juin 2017, 21:39:27 (UTC+0200)
 
 CACHE:
 style.css
 main.js
 chess.js
+Chart.js
+util.js
 index.html
 ./img/clear.png
 ./img/rotate.png

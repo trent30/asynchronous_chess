@@ -86,5 +86,6 @@ if __name__ == "__main__":
 		r['not_finish'] = len(b.list_games(player_id))
 		r['lose'] = r['total'] - r['win'] - r['nul'] - r['not_finish']
 		r['login'] = login
+		r['id'] = player_id
 	
 	print json.dumps(r)

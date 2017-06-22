@@ -1442,7 +1442,7 @@ function list_games(p) {
 	if (id != '') {
 		url += '&i=' + id;
 	}
-	get_page(url, 'games_return', tr[detail] + login);
+	get_page(url, 'games_return', tr[detail] + login + ',' + id);
 }
 
 function get_stats_return(r, id) {
@@ -1457,30 +1457,85 @@ function get_stats_return(r, id) {
 		return 2;
 	}
 	clean_log('');
+	var id = j.id;
 	var stats = '';
 	if (j.login != user_ID) {
 		stats = "<p> Statistiques pour " + j.login + "</p>";
 	}
+	stats = '<canvas id="Chart_raw" ></canvas></div>';
+	var i = 'not_finish';
+	var params = i + ',' + id + ',' + j.login.replace(' ', '∞');
+	stats += '<p style="text-align:left;"><div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div>, ';
+	i = 'total';
+	params = i + ',' + id + ',' + j.login.replace(' ', '∞');
+	stats += '<div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div></p><hr/>';
 	stats += "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p>";
-	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all","games_return","")>toutes les parties de tous les joueurs</li>';
-	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_not_finish","games_return","")>toutes les parties en cours</li>';
-	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_finish","games_return","")>toutes les parties finies</li><hr/>';
-	for (var i in tr) {
-		if (i == 'total') {
-			stats += '<hr/>';
-		}
-		var params = i + ',' + id + ',' + j.login.replace(' ', '∞');
-		stats += '<p class="stats" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</p>';
-	}
+	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all","games_return",",' + id +'")>toutes les parties de tous les joueurs</li>';
+	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_not_finish","games_return",",' + id +'")>toutes les parties en cours</li>';
+	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_finish","games_return",",' + id +'")>toutes les parties finies</li><hr/>';
 	stats += "<div class='stats' onclick=f_menu('players')><p>← Retour à la liste des joueurs</p></div>";
 	var l = $('log');
 	l.innerHTML = stats;
+	
+	var chart_raw = document.getElementById('Chart_raw');
+	
+	var ctx = chart_raw.getContext('2d');
+	var chart = new Chart(ctx, {
+		type: 'horizontalBar',
+		data: {
+			labels: ["Victoires", "défaites", "nulles"],
+			datasets: [{
+				//~ label: "",
+				backgroundColor: 'rgb(115, 137, 182)',
+				borderColor: 'rgb(255, 99, 132)',
+				data: [j['win'], j['lose'], j['nul']],
+			}]
+		},
+		
+		options: { layout: {
+            padding: {
+                left: 100,
+                right: 100,
+                top: 0,
+                bottom: 0
+            }
+        },
+        scales: {
+            xAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        },
+        legend : { display : false }	
+    }
+	});
+	chart_raw.onclick = function(evt){
+    //~ var activePoints = chart.getElementsAtEvent(evt);
+		//~ console.log(activePoints);
+		//~ console.log(evt);
+		onChartClick(evt.offsetY, chart_raw.height, id, j.login.replace(' ', '∞'));
+	};
 	L_stats = stats;
+}
+
+function onChartClick(y, height, id, login) {
+	var limit_1 = height / 3;
+	var limit_2 = height * 2 / 3;
+	if ((y < limit_2) && ( y > limit_1)) {
+		list_games('lose,' + id + ',' + login);
+	}
+	if (y < limit_1 ) {
+		list_games('win,' + id + ',' + login);
+	}
+	if (y > limit_2) {
+		list_games('nul,' + id + ',' + login);
+	}
 }
 
 function get_stats(id) {
 	var url = '/stats.py';
-	if (id != '') {
+	if (id != '' && id != null) {
 		url += '?i=' + id;
 	}
 	get_page(url, 'get_stats_return', id);
@@ -1554,7 +1609,9 @@ function account_return(r) {
 	$('free_passwd').value = j.free_pass;
 }
 
-function games_return(r, title) {
+function games_return(r, p) {
+	var title = p.split(',')[0];
+	var id = p.split(',')[1];
 	if (r == "disconnected") {
 		menu_login();
 		return;
@@ -1585,7 +1642,7 @@ function games_return(r, title) {
 		e += "<div style='font-size: smaller;'><br/><br/>(*) : cette marque indique que c'est à vous de jouer.</div>";
 	}
 	if (title != 'parties en cours ') {
-		e += "<div class='stats' onclick='back_stats()'><p>← Retour</p></div>";
+		e += "<div class='stats' onclick='get_stats(" + id + ")'><p>← Retour</p></div>";
 	}
 	l.innerHTML = e;
 	l.style.textAlign = 'left';
