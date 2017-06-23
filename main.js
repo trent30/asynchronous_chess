@@ -1460,38 +1460,37 @@ function get_stats_return(r, id) {
 	var id = j.id;
 	var stats = '';
 	if (j.login != user_ID) {
-		stats = "<p> Statistiques pour " + j.login + "</p>";
+		stats = '<div class="stats"><h3>Statistiques pour ' + j.login + "</h3></div>";
 	}
-	stats = '<canvas id="Chart_raw" ></canvas></div>';
+	stats += '<canvas id="Chart_raw" ></canvas></div>';
 	var i = 'not_finish';
 	var params = i + ',' + id + ',' + j.login.replace(' ', '∞');
 	stats += '<p style="text-align:left;"><div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div>, ';
 	i = 'total';
 	params = i + ',' + id + ',' + j.login.replace(' ', '∞');
-	stats += '<div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div></p><hr/>';
-	stats += "<p style='text-align:left;'>Cliquez sur l'élément pour afficher les parties correspondantes</p>";
+	stats += '<div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div></p>';
+	stats += '<div class="stats"><h3>classement Elo</h3></div><canvas id="Chart_elo" ></canvas></div>';
 	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all","games_return",",' + id +'")>toutes les parties de tous les joueurs</li>';
 	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_not_finish","games_return",",' + id +'")>toutes les parties en cours</li>';
-	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_finish","games_return",",' + id +'")>toutes les parties finies</li><hr/>';
+	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_finish","games_return",",' + id +'")>toutes les parties finies</li>';
 	stats += "<div class='stats' onclick=f_menu('players')><p>← Retour à la liste des joueurs</p></div>";
+	
 	var l = $('log');
 	l.innerHTML = stats;
 	
 	var chart_raw = document.getElementById('Chart_raw');
-	
+	chart_raw.height =   min_size() / 10;
 	var ctx = chart_raw.getContext('2d');
 	var chart = new Chart(ctx, {
 		type: 'horizontalBar',
 		data: {
 			labels: ["Victoires", "défaites", "nulles"],
 			datasets: [{
-				//~ label: "",
 				backgroundColor: 'rgb(115, 137, 182)',
 				borderColor: 'rgb(255, 99, 132)',
 				data: [j['win'], j['lose'], j['nul']],
 			}]
 		},
-		
 		options: { layout: {
             padding: {
                 left: 100,
@@ -1511,12 +1510,37 @@ function get_stats_return(r, id) {
     }
 	});
 	chart_raw.onclick = function(evt){
-    //~ var activePoints = chart.getElementsAtEvent(evt);
-		//~ console.log(activePoints);
-		//~ console.log(evt);
-		onChartClick(evt.offsetY, chart_raw.height, id, j.login.replace(' ', '∞'));
+		console.log(evt);
+		onChartClick(evt.offsetY, min_size() / 10, id, j.login.replace(' ', '∞'));
 	};
-	L_stats = stats;
+	
+	var chart_elo = document.getElementById('Chart_elo');
+	var ctx2 = chart_elo.getContext('2d');
+	var color = 'rgb(115, 137, 182)'
+	var chart2 = new Chart(ctx2, {
+		type: 'line',
+		data: {
+			labels: j.elo_hist_date,
+			datasets: [{
+				fill: false,
+				pointStyle : 'line',
+				backgroundColor: color,
+				borderColor: color,
+				pointHoverBackgroundColor: color,
+				data: j.elo_hist_elo,
+			}],			
+		},
+		options: { layout: {
+            padding: {
+                left: 100,
+                right: 100,
+                top: 0,
+                bottom: 0
+            }
+        },
+        legend : { display : false }	
+    }
+	});
 }
 
 function onChartClick(y, height, id, login) {
@@ -1694,11 +1718,6 @@ function get_all_pgn(liste) {
 		liste[i].max = max;
 		get_page('./history.py?g=' + liste[i].id + param, 'get_all_pgn_return', liste[i]);
 	}
-}
-	
-function back_stats() {
-	var l = $('log');
-	l.innerHTML = L_stats;
 }
 
 function sort_players(key, asc) {

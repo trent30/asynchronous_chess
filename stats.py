@@ -87,5 +87,12 @@ if __name__ == "__main__":
 		r['lose'] = r['total'] - r['win'] - r['nul'] - r['not_finish']
 		r['login'] = login
 		r['id'] = player_id
-	
+		hist_date = []
+		hist_elo = []
+		for i in b.get_elo_historique(player_id):
+			hist_date.append(i[0].split(' ')[0])
+			hist_elo.append(int(round(i[1])))
+		r['elo_hist_date'] = hist_date
+		r['elo_hist_elo'] = hist_elo
+			
 	print json.dumps(r)

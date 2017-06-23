@@ -69,6 +69,9 @@ class bdd():
 	def get_elo(self, joueur_id):
 		return self.requete_0("SELECT elo FROM users WHERE id='%s';" % joueur_id)
 			
+	def get_elo_historique(self, joueur_id):
+		return self.con.query("SELECT date, elo FROM elo WHERE user_id='%s' order by date;" % joueur_id).getresult()
+			
 	def set_elo(self, joueur_id, elo):
 		self.con.query("UPDATE users SET elo=%s WHERE id='%s'" % (elo, joueur_id))
 		#~ self.con.query("INSERT INTO elo (elo, user_id, date) VALUES ('%s', '%s', '%s')" % (elo, joueur_id, 'now()'))
@@ -610,3 +613,4 @@ class bdd():
 if __name__ == "__main__":
 	a = bdd()
 	print a.get_dernier_joueur(89)
+	print a.get_elo_historique(1);
