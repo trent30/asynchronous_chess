@@ -94,5 +94,6 @@ if __name__ == "__main__":
 			hist_elo.append(int(round(i[1])))
 		r['elo_hist_date'] = hist_date
 		r['elo_hist_elo'] = hist_elo
+		r['elo'] = int(round(b.get_elo(player_id)))
 			
 	print json.dumps(r)

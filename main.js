@@ -1458,22 +1458,19 @@ function get_stats_return(r, id) {
 	}
 	clean_log('');
 	var id = j.id;
-	var stats = '';
-	if (j.login != user_ID) {
-		stats = '<div class="stats"><h3>Statistiques pour ' + j.login + "</h3></div>";
-	}
+	var stats = '<div class="center"><div class="h3">Statistiques pour ' + j.login + "</div> (" + j.elo + " elo)";
 	stats += '<canvas id="Chart_raw" ></canvas></div>';
 	var i = 'not_finish';
 	var params = i + ',' + id + ',' + j.login.replace(' ', '∞');
-	stats += '<p style="text-align:left;"><div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div>, ';
+	stats += '<div class="center"><p style="text-align:left;"><div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div>, ';
 	i = 'total';
 	params = i + ',' + id + ',' + j.login.replace(' ', '∞');
-	stats += '<div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div></p>';
-	stats += '<div class="stats"><h3>classement Elo</h3></div><canvas id="Chart_elo" ></canvas></div>';
+	stats += '<div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div></div></p>';
+	stats += '<div class="center"><div class="h3">Classement Elo</div></div><canvas id="Chart_elo" ></canvas><div class="center"><div class="h3">Liste de toutes les parties</div></div><p></p>';
 	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all","games_return",",' + id +'")>toutes les parties de tous les joueurs</li>';
 	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_not_finish","games_return",",' + id +'")>toutes les parties en cours</li>';
 	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_finish","games_return",",' + id +'")>toutes les parties finies</li>';
-	stats += "<div class='stats' onclick=f_menu('players')><p>← Retour à la liste des joueurs</p></div>";
+	stats += "<div class='stats' onclick=f_menu('players')><p>← Retour à la liste des joueurs</p></div></div>";
 	
 	var l = $('log');
 	l.innerHTML = stats;
