@@ -1502,8 +1502,8 @@ function get_stats_return(r, id) {
     }
 	});
 	chart_raw.onclick = function(evt){
-		console.log(evt);
-		onChartClick(evt.offsetY, min_size() / 10, id, j.login.replace(' ', '∞'));
+		var activePoints = chart.getElementsAtEvent(evt);
+		onChartClick(activePoints[0]._view.label, min_size() / 10, id, j.login.replace(' ', '∞'));
 	};
 	
 	var chart_elo = document.getElementById('Chart_elo');
@@ -1535,16 +1535,14 @@ function get_stats_return(r, id) {
 	});
 }
 
-function onChartClick(y, height, id, login) {
-	var limit_1 = height / 3;
-	var limit_2 = height * 2 / 3;
-	if ((y < limit_2) && ( y > limit_1)) {
+function onChartClick(d, height, id, login) {
+	if (d == "défaites") {
 		list_games('lose,' + id + ',' + login);
 	}
-	if (y < limit_1 ) {
+	if (d == "victoires") {
 		list_games('win,' + id + ',' + login);
 	}
-	if (y > limit_2) {
+	if (d == "nulles") {
 		list_games('nul,' + id + ',' + login);
 	}
 }
