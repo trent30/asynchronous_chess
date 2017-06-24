@@ -1466,12 +1466,7 @@ function get_stats_return(r, id) {
 	i = 'total';
 	params = i + ',' + id + ',' + j.login.replace(' ', '∞');
 	stats += '<div class="inline stats_li" onclick=list_games("' + params + '")>' + tr[i] + ' : ' + j[i] + '</div></div></p>';
-	stats += '<div class="center"><div class="h3">Classement Elo</div></div><canvas id="Chart_elo" ></canvas><div class="center"><div class="h3">Liste de toutes les parties</div></div><p></p>';
-	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all","games_return",",' + id +'")>toutes les parties de tous les joueurs</li>';
-	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_not_finish","games_return",",' + id +'")>toutes les parties en cours</li>';
-	stats += '<li class="stats_li" onclick=get_page("stats.py?p=all_finish","games_return",",' + id +'")>toutes les parties finies</li>';
-	stats += "<div class='stats' onclick=f_menu('players')><p>← Retour à la liste des joueurs</p></div></div>";
-	
+	stats += $("stats").innerHTML.replace(/\$id/g, id);
 	var l = $('log');
 	l.innerHTML = stats;
 	
