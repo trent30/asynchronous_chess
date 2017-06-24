@@ -1484,7 +1484,7 @@ function get_stats_return(r, id) {
 	var chart = new Chart(ctx, {
 		type: 'horizontalBar',
 		data: {
-			labels: ["Victoires", "défaites", "nulles"],
+			labels: ["victoires", "défaites", "nulles"],
 			datasets: [{
 				backgroundColor: 'rgb(115, 137, 182)',
 				borderColor: 'rgb(255, 99, 132)',
