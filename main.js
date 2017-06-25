@@ -171,7 +171,7 @@ function draw_board() {
 		if (cases_lettres.indexOf(i) > -1) {
 			classe += ' coord';
 			var c = i;
-			if (c > 10) c -= 90;
+			if (c > 10) { c -= 90; }
 			if (player_color == 'white') {
 				valeur = String.fromCharCode(c + 96);
 			} else {
@@ -1470,6 +1470,11 @@ function get_stats_return(r, id) {
 	var l = $('log');
 	l.innerHTML = stats;
 	
+	var color = try_get_local('ccn');
+	if (color == null) {
+		color = 'rgb(115, 137, 182)';
+	}
+	
 	var chart_raw = document.getElementById('Chart_raw');
 	chart_raw.height =   min_size() / 10;
 	var ctx = chart_raw.getContext('2d');
@@ -1478,7 +1483,7 @@ function get_stats_return(r, id) {
 		data: {
 			labels: ["victoires", "défaites", "nulles"],
 			datasets: [{
-				backgroundColor: 'rgb(115, 137, 182)',
+				backgroundColor: color,
 				borderColor: 'rgb(255, 99, 132)',
 				data: [j['win'], j['lose'], j['nul']],
 			}]
@@ -1508,7 +1513,6 @@ function get_stats_return(r, id) {
 	
 	var chart_elo = document.getElementById('Chart_elo');
 	var ctx2 = chart_elo.getContext('2d');
-	var color = 'rgb(115, 137, 182)'
 	var chart2 = new Chart(ctx2, {
 		type: 'line',
 		data: {
@@ -2164,7 +2168,7 @@ function pgn(date) {
 	CHESS.header('Date', DATE.replace(/-/g, '.'));
 	t += '<b>Position :</b><br/><br/>';
 	t += '<a href="' + './?fen=' + CHESS.fen() + '" target="_blank">' + CHESS.fen() + '</a>';
-	t += '<br/><br/><hr/><b>PGN :</b>'
+	t += '<br/><br/><hr/><b>PGN :</b>';
 	if (date == false) {
 		if (INITIAL_POSITION.date != null) {
 			t += '<div onclick=pgn() class="pointer">(afficher les dates)</div><br/>';
