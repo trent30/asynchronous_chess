@@ -40,22 +40,32 @@ class Rss():
 	def mdate(self, date):
 		return date.split('.')[0].replace(' ', 'T') + 'Z'
 		
-	def flux_game(self, game_id, just_one_game = False):
+	def flux_game(self, game_id, just_one_game = False, end = False):
 		self.link = self.url + '/?gid=' + str(game_id)
 		move = 2
 		r = ''
-		for i in self.b.get_history_rss(game_id):
-			title = str(move/2) + '. '
-			if move % 2 != 0:
-				title = str(move/2) + '...'
-			title += i[0]
-			if not just_one_game:
-				title = 'Partie #' + str(game_id) + ', ' + title
-			_id = 'urn:uuid:%s-%s' % (str(game_id), move - 2)
-			summary = i[0] + ' joué par ' + i[2] + '.'
-			r += self.entry(title, self.link, _id, self.mdate(i[1]), summary)
-			move += 1
-		r += self.flux_msg(game_id, 0)
+		_id = 'urn:uuid:%s' % str(game_id)
+		if not end:
+			for i in self.b.get_history_rss(game_id):
+				title = str(move/2) + '. '
+				if move % 2 != 0:
+					title = str(move/2) + '...'
+				title += i[0]
+				if not just_one_game:
+					title = 'Partie #' + str(game_id) + ', ' + title
+				_id = 'urn:uuid:%s-%s' % (str(game_id), move - 2)
+				summary = i[0] + ' joué par ' + i[2] + '.'
+				r += self.entry(title, self.link, _id, self.mdate(i[1]), summary)
+				move += 1
+		else:
+			i = ['', '2000-01-01 00:00:00']
+			iggy = self.b.get_history_rss(game_id)
+			if len(iggy) > 0:
+				i = iggy.pop()
+		
+		if not end:
+			r += self.flux_msg(game_id, 0)
+		
 		winner = self.b.get_winner(game_id)[0][2]
 		if winner != None:
 			r += self.flux_msg(game_id, 1)
@@ -66,7 +76,7 @@ class Rss():
 				title = "%s est victorieux." % self.b.uid_to_login(winner)
 			r += self.entry(title, self.link, _id, self.mdate(i[1]), "La partie est terminée.")
 		return r
-		
+			
 	def footer(self):
 		return "</channel></rss>"
 		
