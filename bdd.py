@@ -273,7 +273,7 @@ class bdd():
 		VALUES ('%s', '%s', NOW()) RETURNING id;" % (white, black) )
 	
 	def list_finish_games(self):
-		return self.con.query("select white, black, winner from games where winner is not null order by date;").getresult()
+		return self.con.query("select white, black, winner, id from games where winner is not null order by date;").getresult()
 	
 	def list_finish_games_of_id(self, _id):
 		if _id == None:

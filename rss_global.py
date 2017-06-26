@@ -28,6 +28,10 @@ if __name__ == "__main__":
 		d = r.header(url, title, link)
 		for i in b.parties_en_cours():
 			d += r.flux_game(i[0])
+		
+		for i in b.list_finish_games()[ -10 : ] :
+			d += r.flux_game(i[3], just_one_game = True, end = True)
+		
 		d += r.footer()
 		
 		fd = open('rss.xml', 'w+')
