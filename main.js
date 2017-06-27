@@ -529,6 +529,17 @@ function balise(b, t) {
 	return ('<$0>' + t + '</$0>').replace(/\$0/g, b);
 }
 
+function diff(begin, end) {
+	var r = '';
+	for (i = INITIAL_POSITION.h.length; i < historique.length; i++) {
+		if ( i % 2 == 0 ) {
+			r += ' ' + String(i) + '.';
+		}
+		r += ' ' + historique[i];
+	}
+	return r;
+}
+
 function historique2log(h) {
 	var t = '<div id="print_all" style="text-align: right;">';
 	if (h.c != null) {
@@ -638,9 +649,20 @@ function historique2log(h) {
 }
 
 function f_add_com(n) {
+	var r;
 	if ($("add_com" + n) == null) {
-		$("msg_" + n).innerHTML += '</div><div id="add_com' + n + '">' + $("add_com").innerHTML.replace(/param/g, "'add_com" + n + "'") + "</div>";
+		r = $("msg_" + n).innerHTML;
+		r += '</div><div id="add_com' + n + '">' + $("add_com").innerHTML.replace(/param/g, "'add_com" + n + "'");
+		if (INITIAL_POSITION.h.length < historique.length) {
+			r += $("add_variante").innerHTML;
+		}
+		r += "</div>";
+		$("msg_" + n).innerHTML = r;
 	}
+}
+
+function f_add_variante() {
+	$("note").value += diff(INITIAL_POSITION.h.length, historique.length);
 }
 
 function f_send_note_return(r, t) {
