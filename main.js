@@ -594,12 +594,18 @@ function historique2log(h) {
 			if (ln[i] == true) {
 				note = true;
 			}
+		}	
+		
+		var num_com = numero;
+		if ( i >= INITIAL_POSITION.h.length ) {
+			num_com = parseInt(INITIAL_POSITION.h.length / 2);
 		}
+		
 		if ( i % 2 == 0 ) {
 			numero = i / 2 + 1;
 		} else {
 			m = message_or_not(com, note);
-			llog += m.replace(/_n_/g, numero) + t + '<div id="num_' + numero + '" class="num order" onclick=f_add_com(' + numero + ');>' + numero + balise('span', "Ajouter un commentaire") + '</div>';
+			llog += m.replace(/_n_/g, numero) + t + '<div id="num_' + numero + '" class="num order" onclick=f_add_com(' + num_com + ');>' + numero + balise('span', "Ajouter un commentaire") + '</div>';
 			llog += div_msg + numero + '"></div><div class="plate hide">.</div>';
 			llog += div_note + numero + '"></div><div class="plate hide">.</div>';
 			t = '';
@@ -609,7 +615,7 @@ function historique2log(h) {
 	}
 	if ( i % 2 == 1 ) {
 		m = message_or_not(l[i], ln[i - 1]);
-		llog += m.replace(/_n_/g, numero) + "<div class='order'>...</div>" + t + '<div class="num order" onclick=f_add_com(' + numero + ');>' + numero + balise('span', "Ajouter un commentaire") + '</div>';
+		llog += m.replace(/_n_/g, numero) + "<div class='order'>...</div>" + t + '<div class="num order" onclick=f_add_com(' + num_com + ');>' + numero + balise('span', "Ajouter un commentaire") + '</div>';
 		llog += div_msg + numero + '"></div>';
 		llog += div_note + numero + '"></div>';
 	}
