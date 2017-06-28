@@ -600,7 +600,7 @@ function historique2log(h) {
 		} else {
 			var date = '';
 		}
-		if (i + 1 > INITIAL_POSITION.h.length) {
+		if (i + 1 > INITIAL_POSITION.h.length || i > diff_offset() ) {
 			classes = "order grey";
 		} else {
 			classes = "order";
