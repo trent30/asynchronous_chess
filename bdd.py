@@ -462,7 +462,7 @@ class bdd():
 		order by date""").getresult()
 	
 	def	get_notes_all(self, gid):
-		return self.con.query("""SELECT c.text, u.login, c.num_coup, date
+		return self.con.query("""SELECT c.text, u.login, c.num_coup, date, c.variantes, c.vn
 		FROM com c, users u
 		WHERE game_id='%s' 
 		and u.id = c.joueur
@@ -472,7 +472,7 @@ class bdd():
 	def	get_notes(self, gid, joueur_id):
 		if self.get_winner(gid)[0][2] == None:
 			#~ commentaires privés (la partie n'est pas finie)
-			return self.con.query("""SELECT c.text, u.login, c.num_coup, date, variantes, vn
+			return self.con.query("""SELECT c.text, u.login, c.num_coup, date, c.variantes, c.vn
 			FROM com c, users u
 			WHERE game_id='%s' 
 			and u.id = c.joueur
