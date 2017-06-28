@@ -529,13 +529,26 @@ function balise(b, t) {
 	return ('<$0>' + t + '</$0>').replace(/\$0/g, b);
 }
 
+function diff_offset() {
+	var limit = INITIAL_POSITION.h.length;
+	if ( limit > historique.length) {
+		limit = historique.length;
+	}
+	for (var i = 0 ; i < limit; i++) {
+		if (INITIAL_POSITION.h[i] != historique[i]) {
+			return i;
+		}
+	}
+	return limit;
+}
+
 function diff(com) {
 	var r = '';
-	for (var i = INITIAL_POSITION.h.length ; i < historique.length; i++) {
+	for (var i = diff_offset() ; i < historique.length; i++) {
 		if ( i % 2 == 0 && com ) {
 			r += ' ' + String(parseInt(i/2 + 1)) + '.';
 		} else {
-			if (i == INITIAL_POSITION.h.length && com) {
+			if (i == diff_offset() && com) {
 				r += String(parseInt(i/2 + 1)) + '...';
 			}
 		}
@@ -657,7 +670,7 @@ function f_add_com(n) {
 	if ($("add_com" + n) == null) {
 		r = $("msg_" + n).innerHTML;
 		r += '</div><div id="add_com' + n + '">' + $("add_com").innerHTML.replace(/param/g, "'add_com" + n + "'");
-		if (INITIAL_POSITION.h.length < historique.length) {
+		if (diff().length != 0) {
 			r += $("add_variante").innerHTML;
 		}
 		r += "</div>";
@@ -784,12 +797,13 @@ function f_send_note(param) {
 	dico.t = t;
 	dico.n = parseInt(param.replace(/add_com/g, '')) * 2 - 2;
 	dico.v = ""; 
+	dico.vn = diff_offset(); 
 	if ( $("variante_com").innerHTML != "" ) {
 		dico.v = diff(false);
 	}
 	url += '&n=' + dico.n;
 	url += '&v=' + clean_text(dico.v);
-	url += '&vn=' + INITIAL_POSITION.h.length;
+	url += '&vn=' + diff_offset();
 	get_page(url, 'f_send_note_return', dico);
 }
 
@@ -2174,12 +2188,9 @@ function f_aff_variante(n) {
 	while ( vn < CHESS.history().length) {
 		CHESS.undo();
 	}
-	console.log(CHESS.history().length);
 	var l = INITIAL_POSITION.n[n].v.split(' ');
-	console.log(l);
 	for ( var i in l ) {
-		console.log(l[i]);
-		console.log(CHESS.move(l[i]));
+		CHESS.move(l[i]);
 	}
 	position = CHESS.position();
 	draw_pieces(position);
