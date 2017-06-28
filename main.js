@@ -686,6 +686,10 @@ function f_add_com(n) {
 		r += "</div>";
 		$("msg_" + n).innerHTML = r;
 	}
+	if (INITIAL_POSITION.r != null) {
+		var tmp = $("add_com_title");
+		tmp.innerHTML = tmp.innerHTML.replace(/\(sera visible uniquement à la fin de la partie\) /g, '');
+	}
 	var l = $('log');
 	l.scrollTop = l.scrollHeight;
 }
