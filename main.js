@@ -606,7 +606,7 @@ function historique2log(h) {
 		} else {
 			classes = "order";
 		}
-		t = "<div class='" + classes + "' onclick=select_one_move(" + i + ") id=coup_" + i + ">" + piece_to_image(h.h[i]) + balise('span', date) + "</div>" + t;
+		t = '<div class="' + classes + '" title="' + date + '" onclick=select_one_move(' + i + ') id=coup_' + i + '>' + piece_to_image(h.h[i]) + '</div>' + t;
 		
 		if (l == null) {
 			com = false;
@@ -640,7 +640,7 @@ function historique2log(h) {
 				num_com -= 1;
 			}
 			m = message_or_not(com, note);
-			llog += m.replace(/_n_/g, numero) + t + '<div id="num_' + numero + '" class="num order" onclick=f_add_com(' + num_com + ');>' + numero + balise('span', "Ajouter un commentaire") + '</div>';
+			llog += m.replace(/_n_/g, numero) + t + '<div id="num_' + numero + '" title="Ajouter un commentaire" class="num order" onclick=f_add_com(' + num_com + ');>' + numero + '</div>';
 			llog += div_msg + numero + '"></div><div class="plate hide">.</div>';
 			llog += div_note + numero + '"></div><div class="plate hide">.</div>';
 			t = '';
@@ -653,7 +653,7 @@ function historique2log(h) {
 				num_com -= 1;
 			}
 		m = message_or_not(l[i], ln[i - 1]);
-		llog += m.replace(/_n_/g, numero) + "<div class='order'>...</div>" + t + '<div class="num order" onclick=f_add_com(' + num_com + ');>' + numero + balise('span', "Ajouter un commentaire") + '</div>';
+		llog += m.replace(/_n_/g, numero) + "<div class='order'>...</div>" + t + '<div class="num order" title="Ajouter un commentaire" onclick=f_add_com(' + num_com + ');>' + numero + '</div>';
 		llog += div_msg + numero + '"></div>';
 		llog += div_note + numero + '"></div>';
 	}
