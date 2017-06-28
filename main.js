@@ -686,6 +686,8 @@ function f_add_com(n) {
 		r += "</div>";
 		$("msg_" + n).innerHTML = r;
 	}
+	var l = $('log');
+	l.scrollTop = l.scrollHeight;
 }
 
 function f_add_variante() {
