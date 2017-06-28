@@ -529,11 +529,15 @@ function balise(b, t) {
 	return ('<$0>' + t + '</$0>').replace(/\$0/g, b);
 }
 
-function diff(begin, end) {
+function diff(com) {
 	var r = '';
-	for (i = INITIAL_POSITION.h.length; i < historique.length; i++) {
-		if ( i % 2 == 0 ) {
-			r += ' ' + String(i) + '.';
+	for (var i = INITIAL_POSITION.h.length ; i < historique.length; i++) {
+		if ( i % 2 == 0 && com ) {
+			r += ' ' + String(parseInt(i/2 + 1)) + '.';
+		} else {
+			if (i == INITIAL_POSITION.h.length && com) {
+				r += String(parseInt(i/2 + 1)) + '...';
+			}
 		}
 		r += ' ' + historique[i];
 	}
@@ -608,8 +612,8 @@ function historique2log(h) {
 		}	
 		
 		var num_com = numero;
-		if ( i >= INITIAL_POSITION.h.length ) {
-			num_com = parseInt(INITIAL_POSITION.h.length / 2);
+		if ( i > INITIAL_POSITION.h.length ) {
+			num_com = parseInt(INITIAL_POSITION.h.length / 2) + 1;
 		}
 		
 		if ( i % 2 == 0 ) {
@@ -662,7 +666,14 @@ function f_add_com(n) {
 }
 
 function f_add_variante() {
-	$("note").value += diff(INITIAL_POSITION.h.length, historique.length);
+	var v = $("add_variante_btn");
+	if (v.innerHTML.search("Ajouter") != -1) { 
+		$("variante_com").innerHTML = diff(true);
+		v.innerHTML = "Ne pas envoyer la variante";
+	} else {
+		$("variante_com").innerHTML = "";
+		v.innerHTML = "Ajouter la variante";
+	}
 }
 
 function f_send_note_return(r, t) {
@@ -761,7 +772,7 @@ function f_list_bugs(param) {
 
 function f_send_note(param) {
 	var t = clean_text($(param).getElementsByTagName('textarea')[0].value);
-	if (t.length == 0) {
+	if (t.length == 0 && $("variante_com").innerHTML == "") {
 		alert("Vous n'avez saisie aucun texte.");
 		return;
 	}
@@ -772,7 +783,13 @@ function f_send_note(param) {
 	dico.d = '';
 	dico.t = t;
 	dico.n = parseInt(param.replace(/add_com/g, '')) * 2 - 2;
+	dico.v = ""; 
+	if ( $("variante_com").innerHTML != "" ) {
+		dico.v = diff(false);
+	}
 	url += '&n=' + dico.n;
+	url += '&v=' + clean_text(dico.v);
+	url += '&vn=' + INITIAL_POSITION.h.length;
 	get_page(url, 'f_send_note_return', dico);
 }
 
@@ -2133,10 +2150,46 @@ function note(nt) {
 				date = INITIAL_POSITION.n[i].d;
 			}
 			m += '<div class="com_auteur">Commentaire de <b>' + INITIAL_POSITION.n[i].j + '</b> :<div class="com_date">' + date + '</div></div>';
-			m += INITIAL_POSITION.n[i].t + '<br><br> ';
+			var texte = INITIAL_POSITION.n[i].t;
+			if ( texte != "") {
+				m += INITIAL_POSITION.n[i].t + '<br><br>';
+			}
+			var variante = INITIAL_POSITION.n[i].v;
+			if ( variante != "") {
+				var num = INITIAL_POSITION.n[i].vn;
+				if (num % 2 == 0) {
+					num += 1;
+				}
+				m += String(parseInt(num + 1) / 2) + '. ';
+				m += variante;
+				m += '<div class="inline ml50"></div><div onclick="f_aff_variante(' + i + ' );" class="btn_com inline">afficher la variante</div><div class="hide">.</div>';
+			}
 		}
 	}
 	t.innerHTML = m;
+}
+
+function f_aff_variante(n) {
+	var vn = INITIAL_POSITION.n[n].vn;
+	while ( vn < CHESS.history().length) {
+		CHESS.undo();
+	}
+	console.log(CHESS.history().length);
+	var l = INITIAL_POSITION.n[n].v.split(' ');
+	console.log(l);
+	for ( var i in l ) {
+		console.log(l[i]);
+		console.log(CHESS.move(l[i]));
+	}
+	position = CHESS.position();
+	draw_pieces(position);
+	historique = CHESS.history();
+	historique2log({'h' : CHESS.history(), 'c' : INITIAL_POSITION.c, 'n' : INITIAL_POSITION.n});
+	$("log").innerHTML += $("rm_variante").innerHTML;
+}
+
+function f_rm_variante(n) {
+	f_init();
 }
 
 function info(nt) {

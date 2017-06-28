@@ -400,15 +400,15 @@ class bdd():
 			VALUES (0, '%s', '%s', '%s', 'now()', 2) RETURNING id; " \
 			% (pg.escape_string(com), n, id))
 	
-	def	add_note(self, com, gid, s, n):
+	def	add_note(self, com, gid, s, n, variante, vn):
 		id = self.session_to_user_id(s)
 		if id == None:
 			id = 0
 		num_coup = self.requete_0(\
 			"select count(*) from historique where game_id='%s'" % gid)
-		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur, date, status_id) \
-			VALUES ('%s', '%s', '%s', '%s', 'now()', 1)" \
-			% (gid, pg.escape_string(com), n, id))
+		self.con.query("INSERT INTO com (game_id, text, num_coup, joueur, date, status_id, variantes, vn) \
+			VALUES ('%s', '%s', '%s', '%s', 'now()', 1, '%s', '%s')" \
+			% (gid, pg.escape_string(com), n, id, pg.escape_string(variante), vn))
 	
 	def	get_other_notes(self, gid, joueur_id):
 		return self.con.query("""SELECT c.text, u.login, c.num_coup, c.date
@@ -472,7 +472,7 @@ class bdd():
 	def	get_notes(self, gid, joueur_id):
 		if self.get_winner(gid)[0][2] == None:
 			#~ commentaires privés (la partie n'est pas finie)
-			return self.con.query("""SELECT c.text, u.login, c.num_coup, date
+			return self.con.query("""SELECT c.text, u.login, c.num_coup, date, variantes, vn
 			FROM com c, users u
 			WHERE game_id='%s' 
 			and u.id = c.joueur
@@ -613,4 +613,3 @@ class bdd():
 if __name__ == "__main__":
 	a = bdd()
 	print a.get_dernier_joueur(89)
-	print a.get_elo_historique(1);

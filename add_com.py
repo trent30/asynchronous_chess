@@ -7,6 +7,7 @@ import bdd
 from cookie_check import get_cookie
 import mail
 import ConfigParser
+from input import check_number
 
 config = ConfigParser.RawConfigParser()
 config.read('conf/main.conf')
@@ -39,7 +40,9 @@ if __name__ == "__main__":
 	b = bdd.bdd()
 	parametres = input()
 	game = parametres.get("g", -1)
-	com = parametres.get("com", -1)
+	com = parametres.get("com", "")
+	variante = parametres.get("v", "")
+	vn = parametres.get("vn", "")
 	num_coup = parametres.get("n", 0)
 	login = b.session_to_login(s)
 	
@@ -72,8 +75,18 @@ if __name__ == "__main__":
 		print "déco"
 		exit(0)
 	
-	if com == -1:
+	if com == "" and variante == "":
 		m = 'Commentaire vide.'
+		print m
+		exit(0)
+	
+	if vn == "" and variante != "":
+		m = 'Numéro de début de la variante absent.'
+		print m
+		exit(0)
+		
+	if vn != "" and not check_number(vn):
+		m = 'Le début de la variante doit être un numéro.'
 		print m
 		exit(0)
 		
@@ -83,7 +96,7 @@ if __name__ == "__main__":
 		exit(0)
 	
 	try:
-		b.add_note( com, game, s, num_coup)
+		b.add_note( com, game, s, num_coup, variante, vn)
 	except:
 		print "Erreur lors de l'enregistrement du commentaire."
 	else:
