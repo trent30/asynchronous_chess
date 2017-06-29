@@ -330,7 +330,7 @@ class bdd():
 		order by date""" % id).getresult()
 		
 	def set_win(self, game, id):
-		self.con.query("UPDATE games SET winner='%s' WHERE id='%s'" \
+		self.con.query("UPDATE games SET winner='%s', date_end='now()' WHERE id='%s'" \
 			% (id, game))
 	
 	def update_game_token(self, game, token):

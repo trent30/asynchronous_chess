@@ -533,3 +533,7 @@ ALTER TABLE public.elo OWNER TO chess;
 
 ALTER TABLE ONLY elo
     ADD CONSTRAINT elo_user_id_fkey FOREIGN KEY (user_id) REFERENCES users (id);
+
+ALTER TABLE com ADD variantes text;
+ALTER TABLE com ADD vn integer;
+ALTER TABLE games ADD date_end timestamp without time zone;
