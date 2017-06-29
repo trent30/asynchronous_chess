@@ -17,6 +17,10 @@ if __name__ == "__main__":
 	
 	exit(0)
 	
+	first_elo = b.con.query("select elo, id, date_create from users").getresult()
+	for i in first_elo:
+		b.con.query("INSERT INTO elo (elo, user_id, date) VALUES ('%s', '%s', '%s')" % (i[0], i[1], i[2]))
+		
 	games = b.con.query("select white, black, winner, date from games where winner is not null order by date;").getresult()
 	for i in games:
 		w = 0.5

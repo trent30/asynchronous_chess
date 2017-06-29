@@ -195,9 +195,10 @@ class bdd():
 			% (mail, login_id, domain_id, 'now()') )
 	
 	def insert_user(self, login, passwd, token):
-		self.con.query("INSERT INTO users(login, passwd, date_create) VALUES ('%s', '%s', '%s')" \
+		id_ = self.requete_0("INSERT INTO users(login, passwd, date_create) VALUES ('%s', '%s', '%s') RETURNING id;" \
 			% (login, passwd, 'now()') )
 		self.update_cookie(token, login)
+		self.con.query("INSERT INTO elo (elo, user_id, date) VALUES (1500, '%s', 'now()')" % id_)
 		
 	def mail_exist(self, mail):
 		if self.requete_0("select * from emails where email='%s'" % mail) == None:
