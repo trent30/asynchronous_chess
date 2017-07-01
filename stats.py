@@ -17,6 +17,11 @@ def input():
 			data[i] = ''
 	return data
 
+def remove_quote(d):
+	while d[len(d)-1] == '"':
+		d = d [ : - 1 ]
+	return d
+	
 if __name__ == "__main__":
 	print "Content-type: text/html\n"
 	
@@ -71,7 +76,7 @@ if __name__ == "__main__":
 			dico = {}
 			dico['id'] = i[2]
 			dico['date'] = i[3].split('.')[0]
-			dico['joueurs'] = i[0] + ' vs ' + i[1]
+			dico['joueurs'] = remove_quote(i[0]) + ' vs ' + remove_quote(i[1])
 			if detail == 'not_finish' or detail == 'total':
 				trait = b.get_dernier_joueur(i[2])
 				if trait != None:
