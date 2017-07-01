@@ -70,7 +70,10 @@ if __name__ == "__main__":
 	if detail == 'all_finish':
 		l = b.list_all_games_finish()
 	
-	if detail != -1 :	
+	if detail != -1 :
+		finish_list = []
+		for i in b.list_all_games_finish():
+			finish_list.append(i[2])
 		r = []
 		for i in l:
 			dico = {}
@@ -79,7 +82,7 @@ if __name__ == "__main__":
 			dico['joueurs'] = remove_quote(i[0]) + ' vs ' + remove_quote(i[1])
 			if detail == 'not_finish' or detail == 'total':
 				trait = b.get_dernier_joueur(i[2])
-				if trait != None:
+				if trait != None and i[2] not in finish_list:
 					dico['trait'] = trait
 			if i[2] != 0:
 				r.append(dico)
