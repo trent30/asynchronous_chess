@@ -21,7 +21,14 @@ def remove_quote(d):
 	while d[len(d)-1] == '"':
 		d = d [ : - 1 ]
 	return d
-	
+
+def remove_game_with_deleted_account(l):
+	r = []
+	for i in l:
+		if '"' not in i[0] and '"' not in i[1]:
+			r.append(i)
+	return r
+ 	
 if __name__ == "__main__":
 	print "Content-type: text/html\n"
 	
@@ -52,6 +59,10 @@ if __name__ == "__main__":
 			exit(0)
 	else:
 		login = b.uid_to_login(player_id)
+
+	finish_list = []
+	for i in b.list_all_games_finish():
+		finish_list.append(i[2])
 	
 	if detail == 'win':
 		l = b.list_games_stats_win(player_id)
@@ -59,21 +70,18 @@ if __name__ == "__main__":
 		l = b.list_games_stats_lose(player_id)
 	if detail == 'nul':
 		l = b.list_games_stats_nul(player_id)
-	if detail == 'not_finish':
-		l = b.list_games_stats_not_finish(player_id)
 	if detail == 'total':
 		l = b.list_games_stats_total(player_id)
 	if detail == 'all':
 		l = b.list_all_games()
-	if detail == 'all_not_finish':
-		l = b.list_all_games_not_finish()
 	if detail == 'all_finish':
 		l = b.list_all_games_finish()
+	if detail == 'all_not_finish':
+		l = remove_game_with_deleted_account( b.list_all_games_not_finish() )
+	if detail == 'not_finish':
+		l = remove_game_with_deleted_account( b.list_games_stats_not_finish(player_id) )
 	
 	if detail != -1 :
-		finish_list = []
-		for i in b.list_all_games_finish():
-			finish_list.append(i[2])
 		r = []
 		for i in l:
 			dico = {}
