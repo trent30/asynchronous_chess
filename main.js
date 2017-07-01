@@ -667,11 +667,15 @@ function historique2log(h) {
 	if ( h.r == null && CHESS.in_draw() ) {
 		add_log("<b>½-½</b>");
 	}
-	if ( h.r == null && !CHESS.in_draw() && check_trait() ) {
-		add_log("<br/>C'est à vous de jouer");
-		YOUR_TURN = true;
+	if (players.search('"') == - 1) {
+		if ( h.r == null && !CHESS.in_draw() && check_trait() ) {
+			add_log("<br/>C'est à vous de jouer");
+			YOUR_TURN = true;
+		} else {
+			YOUR_TURN = false;
+		}
 	} else {
-		YOUR_TURN = false;
+		add_log("<p>Votre adversaire a supprimé son compte.<p>");
 	}
 }
 
