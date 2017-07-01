@@ -1533,7 +1533,7 @@ function get_stats_return(r, id) {
 	}
 	clean_log('');
 	var id = j.id;
-	var stats = '<div class="center"><div class="h3">Statistiques pour ' + j.login + "</div> (" + j.elo + " elo)";
+	var stats = '<div class="center"><div class="h3">Statistiques pour ' + j.login + "</div> (" + j.elo + " Elo)";
 	stats += '<canvas id="Chart_raw" ></canvas></div>';
 	var i = 'not_finish';
 	var params = i + ',' + id + ',' + j.login.replace(' ', '∞');
