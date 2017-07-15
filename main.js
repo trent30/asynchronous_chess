@@ -2301,6 +2301,9 @@ function pgn(date) {
 }
 
 function checkKey(e) {
+	if ( $("send_form") != null ) {
+		return;
+	}
     e = e || window.event;
     if (e.keyCode == '27') { // 'Echap'
 		if (MODE_PATRON == true) {
