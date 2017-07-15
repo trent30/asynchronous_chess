@@ -1266,6 +1266,7 @@ function f_reload_return(j) {
 	window.document.title = 'chess #' + game_ID + ' ' + players;
 	INITIAL_POSITION = r;
 	set_position(r);
+	old_one_move_num = INITIAL_POSITION.h.length - 1;
 	set_game_info(true);
 }
 
