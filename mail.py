@@ -47,8 +47,8 @@ def send_mail(MAIL_TO, subject, msg):
 		username = None
 		
 	try:
-		mail.starttls()
 		mail = smtplib.SMTP(host, port)
+		mail.starttls()
 	except:
 		return 'serveur %s:%s injoignable' % (host, port)
 		
