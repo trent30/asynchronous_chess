@@ -48,7 +48,9 @@ def send_mail(MAIL_TO, subject, msg):
 		
 	try:
 		mail = smtplib.SMTP(host, port)
-		mail.starttls()
+		if MAIL_TO.split('@')[1] != 'trent.homelinux.org':
+			mail.starttls()
+	
 	except:
 		return 'serveur %s:%s injoignable' % (host, port)
 		
