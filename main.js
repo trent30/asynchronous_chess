@@ -322,6 +322,9 @@ function init() {
 	if (e != null) {
 		e.parentNode.removeChild(e);
 	}
+	if (try_get_local('pieces') == null) {
+		try_set_local('pieces', 'merida_svg');
+	}
 	if (game_ID == '') {
 		game_ID = try_get_session("gid");
 	}
