@@ -38,4 +38,6 @@ $ service apache2 restart
 
 Vérifiez que le fichier <VOTRE_URL>/conf/main.conf (qui contient les identifiants) n'est *pas* accessible via le serveur web ! (il y a un fichier .htaccess par défaut).
 
+touch rss.time rss.xml
 chown www-data:root rss.time rss.xml
+chmod 770 rss.time rss.xml

@@ -136,7 +136,9 @@ if PGPASSFILE_origin != None:
     os.environ['PGPASSFILE'] = PGPASSFILE_origin
 cmd('rm  %s' % PGPASSFILE)
 os.seteuid(0)
+cmd('touch rss.time rss.xml')
 cmd('chown www-data:root rss.time rss.xml')
+cmd('chmod 770 rss.time rss.xml')
 cmd('rm /tmp/create.sql')
 cmd('a2enmod expires')
 
