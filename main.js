@@ -30,6 +30,7 @@ VITESSE_MENU_DELAY = 10;
 VITESSE_MENU_PAS = 0.05;
 ERROR_COUNT = 0;
 ERROR_MAX = 10;
+YOUR_TURN = true;
 
 function $(x) {
 	return document.getElementById(x);
